@@ -58,3 +58,29 @@ One entry per decision: what we chose, what else we considered, why, and what ev
 ### D-007: The uploaded Rezaei 2024 paper is not used as design evidence (DECIDED, 2026-10-14)
 
 - **Why:** it is simulation only, and its reported shifts are physically implausible by about 10⁶ (see `02_research/paper_notes/rezaei2024_critique.md`).
+
+### D-008: Differentiator — edge-alert strip (REVISED 2026-10-14 → hypothesis H-APP1)
+
+- **Originally proposed:** see `03_sensors/differentiator.md`.
+- **Now:** kept only as an **application hypothesis**.
+- **Why:** the material process is unproven on our machine. No sensor claim until E1 passes (D-009).
+
+### D-009: Process first; re-scope the Stage 2 entry (DECIDED by team brief, 2026-10-14)
+
+- **Chosen:** Stage 2 presents a **reproducible LIG process on our 100 W laser** as the current work (Experiment E1).
+  - The wound-dressing moisture strip is the target application, labelled as planned.
+  - The Stage 1 closed-loop electrotherapy bandage is re-scoped.
+- **Evidence:**
+  - the earlier "setting 12" result is only a recollection `[A1]`
+  - low-PWM tube instability is plausible `[C4]`
+  - no reproducibility statistics were found in the literature `[C2, C3]`
+- **Change if:** E1 shows CV ≤ 20 % quickly. Then move to E2/E3 (strip) sooner.
+
+### D-010: Fill the official template in place (DECIDED, 2026-10-14)
+
+- **What:**
+  - `08_submission/build_deck.py` fills the unchanged official template (`08_submission/template/`, MD5 4d96244a…).
+  - It keeps the order, layouts, cards and tables.
+  - It removes only the TerraWeed example content and badges, the "Example:" prefixes and the "(1-2 Slides)" hints.
+  - All figures are generated from project files.
+- **Why:** the brief requires the original template; every number in the deck traces to the evidence register.

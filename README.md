@@ -10,7 +10,9 @@ We started again from zero on 14 Oct 2026. The old version is in `Desktop/MBF vi
 
 ## Where we are now
 
-**Step 1 of 8.** See [BUILD_PLAN.md](BUILD_PLAN.md).
+**Experiment E1** (reproduce and bracket the earlier "setting 12" observation): planned, not yet performed. See [04_lig_lab/E1_protocol.md](04_lig_lab/E1_protocol.md) and [BUILD_PLAN.md](BUILD_PLAN.md).
+
+**Evidence register:** `00_control/evidence_register.csv`, with categories A (our records), B (planned measurements), C (literature) and X (excluded claims).
 
 ## Folder map
 
@@ -48,9 +50,9 @@ We started again from zero on 14 Oct 2026. The old version is in `Desktop/MBF vi
 
 ## Our setup (fill this in during Step 1)
 
-- **Laser:** model, power, where it is, when we can use it:
+- **Laser:** 100 W industrial CO₂ (team statement). LaserCAD V8.28 config on the laptop shows a 1200 × 900 mm bed, 500/400 mm/s max axis speed, 20 kHz PWM and MaxPower 98 % `[A3]`. Still unknown: make/model, controller, tube brand, and whether there is a mA meter. Fill in `04_lig_lab/machine_record.md`.
 - **Lens / focus distance:**
-- **Film:** product name, thickness (µm), adhesive or not, supplier:
+- **Film:** the Stage 1 proposal says 100 µm Kapton HN `[A5, unverified]`. Measure the thickness and photograph the label.
 - **Instruments we can use:** multimeter / LCR meter / potentiostat / oscilloscope / hotplate / micrometer / Raman / SEM:
 - **Mentor (confirmed?):**
 - **Who does what:** Soham: · Bhakti:

@@ -12,6 +12,23 @@ Next:
 
 ---
 
+## 2026-10-14 (evening): Soham (with Claude)
+
+**Did:**
+- Searched the PC for the earlier Kapton trial and found LaserCAD V8.28. It was installed 20 Jul 2026; its config gives the machine facts (1200 × 900 mm bed, 20 kHz PWM, 98 % max). There is no record of the Kapton settings.
+- Wrote:
+  - the evidence register (A/B/C/X)
+  - the E1 protocol and machine-record form
+  - pre-filled data sheets and the analysis script (tested on synthetic data only, outside the repo)
+  - the research-gap analysis
+- Filled the official Stage 2 template (build_deck.py) with tagged content and our own figures.
+
+**Saw / measured:** nothing new measured.
+
+**Problem:** we don't know the meaning of "12", the earlier speed, the film grade/thickness, or the mentor status.
+
+**Next:** E1 Session 0 at the machine, then coupons on 2 days.
+
 ## 2026-10-14 (later): Soham (with Claude)
 
 **Did:** iteration 1 of the engineering brief.

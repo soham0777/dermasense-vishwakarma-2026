@@ -50,7 +50,10 @@
 
 ### Step 3: First LIG (Thu 15 – Sat 17)
 
-**Do:** follow `04_lig_lab/README.md`.
+**Do:** follow `04_lig_lab/E1_protocol.md`:
+- Session 0: `machine_record.md`.
+- 4 coupons around setting "12" over 2 days.
+- Then `python analyze_e1.py`.
 
 **Check:**
 - One recipe is black, conductive, passes the tape test and has no holes.
@@ -99,7 +102,10 @@
 
 ### Step 8: Deck (Fri 23 – Sat 24)
 
-**Do:** official template, filled only with material from this repo. Any AI image is labelled "AI generated". Unfinished items are shown as *planned*, never as done.
+**Do:** the deck is already drafted on the official template (`08_submission/VK26-IITI-HT-0050_Stage2_Dermasense.pptx`, built by `build_deck.py`).
+- Replace the photo placeholder with an original E1 photo.
+- Add the repository link.
+- After E1, replace targets with measured values, keeping the [A]/[B]/[C] tags.
 
 **Check:** the "where's the proof?" test on every slide. **Submit Saturday.**
 
