@@ -1,0 +1,26 @@
+phase,group,item,specification,qty,unit_cost_inr,price_status,source_checked,alternative,notes
+A,MCU,ESP32-C3 dev board,"e.g. Seeed XIAO ESP32-C3 or ESP32-C3 SuperMini; BLE 5",2,250-700,estimate,,"any ESP32 board the team already owns (bench only)",Arduino ESP32 core 3.3.12 already installed
+A,S2,TMP117 breakout,"I2C digital temperature sensor, +/-0.1 C class (check datasheet)",2,446,"listing seen 2026-10-14 (search result, confirm on site)",hubtronics.in,"MAX30208 board (IndiaMART Rs 743, wristband format); DS18B20 (+/-0.5 C) as low-cost fallback",reference thermometer channel
+A,S2/S3,ADS1115 ADC module,"16-bit, I2C, differential inputs, PGA to +/-0.256 V",2,200-450,estimate,,ADS1220 (24-bit) if noise too high,LIG thermistor bridge + pH potential
+A,S3,CMOS op-amp (buffer),"input bias <= 1 pA typ, rail-to-rail, 3.3 V (e.g. MCP6001/MCP6041 family - verify datasheet)",5,30-100,estimate,,"LMP7721 (fA bias, costly)",high-impedance buffer for pH electrode
+A,S2,Precision resistors,"0.1 %, 25 ppm/C; 4.7k/10k/22k",10,10-40,estimate,,,bridge reference arms
+A,Power,LiPo cell,"3.7 V, 150-300 mAh, with protection PCM",2,150-300,estimate,,,
+A,Power,LiPo charger board,TP4056 with protection,2,30-80,estimate,,MCP73831 on own PCB in Phase B,bench only - never charge while worn
+A,Sensor,Polyimide (Kapton) film,"thickness to confirm (Step 1); prefer >= 75 um film for first trials",1 roll,500-1500,estimate,,,"say 'polyimide film', not 'medical-grade Kapton'"
+A,Sensor,Silver conductive paint,for pad contacts,1,600-1500,estimate,,carbon conductive paint (higher resistance),reinforces LIG pads (T-CON-01)
+A,Sensor,Copper foil tape (conductive adhesive),5-10 mm wide,1,150-300,estimate,,,bench connections
+A,Sensor,Polyimide tape for encapsulation,"same family as substrate, silicone adhesive",1,200-500,estimate,,thin PDMS coating (lab),covers leads; humidity test on S2
+A,S1 test,Dressing samples,"plain gauze, foam dressing (pharmacy)",assorted,100-500,estimate,,,"S1 calibration on real dressings"
+A,S1 test,NaCl + KCl (AR),for conductivity standards made by weight,lab,0,lab stock,,,cheaper and traceable vs bought standards
+A,S3,pH buffer capsules,pH 4.0 / 7.0 / 9.2,1 set,100-300,estimate,,lab buffers,calibration before and after each run
+A,S3,Aniline (AR) + HCl + ammonium persulfate,PANi coating,lab,0,lab stock,,PEDOT:PSS route (L17),TOXIC - fume hood + supervision
+A,S3,Silver wire,"0.5 mm, 10 cm, chlorided in bleach for Ag/AgCl",1,200-600,estimate,,Ag/AgCl paste (costly),reference electrode v1
+A,Tools,Reference thermometer,"calibrated digital, 0.1 C resolution",1,500-1500,estimate,,lab instrument if available,S2 truth
+B,AFE,AD5941 (LFCSP-48),"impedance to 200 kHz, low-power potentiostat, 16-bit ADC",2,700-1400,"estimate from ADI list ~USD 6.2-6.8 @1k and distributor ~USD 13.6 (AD5940 single)",analog.com; lcsc.com,AD5933 (impedance only) + separate pH buffer,AD5940 is WLCSP - avoid (not hand-solderable)
+B,MCU,ESP32-C3-MINI-1 module,certified antenna module,2,250-500,estimate,,"nRF52840 module (e.g. Raytac MDBT50Q) if power test fails",decision D-004
+B,S2,TMP117 IC,WSON/SOT package,2,150-400,estimate,,,
+B,Power,"MCP73831 charger + low-Iq LDO + passives",,1 set,200-500,estimate,,,low sleep current is what makes 7 days possible
+B,Interface,Pogo pins 2.54 mm,"spring contacts for sensor pads",10,20-50,estimate,,,"T-CON-01 decides; ZIF/FPC rejected for porous LIG pads"
+B,Mechanical,N52 disc magnets,"e.g. 5x2 mm",8,25-50,estimate,,snap latch,pod retention
+B,PCB,2-layer PCB fab + assembly (5 pcs),,1 lot,2000-6000,estimate,"LionCircuits (India) / JLCPCB",,includes stencil
+B,Mechanical,3D-printed pod,"PETG/PLA prototype; resin later",2,200-800,estimate,,,from SolidWorks model

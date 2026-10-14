@@ -1,0 +1,27 @@
+# OS / sync clutter
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# SolidWorks temporary + backup files (native .SLDPRT/.SLDASM/.SLDDRW ARE committed)
+~$*
+*.bak
+*.swbak
+
+# KiCad local/cache files (schematic + PCB files ARE committed)
+*-backups/
+*.kicad_prl
+fp-info-cache
+_autosave-*
+*.lck
+
+# Arduino / PlatformIO build output
+build/
+.pio/
+
+# Office lock files
+.~lock.*
