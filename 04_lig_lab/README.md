@@ -1,6 +1,10 @@
 # 04_lig_lab: making and measuring our LIG
 
-**Current experiment: E1**, reproducing and bracketing the earlier "setting 12" observation. Status: **planned, not yet performed.**
+**Current experiment: E2 (fabrication validation): see `e2/README.md`.** Status: **ready to run, not yet performed.**
+E2 Part A is the E1 plan below (same coupon and matrix) with new sample IDs. The E1 files are kept as the original plan;
+new data goes into `e2/`. `verify_laser_files.py` checks every laser DXF before it goes to LaserCAD (`laser_files_check.md`).
+
+*Original E1 plan (superseded by E2 Part A on 2026-10-14):* reproducing and bracketing the earlier "setting 12" observation.
 
 | File | What it is | When |
 |---|---|---|

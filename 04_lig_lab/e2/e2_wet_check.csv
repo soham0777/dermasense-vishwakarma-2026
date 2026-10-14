@@ -1,0 +1,9 @@
+sample_id,step,R_ohm,display_if_not_number,meter_range,drop_volume_uL,notes
+E2-B-D2-C1-G100,dry,,,,,"optional preview, DC meter"
+E2-B-D2-C1-G100,wet_10s,,,,20,"optional preview, DC meter"
+E2-B-D2-C1-G100,wet_60s,,,,20,"optional preview, DC meter"
+E2-B-D2-C1-G100,rinsed_dried_30min,,,,,"optional preview, DC meter"
+E2-B-D2-C1-G150,dry,,,,,"optional preview, DC meter"
+E2-B-D2-C1-G150,wet_10s,,,,20,"optional preview, DC meter"
+E2-B-D2-C1-G150,wet_60s,,,,20,"optional preview, DC meter"
+E2-B-D2-C1-G150,rinsed_dried_30min,,,,,"optional preview, DC meter"

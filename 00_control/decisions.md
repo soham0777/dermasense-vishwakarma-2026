@@ -102,3 +102,17 @@ One entry per decision: what we chose, what else we considered, why, and what ev
     - the bottom strip of each slide says what is done vs next
   - **Visuals:** figures enlarged to fill the left column. The empty photo box was replaced by a panel of real files (E1 data sheet + LaserCAD config).
 - **Change if:** the organizers require the instruction slides to stay. The v1 builder is in git history (fd3a8fd).
+
+### D-013: Seal tape starts outside the contact clamp; CAD v0.1 frozen pending E2 (DECIDED, 2026-10-14)
+
+- **Found by:** `06_cad/verify_cad.py` interference detection. The 0.09 mm seal started at x = 12 mm, while the clamp base reaches x = 22 mm. That trapped 9.0 mm³ of tape between the strip and the clamp, which would lift the strip off the pogo pins.
+- **Chosen:**
+  - The seal now starts at x = 23 mm (`make_strip.py` SEAL_X0). The traces from 11 to 23 mm sit inside the dry clamp, 17 mm before the dressing edge, so they need no moisture seal. DRC PASS.
+  - The verification now reports 99 PASS, 0 FAIL, 5 BLOCKED. The 5 blocked checks are the comparisons with E2 measurements.
+- **Also fixed in the same freeze:**
+  - first-angle A3 drawings with every dimension shown once
+  - 3-decimal film thicknesses
+  - Material field filled in
+  - assembly drawing: BOM + balloons
+  - assembly and STEP files in millimetres (the assembly had been exported in cm)
+- **Change if:** E2 shows line growth or isolation that breaks the 0.95 mm clearance, or a laser-cut hole outside 2.00–2.10 mm. Then update `make_strip.py`, rebuild the CAD and re-run `verify_cad.py`.

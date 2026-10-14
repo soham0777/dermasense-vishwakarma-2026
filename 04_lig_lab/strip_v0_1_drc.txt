@@ -15,6 +15,7 @@ window A exposes SENSE_A: 6.0 mm2  OK
 window A exposes COM: 6.0 mm2  OK
 window A electrode gap: 1.00 mm (design 1.0)
 window A distance to nearest foreign net: 2.50 mm (= sealing registration tolerance)
+seal starts at x = 23.0 mm (clamp ends at 22 mm), 17 mm before the dressing edge: OK
 SENSE_C: Polygon, 1 piece(s), area 104.0 mm2
 SENSE_A: Polygon, 1 piece(s), area 84.5 mm2
 COM: Polygon, 1 piece(s), area 203.8 mm2

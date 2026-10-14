@@ -11,7 +11,7 @@ with strip lengths of 8, 16 and 24 mm.
 Why three lengths? Measured resistance = (sheet resistance x L / W) + contacts.
 Plotting R against L gives a straight line: the slope gives the sheet
 resistance and the intercept is the probe/contact resistance, so a plain
-multimeter is enough. analyze_log.py does this maths.
+multimeter is enough. analyze_e1.py / e2/analyze_e2.py do this maths.
 
 Every strip is ONE closed outline. Nothing overlaps, because some laser
 software leaves overlapping regions unfilled.

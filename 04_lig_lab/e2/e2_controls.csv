@@ -1,0 +1,13 @@
+session,date,control,nominal_ohm,reading_ohm,display_if_not_number,meter_model,meter_range,notes
+D1,,shorted leads,0,,,,,
+D1,,open leads,OL,,,,,
+D1,,resistor 100 ohm 1 %,100,,,,,
+D1,,resistor 10 kohm 1 %,10000,,,,,
+D1,,resistor 1 Mohm 1 %,1000000,,,,,
+D1,,"un-lased film, probes 10 mm apart",OL,,,,,
+D2,,shorted leads,0,,,,,
+D2,,open leads,OL,,,,,
+D2,,resistor 100 ohm 1 %,100,,,,,
+D2,,resistor 10 kohm 1 %,10000,,,,,
+D2,,resistor 1 Mohm 1 %,1000000,,,,,
+D2,,"un-lased film, probes 10 mm apart",OL,,,,,

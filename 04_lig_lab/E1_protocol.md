@@ -1,6 +1,6 @@
 # Experiment E1: Reproduce and bracket the "setting 12" observation
 
-**Status:** PLANNED, not yet performed (2026-10-14).
+**Status:** PLANNED, not yet performed (2026-10-14). **Superseded:** carried out as Part A of E2 (`e2/E2_procedure.md`), with the same matrix and new sample IDs. Kept unchanged as the original plan.
 **Question:** On *our* 100 W laser and *our* film, does the reference setting reliably produce a conductive, LIG-like layer? How much does the result change when power or speed moves a little, and from one day to the next?
 **Evidence categories:** the earlier observation is `[A1]`. Everything this experiment produces is `[B]`. Literature values are `[C]` and are only for comparison.
 

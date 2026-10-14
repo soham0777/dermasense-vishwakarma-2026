@@ -1,0 +1,4 @@
+session,date,operator,lab_in_charge_permission_YN,machine_make_model,controller,tube_rating_W,film_id_lot,film_thickness_1_mm,film_thickness_2_mm,film_thickness_3_mm,film_thickness_4_mm,film_thickness_5_mm,room_C_start,room_C_end,RH_pct,chiller_C_start,chiller_C_end,S_ref_mm_s,S_ref_source,cut_power_setting,cut_speed_mm_s,meter_model,meter_max_range_ohm,microscope_and_scale,notes
+S0,,,,,,,,,,,,,,,,,,,,,,,,,
+D1,,,,,,,,,,,,,,,,,,,,,,,,,
+D2,,,,,,,,,,,,,,,,,,,,,,,,,

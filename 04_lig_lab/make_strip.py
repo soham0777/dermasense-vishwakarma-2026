@@ -35,6 +35,8 @@ P = dict(                          # design parameters (mm)  - [DES] design choi
     ENTRY=10.0,                    # strip length from neck end to the dressing edge [DES]
     MIN_CLEAR=0.95,                # DRC minimum spacing between different nets [PROV]
     EDGE_CLEAR=0.4,                # DRC copper-to-outline margin [PROV]
+    SEAL_X0=23.0,                  # seal tape starts 1 mm past the contact clamp (clamp base ends at x = 22 mm,
+                                   # 06_cad); from x = 12 it was trapped under the clamp (verify_cad, 2026-10-14) [DES]
 )
 # y-bands in the strip body (bottom -> top)
 BANDS = {"SENSE_C": (0.5, 1.5), "SENSE_A": (2.5, 3.5), "ROW": (4.5, 5.5), "COM_1": (6.5, 7.5), "COM_2": (8.3, 9.3)}
@@ -89,8 +91,7 @@ def build(pad, inset, border):
     }
     win_y = ((sa[1] + row[0]) / 2, (BANDS["COM_1"][1] + BANDS["COM_2"][0]) / 2)
     windows = {"C": box(x_c - h, win_y[0], x_c + h, win_y[1]), "A": box(x_a - h, win_y[0], x_a + h, win_y[1])}
-    encap = Polygon([(P["PADDLE_L"] - 4, 0), (tip, 0), (tip, w), (P["PADDLE_L"] - 4, w)])  # body + neck seal
-    encap = box(P["NECK_END"] - 18, 0, tip, w).intersection(outline).buffer(0)
+    encap = box(P["SEAL_X0"], 0, tip, w).intersection(outline).buffer(0)       # seal: body + end of neck
 
     # ---------------- design-rule check
     rep, ok = [], True
@@ -119,6 +120,10 @@ def build(pad, inset, border):
         others = [g for n, g in nets.items() if n not in (expect, "COM")]
         margin = min(win.distance(g) for g in others)
         rep.append(f"window {z} distance to nearest foreign net: {margin:.2f} mm (= sealing registration tolerance)")
+    x_de_ok = P["SEAL_X0"] < x_de - 5
+    ok &= x_de_ok
+    rep.append(f"seal starts at x = {P['SEAL_X0']} mm (clamp ends at 22 mm), "
+               f"{x_de - P['SEAL_X0']:.0f} mm before the dressing edge: {'OK' if x_de_ok else 'FAIL'}")
     for n, g in nets.items():
         rep.append(f"{n}: {g.geom_type}, {len(getattr(g, 'geoms', [g]))} piece(s), area {g.area:.1f} mm2")
     rep.insert(0, f"DRC {'PASS' if ok else 'FAIL'} - strip v0.1 (pad {pad} mm, inset {inset} mm, border {border} mm)")
