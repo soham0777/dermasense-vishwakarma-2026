@@ -1,0 +1,20 @@
+DRC PASS - strip v0.1 (pad 75.0 mm, inset 20.0 mm, border 12.5 mm)
+clearance SENSE_C-SENSE_A: 1.00 mm  OK (min 0.95)
+clearance SENSE_C-COM: 1.00 mm  OK (min 0.95)
+clearance SENSE_A-COM: 1.00 mm  OK (min 0.95)
+SENSE_C inside outline with 0.4 mm margin: OK
+SENSE_A inside outline with 0.4 mm margin: OK
+COM inside outline with 0.4 mm margin: OK
+window C exposes SENSE_C: 6.0 mm2  OK
+window C exposes SENSE_A: 0.0 mm2  OK
+window C exposes COM: 6.0 mm2  OK
+window C electrode gap: 1.00 mm (design 1.0)
+window C distance to nearest foreign net: 11.50 mm (= sealing registration tolerance)
+window A exposes SENSE_C: 0.0 mm2  OK
+window A exposes SENSE_A: 6.0 mm2  OK
+window A exposes COM: 6.0 mm2  OK
+window A electrode gap: 1.00 mm (design 1.0)
+window A distance to nearest foreign net: 2.50 mm (= sealing registration tolerance)
+SENSE_C: Polygon, 1 piece(s), area 104.0 mm2
+SENSE_A: Polygon, 1 piece(s), area 84.5 mm2
+COM: Polygon, 1 piece(s), area 203.8 mm2

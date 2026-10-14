@@ -1,0 +1,5 @@
+--- run 2026-10-14 14:20:12 stages=('parts', 'drawings', 'assembly')
+SolidWorks 27.4.0; templates {'part': 'C:\\ProgramData\\SolidWorks\\SOLIDWORKS 2019\\templates\\Part.prtdot', 'asm': 'C:\\ProgramData\\SolidWorks\\SOLIDWORKS 2019\\templates\\Assembly.asmdot', 'drw': 'C:\\ProgramData\\SolidWorks\\SOLIDWORKS 2019\\templates\\Drawing.drwdot'}
+strip: Kapton volume 171.7 mm3; LIG bodies extruded 0.02 mm down (LIG faces the pad)
+PART strip_v0_1: volume 179.5 mm3; sketch dims 7/7; save 0, STEP 0
+done in 25 s
