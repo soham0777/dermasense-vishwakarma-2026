@@ -2,6 +2,10 @@
 
 **Status:** PROPOSED, iteration 1 (2026-10-14). Decisions D-004, D-005 and D-006 are in `00_control/decisions.md`.
 
+> **Update 2026-10-14:**
+> - Sensor selection D-012 narrowed v0.1 to the **two-zone moisture strip (S2)**. The bench reader that is actually designed is `kicad/` (schematic, ERC clean) plus `07_firmware/reader_v0_1` (compiles, not yet run on hardware).
+> - The multi-sensor plan below (temperature IC, pH, AD5941) is kept as the **upgrade path**, not the v0.1 build.
+
 ## 1. What the electronics must measure
 
 | Channel | Signal | Range / resolution needed | Method |
