@@ -1,211 +1,265 @@
 """
-Figures for the Stage 2 deck, generated from project files (no stock or AI images).
-Output: 08_submission/figures/*.png, sized to the template's picture frames:
-  wide  = 5.92 x 2.64 in (example-slide figure frames)
-  tall  = 5.85 x 4.35 in (guideline-slide picture frames)
+Figures for the Stage 2 deck. Everything is drawn from project files or plain geometry -
+no stock photos, no AI images. Concept drawings are labelled as concepts.
+Each figure is sized to the picture frame it fills on its slide (width 5.92 in; heights in SIZES).
 Run: python make_figures.py
 """
+import configparser
+import csv
+import math
 from pathlib import Path
 
 import ezdxf
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, Polygon, Rectangle
+from matplotlib.patches import Circle, FancyBboxPatch, Polygon, Rectangle, Wedge
 import schemdraw
 import schemdraw.elements as elm
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
 OUT = HERE / "figures"
 OUT.mkdir(exist_ok=True)
-COUPON = HERE.parent / "04_lig_lab" / "lig_test_coupon.dxf"
-WIDE = (11.84, 5.28)      # 2x the 5.92 x 2.64 in frame
-TALL = (11.70, 8.70)      # 2x the 5.85 x 4.35 in frame
-NAVY, GREEN, GREY, AMBER = "#1e3a8a", "#15803d", "#475569", "#b45309"
+for old in OUT.glob("*.png"):
+    old.unlink()
+
+FRAME_W = 5.92                      # inches on the slide
+SIZES = {"problem": 3.85, "journey": 3.85, "concept": 4.15, "coupon_matrix": 3.60,
+         "schematic": 4.50, "work_evidence": 3.30}
+NAVY, GREEN, RED, AMBER, GREY, INK = "#1e3a8a", "#15803d", "#b91c1c", "#d97706", "#64748b", "#0f172a"
+PAD, STAIN, KAPTON, LIG = "#fdf6e3", "#e9c46a", "#f2a541", "#1f2937"
+W = 22.4                            # drawing units across the figure
+plt.rcParams.update({"font.family": "DejaVu Sans"})
 
 
-def box(ax, x, y, w, h, text, fc="#eef2ff", ec=NAVY, fs=10.5):
-    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.08",
-                                fc=fc, ec=ec, lw=1.4))
-    ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=fs, wrap=True, color="#0f172a")
+def figure(name):
+    h = SIZES[name]
+    fig = plt.figure(figsize=(FRAME_W * 2, h * 2))
+    return fig, W * h / FRAME_W     # drawing height in units (keeps circles round)
 
 
-def arrow(ax, x0, y, x1):
-    ax.annotate("", xy=(x1, y), xytext=(x0, y), arrowprops=dict(arrowstyle="-|>", color=GREY, lw=1.6))
+def canvas(name):
+    fig, H = figure(name)
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+    return fig, ax, H
 
 
-def flow(ax, y, items, fc, ec, x0=0.25, w=2.6, gap=0.42, h=1.55, fs=10.5):
-    x = x0
-    for i, t in enumerate(items):
-        box(ax, x, y, w, h, t, fc=fc, ec=ec, fs=fs)
-        if i < len(items) - 1:
-            arrow(ax, x + w + 0.03, y + h / 2, x + w + gap - 0.03)
-        x += w + gap
+def rbox(ax, x, y, w, h, fc, ec, lw=1.6, r=0.25):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle=f"round,pad=0,rounding_size={r}", fc=fc, ec=ec, lw=lw))
 
 
-def fig_before_after():
-    fig = plt.figure(figsize=WIDE)
-    ax = fig.add_axes([0.005, 0.01, 0.99, 0.98])
-    ax.set_xlim(0, 12.4); ax.set_ylim(0, 5.6); ax.axis("off")
-    ax.text(0.25, 5.25, "BEFORE: today  [C, literature]", fontsize=13, weight="bold", color=NAVY)
-    flow(ax, 3.35, ["Exudate soaks into\nthe dressing pad",
-                    "Spread is hidden under\nbandage / secondary\ndressing",
-                    "Change on a schedule,\nor after a visual check\nor leakage",
-                    "Too early: 44.9 % of\nchanges at optimal\nmoisture (Milne 2016)\nToo late: leakage"],
-         fc="#fef2f2", ec="#b91c1c")
-    ax.text(0.25, 2.6, "AFTER: planned, NOT yet built or tested  [B]", fontsize=13, weight="bold", color=GREEN)
-    flow(ax, 0.7, ["Thin LIG strip on the\nouter face of the pad\n(no wound contact)",
-                   "Zones read wet/dry at\npad centre and at the\nmaker's 2 cm change line",
-                   "Reader shows when\nthe front reaches\nthe change line",
-                   "Change when the pad\nis actually full\n(bench validation first)"],
-         fc="#f0fdf4", ec=GREEN)
-    fig.savefig(OUT / "f1_before_after.png", dpi=200, bbox_inches=None)
+def dressing(ax, x, y, s, stain_r, pad_frac=0.72):
+    """Bordered dressing; the dashed square is the change line (0.22 x pad inside the pad edge)."""
+    rbox(ax, x, y, s, s, "#eef2f7", "#94a3b8", lw=1.2, r=0.4)
+    m = s * (1 - pad_frac) / 2
+    px, py, ps = x + m, y + m, s * pad_frac
+    ax.add_patch(Rectangle((px, py), ps, ps, fc=PAD, ec="#cbb994", lw=1.2))
+    cx, cy = px + ps / 2, py + ps / 2
+    ax.add_patch(Circle((cx, cy), stain_r, fc=STAIN, ec="#c08a1e", lw=1, alpha=0.85))
+    c = ps * 0.22
+    ax.add_patch(Rectangle((px + c, py + c), ps - 2 * c, ps - 2 * c, fc="none", ec=RED, lw=1.6, ls=(0, (4, 3))))
+    return px, py, ps, cx, cy
+
+
+def save(fig, name):
+    fig.savefig(OUT / f"{name}.png", dpi=200)
     plt.close(fig)
 
 
-def fig_system():
-    fig = plt.figure(figsize=WIDE)
-    ax = fig.add_axes([0.005, 0.01, 0.99, 0.98])
-    ax.set_xlim(0, 12.4); ax.set_ylim(0, 5.6); ax.axis("off")
-    ax.text(0.25, 5.25, "STAGE 2: measure the material first  [B, planned E1]", fontsize=13,
-            weight="bold", color=NAVY)
-    flow(ax, 3.3, ["Polyimide film\n(grade & thickness\nto be measured)",
-                   "100 W CO₂ laser\nLaserCAD V8.28\nsetting '12' ± 2",
-                   "Test coupon\n6 cells × 3 strips\n(8/16/24 mm)",
-                   "Multimeter + microscope\n→ CSV → Rs, CV\n(analyze_e1.py)"],
-         fc="#eef2ff", ec=NAVY, fs=10.5)
-    ax.text(0.25, 2.6, "STAGE 3: strip readout, planned after E1 passes  [B]", fontsize=13,
-            weight="bold", color=GREEN)
-    flow(ax, 0.65, ["LIG strip zones\n(centre / change line\n/ edge)",
-                    "ESP32-C3: bipolar\nGPIO drive, idle hi-Z",
-                    "ADS1115 16-bit ADC\n+ TMP117 temp. ref.",
-                    "USB / BLE log\n→ plot on PC/phone"],
-         fc="#f0fdf4", ec=GREEN, fs=10.5)
-    fig.savefig(OUT / "f2_system.png", dpi=200)
-    plt.close(fig)
+def fig_problem():
+    fig, ax, H = canvas("problem")
+    s = H - 2.6
+    px, py, ps, cx, cy = dressing(ax, 0.4, 1.3, s, 0.28 * s * 0.72 * 0.8)
+    r = 0.28 * ps * 0.8
+    for ang in (25, 115, 205, 295):
+        dx, dy = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+        ax.annotate("", xy=(cx + 1.75 * r * dx, cy + 1.75 * r * dy), xytext=(cx + 1.08 * r * dx, cy + 1.08 * r * dy),
+                    arrowprops=dict(arrowstyle="-|>", color="#a16207", lw=2))
+    ax.text(cx, cy, "exudate", ha="center", va="center", fontsize=14, color="#78350f", weight="bold")
+    ax.text(0.4, H - 0.75, "When is a dressing 'full'?", fontsize=18, weight="bold", color=NAVY)
+    ax.annotate("maker's change line \u2248 2 cm from pad edge", xy=(px + ps * 0.5, py + ps * 0.78),
+                xytext=(px, py + ps + 0.42), fontsize=13, color=RED, weight="bold",
+                arrowprops=dict(arrowstyle="-", color=RED, lw=1.2))
+    ax.text(px, py - 0.85, "absorbent pad inside the dressing border", fontsize=11.5, color="#78716c")
+    ms = (H - 2.4) / 3 - 0.35
+    mp = ms * 0.72
+    cd = 0.28 * mp
+    states = [("Too early", 0.5 * cd, RED, "changed by the clock:\nwasted dressing,\nwound bed disturbed"),
+              ("Right time", 1.08 * cd, GREEN, "front at the change line:\nchange now"),
+              ("Too late", 0.62 * mp, RED, "past the pad edge: leak,\nmacerated skin")]
+    for i, (name, rad, col, txt) in enumerate(states):
+        y0 = H - 1.2 - (i + 1) * (ms + 0.35)
+        dressing(ax, s + 1.3, y0, ms, rad)
+        ax.text(s + ms + 1.75, y0 + ms * 0.62, name, fontsize=15, weight="bold", color=col)
+        ax.text(s + ms + 1.75, y0 + ms * 0.12, txt, fontsize=12.5, color=INK)
+    ax.text(0.4, 0.3, "Under a bandage or opaque cover, the nurse sees none of this.", fontsize=14, color=INK,
+            weight="bold")
+    save(fig, "problem")
+
+
+def fig_journey():
+    fig, ax, H = canvas("journey")
+    rh = (H - 1.0) / 2 - 0.25
+
+    def row(y, steps, col, fc, label):
+        ax.add_patch(Rectangle((0.25, y), 2.0, rh, fc=col, ec="none"))
+        ax.text(1.25, y + rh / 2, label, ha="center", va="center", fontsize=14, color="white", weight="bold",
+                rotation=90)
+        x, w, gap = 2.6, 3.6, 0.35
+        for i, t in enumerate(steps):
+            rbox(ax, x, y + 0.1, w, rh - 0.2, fc, col, lw=1.8)
+            ax.add_patch(Circle((x + 0.5, y + rh - 0.6), 0.36, fc=col, ec="none"))
+            ax.text(x + 0.5, y + rh - 0.6, str(i + 1), ha="center", va="center", fontsize=13, color="white",
+                    weight="bold")
+            ax.text(x + w / 2, y + rh * 0.42, t, ha="center", va="center", fontsize=13.5, color=INK)
+            if i < len(steps) - 1:
+                ax.annotate("", xy=(x + w + gap - 0.02, y + rh / 2), xytext=(x + w + 0.02, y + rh / 2),
+                            arrowprops=dict(arrowstyle="-|>", color=GREY, lw=2))
+            x += w + gap
+
+    row(H / 2 + 0.25, ["Dressing\napplied", "Exudate\nspreads unseen\nunder bandage", "Changed by\nthe clock, or\nafter a leak",
+                       "Too early:\nwound disturbed\nToo late:\nskin macerated", "Repeat every\n1\u20133 days"],
+        RED, "#fef2f2", "TODAY")
+    row(0.4, ["Strip on the pad,\nreader clipped\non (no wound\ncontact)", "Zones read\nwet / dry every\nfew seconds",
+              "Phone shows\nOK \u00b7 SOON \u00b7\nCHANGE \u00b7 LEAK", "Change when\nthe change line\nis wet, not by\nthe clock",
+              "Strip thrown\naway, reader\nreused"],
+        GREEN, "#f0fdf4", "DERMASENSE")
+    save(fig, "journey")
+
+
+def fig_concept():
+    fig, ax, H = canvas("concept")
+    s = min(H - 2.9, 10.2)
+    pad = s * 0.72
+    px, py, ps, cx, cy = dressing(ax, 0.3, 1.3, s, 1.2 * 0.28 * pad)
+    sy, sh = cy - 0.55, 1.1
+    ax.add_patch(Rectangle((cx - 0.9, sy), 12.0 - (cx - 0.9), sh, fc=KAPTON, ec="#b45309", lw=1.2))
+    a_x = px + ps * 0.78
+    for name, zx in (("C", cx), ("M", (cx + a_x) / 2), ("A", a_x), ("E", px + ps * 0.95)):
+        ax.add_patch(Rectangle((zx - 0.38, sy + 0.15), 0.76, sh - 0.30, fc=LIG, ec="none"))
+        ax.text(zx, sy + sh + 0.28, name, ha="center", fontsize=15, weight="bold", color=LIG)
+    rbox(ax, 11.8, cy - 1.3, 2.6, 2.6, "#334155", "#0f172a", r=0.35)
+    ax.text(13.1, cy, "reader\nESP32-C3", ha="center", va="center", fontsize=12.5, color="white", weight="bold")
+    for r in (0.6, 1.05, 1.5):
+        ax.add_patch(Wedge((14.3, cy + 1.4), r, 25, 75, width=0.1, color=GREY))
+    qx, qy = 15.6, H - 6.4
+    rbox(ax, qx, qy, 2.5, 5.0, "white", INK, lw=2.2, r=0.35)
+    rbox(ax, qx + 0.25, qy + 2.9, 2.0, 1.25, "#fee2e2", RED, lw=1.4, r=0.18)
+    ax.text(qx + 1.25, qy + 3.52, "CHANGE", ha="center", va="center", fontsize=13, weight="bold", color=RED)
+    ax.text(qx + 1.25, qy + 1.5, "C M A wet\nE dry", ha="center", va="center", fontsize=11, color=INK)
+    ax.text(18.6, qy + 3.3, "phone app\n(planned)", fontsize=12, color=GREY)
+    ax.text(0.3, H - 0.7, "Dermasense concept (illustration; not yet built)", fontsize=17, weight="bold", color=NAVY)
+    ax.text(0.3, 0.35, "Zones wet in order:  C centre \u2192 OK    M \u2192 SOON    A change line \u2192 CHANGE    "
+            "E edge \u2192 LEAK", fontsize=12.5, color=INK)
+    layers = [("cover film", "#e2e8f0", 0.45), ("LIG strip (graphene side down)", KAPTON, 0.45),
+              ("absorbent pad", PAD, 0.9), ("wound-contact layer", "#dbeafe", 0.7), ("wound", "#fecaca", 0.7)]
+    x0, w, y = 15.0, 7.1, cy - 1.75
+    ax.text(x0, y + 0.25, "Layer stack", fontsize=13.5, weight="bold", color=NAVY)
+    for name, col, th in layers:
+        ax.add_patch(Rectangle((x0, y - th), w, th, fc=col, ec="#94a3b8", lw=0.8))
+        ax.text(x0 + w / 2, y - th / 2, name, ha="center", va="center", fontsize=11, color=INK)
+        y -= th + 0.05
+    ax.text(x0, cy + 0.6, "The strip never touches\nthe wound.", fontsize=12.5, color=GREEN, weight="bold")
+    save(fig, "concept")
 
 
 def coupon_polys():
-    doc = ezdxf.readfile(COUPON)
+    doc = ezdxf.readfile(ROOT / "04_lig_lab" / "lig_test_coupon.dxf")
     colours = {1: "#dc2626", 2: "#eab308", 3: "#16a34a", 4: "#06b6d4", 5: "#2563eb", 6: "#c026d3", 7: "k"}
-    polys = []
+    out = []
     for e in doc.modelspace().query("LWPOLYLINE"):
         aci = doc.layers.get(e.dxf.layer).color
-        polys.append(([(p[0], p[1]) for p in e.get_points()], colours.get(aci, "k"), aci))
-    return polys
+        out.append(([(p[0], p[1]) for p in e.get_points()], colours.get(aci, "k"), aci))
+    return out
 
 
-def dim(ax, x0, y0, x1, y1, text, off=0.0, fs=9, color=NAVY):
-    ax.annotate("", xy=(x1, y1), xytext=(x0, y0), arrowprops=dict(arrowstyle="<->", color=color, lw=1))
-    ax.text((x0 + x1) / 2, (y0 + y1) / 2 + off, text, ha="center", va="center", fontsize=fs, color=color,
-            bbox=dict(fc="white", ec="none", pad=0.5))
+def fig_coupon_matrix():
+    fig, _ = figure("coupon_matrix")
+    fig.text(0.02, 0.92, "Experiment E1: one coupon = six laser settings around our earlier 'setting 12'",
+             fontsize=15, weight="bold", color=NAVY)
+    ax = fig.add_axes([0.02, 0.52, 0.96, 0.34])
+    for pts, c, aci in coupon_polys():
+        ax.add_patch(Polygon(pts, closed=True, fc="none" if aci == 7 else c, ec=c, lw=0.9))
+    ax.set_xlim(-2, 239); ax.set_ylim(-2, 22); ax.set_aspect("equal"); ax.axis("off")
+    cells = [("#dc2626", "setting 10", "speed S"), ("#eab308", "setting 12", "speed 0.67 S"),
+             ("#16a34a", "setting 12", "speed S (ref)"), ("#06b6d4", "setting 12", "speed 1.5 S"),
+             ("#2563eb", "setting 14", "speed S"), ("#c026d3", "setting 12", "speed S (ref)")]
+    ax = fig.add_axes([0.02, 0.10, 0.96, 0.38]); ax.set_xlim(0, 6); ax.set_ylim(0, 1); ax.axis("off")
+    for i, (c, p, sp) in enumerate(cells):
+        rbox(ax, i + 0.05, 0.08, 0.9, 0.84, "white", c, lw=2.8, r=0.06)
+        ax.text(i + 0.5, 0.62, p, ha="center", fontsize=14, weight="bold", color=c)
+        ax.text(i + 0.5, 0.28, sp, ha="center", fontsize=12.5, color=INK)
+    fig.text(0.5, 0.025, "4 coupons over 2 days: reference measured 8 times. Strips 8 / 16 / 24 mm long give sheet "
+             "resistance with a multimeter.", ha="center", fontsize=12, color=GREY)
+    save(fig, "coupon_matrix")
 
 
-def fig_coupon(size, name, detail):
-    fig = plt.figure(figsize=size)
-    polys = coupon_polys()
-    if detail:
-        ax_full = fig.add_axes([0.04, 0.70, 0.92, 0.22])
-        ax_det = fig.add_axes([0.06, 0.08, 0.88, 0.52])
-    else:
-        ax_full = fig.add_axes([0.03, 0.36, 0.94, 0.56])
-        ax_det = None
-    for pts, c, aci in polys:
-        ax_full.add_patch(Polygon(pts, closed=True, fc="none" if aci == 7 else c, ec=c, lw=0.8))
-    ax_full.set_xlim(-3, 241); ax_full.set_ylim(-4, 24); ax_full.set_aspect("equal"); ax_full.axis("off")
-    dim(ax_full, 0, -2.5, 237, -2.5, "237 mm", fs=9)
-    dim(ax_full, -2, 0, -2, 20, "20", fs=8)
-    ax_full.set_title("Test coupon lig_test_coupon.dxf (generated by make_test_pattern.py): one colour = "
-                      "one power/speed setting", fontsize=10, color=NAVY)
-    if not detail:
-        fig.text(0.03, 0.14, "Each cell: 3 strips, 2.00 mm wide; strip lengths 8 / 16 / 24 mm; 4 × 4 mm pads. "
-                 "Every strip is one closed outline (no overlaps).\nR = Rs·L/W + R0  →  slope gives sheet "
-                 "resistance Rs, intercept gives contact resistance R0, using a plain multimeter.",
-                 fontsize=9.5, color="#0f172a")
-    else:
-        for pts, c, aci in polys:
-            xs = [p[0] for p in pts]
-            if aci == 3:
-                ax_det.add_patch(Polygon(pts, closed=True, fc="#16a34a", ec="#14532d", lw=1))
-        ax_det.set_xlim(82, 128); ax_det.set_ylim(-1, 21); ax_det.set_aspect("equal"); ax_det.axis("off")
-        x0 = 86.0
-        dim(ax_det, x0 + 4, 3.0 - 1.6, x0 + 12, 3.0 - 1.6, "8 mm", fs=9)
-        dim(ax_det, x0 + 4, 9.0 - 1.6, x0 + 20, 9.0 - 1.6, "16 mm", fs=9)
-        dim(ax_det, x0 + 4, 15.0 + 3.0, x0 + 28, 15.0 + 3.0, "24 mm", fs=9)
-        dim(ax_det, x0 + 31.5, 14.0, x0 + 31.5, 16.0, "2.0", fs=8)
-        dim(ax_det, x0 - 1.2, 13.0, x0 - 1.2, 17.0, "4", fs=8)
-        ax_det.text(105, -0.6, "One cell (GREEN = reference setting), dimensions in mm", ha="center",
-                    fontsize=10, color=NAVY)
-    fig.savefig(OUT / name, dpi=200)
-    plt.close(fig)
-
-
-def schematic_png(path, which):
+def fig_schematic():
+    tmp = OUT / "_sch.png"
     with schemdraw.Drawing(show=False) as d:
-        d.config(unit=2.4, fontsize=12)
-        if which == "tlm":
-            d += elm.Dot().label("pad A", "left")
-            d += elm.Resistor().right().label("LIG strip\nR(L) = Rs·L/W + R0", "top")
-            d += elm.Dot().label("pad B", "right")
-            d += elm.Line().down(1.4)
-            d += elm.MeterOhm().left().label("Multimeter (Ω)\n3 readings per strip", "bottom")
-            d += elm.Line().up(1.4)
-        else:
-            d += elm.Dot().label("GPIO_Z\n(ESP32-C3)", "left")
-            d += elm.Resistor().right().label("Rp 1 k", "top")
-            d += elm.ResistorVar().right().label("LIG zone\n(fluid) Rz", "top")
-            d += elm.Resistor().right().label("Rp 1 k", "top")
-            n = d.add(elm.Dot().label("N", "top"))
-            d += elm.Resistor().right().label("Rref 100 k\n0.1 %", "top")
-            d += elm.Dot().label("GPIO_COM", "right")
-            d += elm.Line().at(n.center).down(1.6)
-            d += elm.Dot(open=True).label("ADS1115 A0", "bottom")
-        d.save(str(path), dpi=220)
+        d.config(unit=2.6, fontsize=15)
+        d += elm.Dot().label("GPIO_Z\n(ESP32-C3)", "left")
+        d += elm.Resistor().right().label("1 k\u03a9", "top")
+        d += elm.ResistorVar().right().label("LIG zone\n(wet = low R)", "top")
+        d += elm.Resistor().right().label("1 k\u03a9", "top")
+        n = d.add(elm.Dot().label("N", "top"))
+        d += elm.Resistor().right().label("Rref 100 k\u03a9\n0.1 %", "top")
+        d += elm.Dot().label("GPIO_COM", "right")
+        d += elm.Line().at(n.center).down(1.8)
+        d += elm.Dot(open=True).label("ADS1115 (16-bit)", "bottom")
+        d.save(str(tmp), dpi=230)
+    fig, _ = figure("schematic")
+    fig.text(0.02, 0.93, "Zone readout: drive each zone both ways, read the divider (bench design)", fontsize=15,
+             weight="bold", color=NAVY)
+    ax = fig.add_axes([0.02, 0.30, 0.96, 0.58]); ax.imshow(plt.imread(tmp)); ax.axis("off")
+    notes = ["Each zone is driven + then \u2212, so no net DC flows through the fluid.",
+             "Pins rest in high-impedance between scans; 4 zones are scanned in turn.",
+             "Dry zone \u2248 open circuit; wet zone \u2248 k\u03a9, a contrast of 100\u00d7 or more (target).",
+             "Phase +:  Rz = Rref (Vdd / VN \u2212 1) \u2212 2 k\u03a9      Phase \u2212:  Rz = Rref VN / (Vdd \u2212 VN) \u2212 2 k\u03a9"]
+    for i, t in enumerate(notes):
+        fig.text(0.04, 0.22 - i * 0.055, "\u2022 " + t, fontsize=12.5, color=INK if i < 3 else GREY)
+    save(fig, "schematic")
+    tmp.unlink()
 
 
-def fig_schematic(size, name):
-    a, b = OUT / "_sch_tlm.png", OUT / "_sch_readout.png"
-    schematic_png(a, "tlm")
-    schematic_png(b, "readout")
-    fig = plt.figure(figsize=size)
-    tall = size[1] / size[0] > 0.6
-    if tall:
-        ax1 = fig.add_axes([0.20, 0.55, 0.6, 0.36]); ax2 = fig.add_axes([0.02, 0.12, 0.96, 0.36])
-        panels = ((ax1, a, "(a) E1 measurement, now: 2-wire resistance of each strip"),
-                  (ax2, b, "(b) Planned zone readout (bench only, not built): bipolar ratiometric"))
-    else:
-        ax2 = fig.add_axes([0.02, 0.17, 0.96, 0.70])
-        panels = ((ax2, b, "Planned zone readout (bench only, NOT built yet): bipolar ratiometric measurement"),)
-    for ax, img, title in panels:
-        ax.imshow(plt.imread(img)); ax.axis("off"); ax.set_title(title, fontsize=10.5, color=NAVY)
-    note = ("Rz from both drive polarities: phase +  Rz = Rref(Vdd/VN − 1) − 2Rp;  phase −  "
-            "Rz = Rref·VN/(Vdd − VN) − 2Rp.\nPins idle in high-impedance between scans (no net DC). "
-            "Schematic drawn with schemdraw; KiCad capture pending (KiCad not installed).")
-    fig.text(0.02, 0.02, note, fontsize=8.6, color=GREY)
-    fig.savefig(OUT / name, dpi=200)
-    plt.close(fig)
-    a.unlink(); b.unlink()
-
-
-def fig_placeholder():
-    fig, ax = plt.subplots(figsize=WIDE)
-    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
-    ax.add_patch(Rectangle((0.01, 0.02), 0.98, 0.96, fc="#f1f5f9", ec=AMBER, lw=3, ls="--"))
-    ax.text(0.5, 0.62, "INSERT ORIGINAL PHOTO", ha="center", fontsize=26, weight="bold", color=AMBER)
-    ax.text(0.5, 0.38, "Experiment E1 at our 100 W laser: team members with institutional ID badges,\n"
-            "coupon on the bed / under the microscope. Unedited phone original.\n"
-            "(Placeholder: no photo exists yet; replace before submission)",
-            ha="center", fontsize=12, color="#334155")
-    fig.savefig(OUT / "f5_photo_placeholder.png", dpi=200)
-    plt.close(fig)
+def fig_work_evidence():
+    fig, _ = figure("work_evidence")
+    for x, t in ((0.01, "E1 data sheet: 04_lig_lab/e1_samples.csv"), (0.51, "Machine config: C:\\LaserCAD\\AWCCfg\\SysCfg.ini")):
+        hdr = fig.add_axes([x, 0.84, 0.48, 0.13]); hdr.axis("off")
+        hdr.add_patch(Rectangle((0, 0), 1, 1, fc=NAVY, transform=hdr.transAxes))
+        hdr.text(0.5, 0.5, t, ha="center", va="center", color="white", fontsize=13, weight="bold",
+                 transform=hdr.transAxes)
+    ax = fig.add_axes([0.01, 0.10, 0.48, 0.70]); ax.axis("off")
+    rows = [r for r in csv.DictReader(open(ROOT / "04_lig_lab" / "e1_samples.csv", encoding="utf-8"))
+            if r["day"] == "1" and r["coupon"] == "1"]
+    tab = ax.table(cellText=[[r["sample_id"], r["power_setting"],
+                              r["speed_rule"].replace("*", "\u00b7").replace("_ref", ""), ""] for r in rows],
+                   colLabels=["sample", "setting", "speed", "Rs (\u03a9/sq)"], loc="center", cellLoc="center",
+                   colWidths=[0.42, 0.16, 0.18, 0.24])
+    tab.auto_set_font_size(False); tab.set_fontsize(12.5); tab.scale(1, 2.3)
+    fig.text(0.25, 0.03, "pre-filled for 30 cells; Rs is filled after the lab session", ha="center", fontsize=11.5,
+             color=GREY)
+    ax = fig.add_axes([0.51, 0.10, 0.48, 0.70]); ax.axis("off")
+    ax.add_patch(Rectangle((0, 0), 1, 1, fc="#0f172a", transform=ax.transAxes))
+    cfg = Path(r"C:\LaserCAD\AWCCfg\SysCfg.ini")
+    text = "(config file not found on this PC)"
+    if cfg.exists():
+        ini = configparser.ConfigParser(strict=False)
+        ini.read(cfg, encoding="latin-1")
+        out = []
+        for sec, keys in (("X", ("Range", "MaxSpeed")), ("Y", ("Range", "MaxSpeed")),
+                          ("MachCfg", ("PWMFreq", "MaxPower", "LaserMode"))):
+            out.append(f"[{sec}]")
+            out += [f"  {k}={ini.get(sec, k)}" for k in keys if ini.has_option(sec, k)]
+        text = "\n".join(out)
+    ax.text(0.06, 0.94, text, va="top", family="monospace", fontsize=12.5, color="#a7f3d0", transform=ax.transAxes)
+    fig.text(0.75, 0.03, "real values: 1200 \u00d7 900 mm bed \u00b7 20 kHz PWM \u00b7 98 % cap", ha="center",
+             fontsize=11.5, color=GREY)
+    save(fig, "work_evidence")
 
 
 if __name__ == "__main__":
-    fig_before_after()
-    fig_system()
-    fig_coupon(WIDE, "f3_coupon_wide.png", detail=False)
-    fig_coupon(TALL, "f3_coupon_tall.png", detail=True)
-    fig_schematic(WIDE, "f4_schematic_wide.png")
-    fig_schematic(TALL, "f4_schematic_tall.png")
-    fig_placeholder()
+    fig_problem(); fig_journey(); fig_concept(); fig_coupon_matrix(); fig_schematic(); fig_work_evidence()
     print("figures:", ", ".join(sorted(p.name for p in OUT.glob("*.png"))))

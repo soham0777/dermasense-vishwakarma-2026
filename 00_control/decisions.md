@@ -84,3 +84,21 @@ One entry per decision: what we chose, what else we considered, why, and what ev
   - It removes only the TerraWeed example content and badges, the "Example:" prefixes and the "(1-2 Slides)" hints.
   - All figures are generated from project files.
 - **Why:** the brief requires the original template; every number in the deck traces to the evidence register.
+
+### D-011: Deck v2, one strong slide per template section (DECIDED by team, 2026-10-15)
+
+- **Team feedback on v1:**
+  - it looked empty and unfinished
+  - it had too many [A]/[B]/[C] tags and "planned" labels
+  - the story wasn't convincing
+  - the visuals were weak
+- **Chosen:**
+  - **Instruction slides removed.** The template's own content-slide designs are kept, in the template's section order (11 slides). The Problem-Context design is duplicated so User Journey gets its own slide.
+  - **One story:** the dressing maker's "change line" → a strip that reads it from outside the wound → reproducible laser graphene as the foundation.
+  - **Honesty kept, but quieter:**
+    - numbered citations instead of tags
+    - concept drawings labelled as concepts
+    - targets called targets
+    - the bottom strip of each slide says what is done vs next
+  - **Visuals:** figures enlarged to fill the left column. The empty photo box was replaced by a panel of real files (E1 data sheet + LaserCAD config).
+- **Change if:** the organizers require the instruction slides to stay. The v1 builder is in git history (fd3a8fd).
