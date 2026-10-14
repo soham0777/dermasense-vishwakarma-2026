@@ -1,11 +1,16 @@
-# File index (2026-10-14 23:41, commit 501ee05)
+# File index (2026-10-15 03:11, commit 774c9f4)
 
-107 files. Each is a copy of `source` (byte-identical, SHA-256 in `file_index.csv`). Edit the source, then re-run `python 00_control/assemble_submission.py`. Never edit here.
+112 files. Each is a copy of `source` (byte-identical, SHA-256 in `file_index.csv`). Edit the source, then re-run `python 00_control/assemble_submission.py`. Never edit here.
 
 | Item | File | Source | Size |
 |---|---|---|---|
 | D01 | [01_presentation/official_template/Vishwakarma Awards 2026-27 Stage 2 Submission Template (2).pptx](01_presentation/official_template/Vishwakarma%20Awards%202026-27%20Stage%202%20Submission%20Template%20(2).pptx) | `08_submission/template/Vishwakarma Awards 2026-27 Stage 2 Submission Template (2).pptx` | 3446 KB |
 | D01 | [01_presentation/official_template/TEMPLATE_PROVENANCE.md](01_presentation/official_template/TEMPLATE_PROVENANCE.md) | `08_submission/template/TEMPLATE_PROVENANCE.md` | 1 KB |
+| D02 | [01_presentation/final_deck/Vishwakarma_Stage2_Final.pptx](01_presentation/final_deck/Vishwakarma_Stage2_Final.pptx) | `08_submission/Stage2_Final/Vishwakarma_Stage2_Final.pptx` | 4587 KB |
+| D02 | [01_presentation/final_deck/Vishwakarma_Stage2_Final.pdf](01_presentation/final_deck/Vishwakarma_Stage2_Final.pdf) | `08_submission/Stage2_Final/Vishwakarma_Stage2_Final.pdf` | 1653 KB |
+| D02 | [01_presentation/final_deck/PPT_Asset_Index.md](01_presentation/final_deck/PPT_Asset_Index.md) | `08_submission/Stage2_Final/PPT_Asset_Index.md` | 7 KB |
+| D02 | [01_presentation/final_deck/PPT_Claim_and_Reference_Check.md](01_presentation/final_deck/PPT_Claim_and_Reference_Check.md) | `08_submission/Stage2_Final/PPT_Claim_and_Reference_Check.md` | 9 KB |
+| D02 | [01_presentation/final_deck/PPT_QA_Report.md](01_presentation/final_deck/PPT_QA_Report.md) | `08_submission/Stage2_Final/PPT_QA_Report.md` | 6 KB |
 | D03 | [02_cad_solidworks/native/clamp_base_v0_1.SLDPRT](02_cad_solidworks/native/clamp_base_v0_1.SLDPRT) | `06_cad/solidworks/clamp_base_v0_1.SLDPRT` | 73 KB |
 | D03 | [02_cad_solidworks/native/clamp_lid_v0_1.SLDPRT](02_cad_solidworks/native/clamp_lid_v0_1.SLDPRT) | `06_cad/solidworks/clamp_lid_v0_1.SLDPRT` | 51 KB |
 | D03 | [02_cad_solidworks/native/dowel_2x12.SLDPRT](02_cad_solidworks/native/dowel_2x12.SLDPRT) | `06_cad/solidworks/dowel_2x12.SLDPRT` | 58 KB |

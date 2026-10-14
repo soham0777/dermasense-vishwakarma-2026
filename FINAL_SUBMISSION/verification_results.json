@@ -7,8 +7,12 @@
  ],
  "D02": [
   {
+   "ok": true,
+   "evidence": "copy opens in Microsoft PowerPoint (18 slides); PDF 18 pages; PowerPoint-measured QA: 0 overflow/overlap issues, template section order OK, slide limits OK; personal-data scan: none found"
+  },
+  {
    "ok": null,
-   "evidence": "v2 draft opens (11 slides) but is NOT submission-ready: it has no E2 or bench results and predates the CAD freeze and the reader. Personal-data scan: none found"
+   "evidence": "slide 11 still holds the bracketed repository placeholder (team action)"
   }
  ],
  "D03": [
@@ -70,7 +74,7 @@
  "D11": [
   {
    "ok": true,
-   "evidence": "copied sketch compiles with arduino-cli (esp32:esp32:esp32c3:CDCOnBoot=cdc): 327176 bytes (24% flash), 0 warnings, 22 compile-time tests"
+   "evidence": "copied sketch compiles with arduino-cli (esp32:esp32:esp32c3:CDCOnBoot=cdc): 327176 bytes (24% flash), 0 warnings, 19 compile-time tests"
   },
   {
    "ok": true,
@@ -194,7 +198,7 @@
  "D20": [
   {
    "ok": null,
-   "evidence": "git remote: none configured; branch dev/stage2-rebuild @ 501ee05"
+   "evidence": "git remote: none configured; branch dev/stage2-rebuild @ 774c9f4"
   }
  ],
  "D21": [

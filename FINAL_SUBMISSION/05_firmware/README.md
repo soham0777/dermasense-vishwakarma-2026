@@ -1,7 +1,7 @@
 # 07_firmware: minimum two-zone reader v0.1
 
 **Status:**
-- Compiles for ESP32-C3 with 0 warnings; its 22 compile-time logic tests pass.
+- Compiles for ESP32-C3 with 0 warnings; its 19 compile-time logic tests pass.
 - **Not yet run on hardware.** Next is `BENCH_TEST.md` with known resistors.
 - Wired logging over USB only (no radio yet).
 
@@ -10,7 +10,7 @@
 | `reader_v0_1/reader_v0_1.ino` | Scan loop: check resistor → zone C → zone A → COM loop, then one CSV line per scan; LEDs |
 | `reader_v0_1/config.h` | Pins, circuit values and thresholds (`[PROV]` = placeholder until measured) |
 | `reader_v0_1/zone_logic.h` | Pure maths and the state machine: bipolar divider, hysteresis, 3-scan persistence, OK / CHANGE / CHECK / FAULT |
-| `reader_v0_1/zone_logic_tests.h` | 22 `static_assert` tests. A wrong result stops the build (proved with a deliberately false assert) |
+| `reader_v0_1/zone_logic_tests.h` | 19 `static_assert` tests. A wrong result stops the build (proved with a deliberately false assert) |
 | `reader_v0_1/ads1115.h` | Minimal ADS1115 driver (single-shot, auto-range; no external library) |
 | `tools/serial_logger.py` | PC logger: validates the header and every row, adds PC time, keeps bad lines separately |
 | `tools/check_consistency.py` | Cross-checks KiCad netlist ↔ `config.h` ↔ strip pad order, and writes `WIRING.md` |

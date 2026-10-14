@@ -48,9 +48,12 @@ ITEMS = [
     ("D01", "Official Vishwakarma Stage 2 template (base of the final deck)", "01_presentation/official_template",
      [TEMPLATE2, "08_submission/template/TEMPLATE_PROVENANCE.md"], "PPTX", "Verified", "pptx",
      "Build the final deck on this file. Never edit it in place."),
-    ("D02", "Stage 2 presentation (VK26-IITI-HT-0050)", None, ["08_submission/VK26-IITI-HT-0050_Stage2_Dermasense.pptx"], "PPTX",
-     "Pending Physical Experiment", "deck_draft",
-     "After E2 and the reader bench test, put the real results into the existing v2 slides (no redesign), then copy here."),
+    ("D02", "Stage 2 presentation, final (18 slides on the official template) + PDF + QA / claim / asset documents",
+     "01_presentation/final_deck",
+     ["08_submission/Stage2_Final/Vishwakarma_Stage2_Final.pptx", "08_submission/Stage2_Final/Vishwakarma_Stage2_Final.pdf",
+      "08_submission/Stage2_Final/PPT_Asset_Index.md", "08_submission/Stage2_Final/PPT_Claim_and_Reference_Check.md",
+      "08_submission/Stage2_Final/PPT_QA_Report.md"], "PPTX/PDF/MD", "Verified", "deck_final",
+     "Team: replace the bracketed repository placeholder on slide 11 with the real link (needs D20), then re-run this script."),
     ("D03", "SolidWorks native models: 9 parts, 1 assembly, 7 drawings (v0.1)", "02_cad_solidworks/native",
      ["06_cad/solidworks/*.SLDPRT", "06_cad/solidworks/*.SLDASM", "06_cad/solidworks/*.SLDDRW"], "SLDPRT/SLDASM/SLDDRW",
      "Verified", "solidworks", "Update the strip and seal from the E2 measurements (verify_cad section 5), then rebuild."),
@@ -182,13 +185,31 @@ def check_pptx(iid, folder):
             f"opens in Microsoft PowerPoint (read-only): {n} slides; MD5 {md5} matches the provenance record")
 
 
-def check_deck(iid):
+def check_deck_final(iid, folder):
+    import pymupdf
+    import win32com.client
     from pptx import Presentation
-    p = ROOT / "08_submission/VK26-IITI-HT-0050_Stage2_Dermasense.pptx"
-    prs = Presentation(p)
-    text = " ".join(sh.text_frame.text for s in prs.slides for sh in s.shapes if sh.has_text_frame)
-    res(iid, None, f"v2 draft opens ({len(prs.slides)} slides) but is NOT submission-ready: it has no E2 or bench results and "
-                   f"predates the CAD freeze and the reader. Personal-data scan: {pii(text) or 'none found'}")
+    f = OUT / folder / "Vishwakarma_Stage2_Final.pptx"
+    app = win32com.client.Dispatch("PowerPoint.Application")
+    before = app.Presentations.Count
+    pres = app.Presentations.Open(str(f), True, False, False)
+    n = pres.Slides.Count
+    pres.Close()
+    if before == 0 and app.Presentations.Count == 0:
+        app.Quit()
+    pages = pymupdf.open(OUT / folder / "Vishwakarma_Stage2_Final.pdf").page_count
+    qa = json.loads((ROOT / "08_submission" / "qa_final_deck_results.json").read_text(encoding="utf-8"))
+    issues = sum(len(s["issues"]) for s in qa["slides"])
+    d = qa["deck"]
+    limits = all(v[3] for v in d["section_limits"].values())
+    text = " ".join(sh.text_frame.text for s in Presentation(f).slides for sh in s.shapes if sh.has_text_frame)
+    placeholder = "[team to insert" in text
+    res(iid, n == 18 and pages == 18 and issues == 0 and d["section_order_ok"] and limits,
+        f"copy opens in Microsoft PowerPoint ({n} slides); PDF {pages} pages; PowerPoint-measured QA: {issues} overflow/overlap "
+        f"issues, template section order {'OK' if d['section_order_ok'] else 'WRONG'}, slide limits {'OK' if limits else 'EXCEEDED'}; "
+        f"personal-data scan: {pii(text) or 'none found'}")
+    if placeholder:
+        res(iid, None, "slide 11 still holds the bracketed repository placeholder (team action)")
 
 
 def prop(obj, name):
@@ -304,7 +325,7 @@ def check_firmware(iid, folder):
     warn = len(re.findall(r"warning:", out))
     res(iid, code == 0 and warn == 0, f"copied sketch compiles with arduino-cli ({FQBN}): "
                                       f"{m.group(1) + ' bytes (' + m.group(2) + '% flash)' if m else 'no size'}, "
-                                      f"{warn} warnings, 22 compile-time tests")
+                                      f"{warn} warnings, 19 compile-time tests")
     code, out = run([sys.executable, "-m", "pytest", "-q", ROOT / "07_firmware/tools"], timeout=300)
     m = re.search(r"(\d+) passed", out)
     res(iid, code == 0, f"tool tests on the source: {m.group(0) if m else out[-200:]} (copies SHA-identical)")
@@ -507,8 +528,9 @@ def write_docs(index, broken, scanned, found):
           "edit the source and re-run the script.", "",
           f"**State: {counts['Verified']} Verified · {counts['Complete']} Complete · {counts['Pending Physical Experiment']} "
           f"Pending Physical Experiment · {counts['Blocked']} Blocked.** "
-          "The design work is verified. **No experiment has been run yet**, so there is no measured data, no photographs and "
-          "no final deck. Details: [SUBMISSION_READINESS_REPORT.md](SUBMISSION_READINESS_REPORT.md).", "",
+          "The design work is verified and the final deck is built ([01_presentation/final_deck/](01_presentation/final_deck/); "
+          "it still needs the repository link on slide 11). **No experiment has been run yet**, so there is no measured data and "
+          "there are no lab photographs. Details: [SUBMISSION_READINESS_REPORT.md](SUBMISSION_READINESS_REPORT.md).", "",
           "| Folder | Contents |", "|---|---|"]
     for fo in folders:
         names = [it[1] for it in ITEMS if it[2] and it[2].split("/")[0] == fo]
@@ -535,8 +557,8 @@ def main():
         try:
             if chk == "pptx":
                 check_pptx(iid, folder)
-            elif chk == "deck_draft":
-                check_deck(iid)
+            elif chk == "deck_final":
+                check_deck_final(iid, folder)
             elif chk == "solidworks":
                 check_solidworks(iid, folder) if sw else res(iid, None, "SolidWorks check skipped (--no-sw)")
             elif chk == "step":

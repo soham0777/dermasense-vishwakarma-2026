@@ -1,9 +1,9 @@
-# Deliverables checklist (2026-10-14 23:41)
+# Deliverables checklist (2026-10-15 03:11)
 
 ☑ done (Verified or Complete) · ☐ waits for lab work · ☒ blocked by a team decision
 
 - ☑ **D01** Official Vishwakarma Stage 2 template (base of the final deck) (Verified): Build the final deck on this file. Never edit it in place.
-- ☐ **D02** Stage 2 presentation (VK26-IITI-HT-0050) (Pending Physical Experiment): After E2 and the reader bench test, put the real results into the existing v2 slides (no redesign), then copy here.
+- ☑ **D02** Stage 2 presentation, final (18 slides on the official template) + PDF + QA / claim / asset documents (Verified): Team: replace the bracketed repository placeholder on slide 11 with the real link (needs D20), then re-run this script.
 - ☑ **D03** SolidWorks native models: 9 parts, 1 assembly, 7 drawings (v0.1) (Verified): Update the strip and seal from the E2 measurements (verify_cad section 5), then rebuild.
 - ☑ **D04** STEP exports (neutral CAD) (Verified): Re-export after any CAD change (sw_build.py does this automatically).
 - ☑ **D05** CAD renders (Verified): None.

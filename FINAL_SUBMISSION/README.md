@@ -1,13 +1,13 @@
 # FINAL_SUBMISSION: Dermasense (VK26-IITI-HT-0050), Vishwakarma Awards 2026-27 Stage 2
 
-Assembled 2026-10-14 23:41 from commit `501ee05` by `00_control/assemble_submission.py`.
+Assembled 2026-10-15 03:11 from commit `774c9f4` by `00_control/assemble_submission.py`.
 **This folder holds copies only.** The working files live in the numbered project folders. Never edit here; edit the source and re-run the script.
 
-**State: 9 Verified · 5 Complete · 6 Pending Physical Experiment · 1 Blocked.** The design work is verified. **No experiment has been run yet**, so there is no measured data, no photographs and no final deck. Details: [SUBMISSION_READINESS_REPORT.md](SUBMISSION_READINESS_REPORT.md).
+**State: 10 Verified · 5 Complete · 5 Pending Physical Experiment · 1 Blocked.** The design work is verified and the final deck is built ([01_presentation/final_deck/](01_presentation/final_deck/); it still needs the repository link on slide 11). **No experiment has been run yet**, so there is no measured data and there are no lab photographs. Details: [SUBMISSION_READINESS_REPORT.md](SUBMISSION_READINESS_REPORT.md).
 
 | Folder | Contents |
 |---|---|
-| [01_presentation/](01_presentation/) | Official Vishwakarma Stage 2 template (base of the final deck) |
+| [01_presentation/](01_presentation/) | Official Vishwakarma Stage 2 template (base of the final deck); Stage 2 presentation, final (18 slides on the official template) + PDF + QA / claim / asset documents |
 | [02_cad_solidworks/](02_cad_solidworks/) | SolidWorks native models: 9 parts, 1 assembly, 7 drawings (v0.1); STEP exports (neutral CAD); CAD renders; CAD build + independent verification scripts and reports |
 | [03_drawings/](03_drawings/) | 2D drawings (A3, first-angle, PDF); Laser job files (strip, seal, E1/E2 coupons) + DRC |
 | [04_kicad/](04_kicad/) | KiCad schematic of the two-zone reader (ERC clean) |

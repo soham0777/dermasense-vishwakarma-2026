@@ -18,7 +18,7 @@ We started again from zero on 14 Oct 2026. The old version is in `Desktop/MBF vi
 | Laser files | 35/35 file checks pass (`04_lig_lab/verify_laser_files.py`) |
 | **E2 fabrication validation** | **Ready to run, not performed.** [04_lig_lab/e2/E2_procedure.md](04_lig_lab/e2/E2_procedure.md). It replaces E1 as Part A |
 | Reader schematic (KiCad) | ERC 0 violations: [05_electronics/kicad](05_electronics/kicad/README.md) |
-| Reader firmware | Compiles, 22 compile-time tests; **not yet run on hardware** ([07_firmware/BENCH_TEST.md](07_firmware/BENCH_TEST.md)) |
+| Reader firmware | Compiles, 19 compile-time tests; **not yet run on hardware** ([07_firmware/BENCH_TEST.md](07_firmware/BENCH_TEST.md)) |
 | BOM / FMEA | [09_procurement](09_procurement/README.md) (estimated prices) · [00_control/fmea_v0_1.md](00_control/fmea_v0_1.md) |
 
 No measurement exists yet. The layer is a laser-carbonised conductive layer (LIG-like); graphene is not confirmed.
