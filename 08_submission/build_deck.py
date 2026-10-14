@@ -21,7 +21,7 @@ from pptx import Presentation
 from pptx.oxml.ns import qn
 
 HERE = Path(__file__).resolve().parent
-TEMPLATE = HERE / "template" / "Vishwakarma Awards 2026-27 Stage 2 Submission Template.pptx"
+TEMPLATE = HERE / "template" / "Vishwakarma Awards 2026-27 Stage 2 Submission Template (2).pptx"   # team-named official file (see template/TEMPLATE_PROVENANCE.md)
 OUT = HERE / "VK26-IITI-HT-0050_Stage2_Dermasense.pptx"
 FIG = HERE / "figures"
 EMU = 914400
