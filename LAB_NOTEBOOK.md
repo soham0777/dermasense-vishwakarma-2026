@@ -54,3 +54,21 @@ Next:
 **Problem:** we don't know the film thickness or when we can use the laser.
 
 **Next:** Step 1 (fill in "Our setup" in the README), then book laser time and start nurse interviews.
+
+## 2026-10-14 (evening): Claude, for the team: CAD freeze, E2 package, reader design, submission folder
+
+**Did:**
+- Repaired the SolidWorks drawings: first-angle views, each dimension shown once, mm units everywhere. The assembly STEP had been exported in cm.
+- Independent CAD verification found the seal tape trapped under the clamp (D-013); fixed it.
+- Prepared E2 with a new resolution/isolation coupon.
+- KiCad reader schematic: ERC clean.
+- ESP32-C3 firmware compiles, and its tests pass.
+- Wrote the BOM, a first FMEA and FINAL_SUBMISSION.
+
+**Saw / measured:** still **no lab data**. Every check today was on files and software, not on the physical prototype.
+
+**Problem:** the FMEA's top risk (F04) is a broken sense lead that the reader can't detect; it needs a design change in v0.2. There is no git remote yet.
+
+**Next:**
+1. Buy silver paint, 1 % resistors and the reader parts; borrow a DMM that reads 20 MΩ or more.
+2. Book the laser and run E2 Session S0 + Day 1.

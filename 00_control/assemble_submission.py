@@ -113,6 +113,12 @@ ITEMS = [
 ]
 
 RESULTS = {}
+DOWNGRADE = {}   # item -> reason it can't be called Verified
+BASES = {"D10": "05_electronics/kicad", "D11": "07_firmware", "D12": "07_firmware"}   # keep sub-folders under these
+MANUAL_LINK_CHECKS = {   # links the command line could not reach but a person/browser opened (date, what was seen)
+    "https://www.analog.com/en/products/ad5941.html":
+        "opened in the browser 2026-10-14: page title 'AD5941 Datasheet and Product Info | Analog Devices'",
+}
 
 
 def sha(p):
@@ -142,8 +148,8 @@ def assemble():
         files = expand(sources)
         for f in files:
             rel = f.relative_to(ROOT)
-            sub = rel.parts[-2] if rel.parts[-2] == "out" else ""
-            target = dest / sub / f.name
+            base = ROOT / BASES[iid] if iid in BASES else None
+            target = dest / (f.relative_to(base) if base and base in f.parents else f.name)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(f, target)
             ok = sha(f) == sha(target)
@@ -303,14 +309,15 @@ def check_firmware(iid, folder):
     m = re.search(r"(\d+) passed", out)
     res(iid, code == 0, f"tool tests on the source: {m.group(0) if m else out[-200:]} (copies SHA-identical)")
     code, out = run([sys.executable, ROOT / "07_firmware/tools/check_consistency.py"])
-    res(iid, code == 0, "schematic <-> firmware <-> strip pads: " + out.strip().splitlines()[-1])
+    res(iid, code == 0, out.strip().splitlines()[-1].replace("; WIRING.md written", ""))
 
 
 def check_csv(iid, folder):
     for f in sorted((OUT / folder).glob("*.csv")):
         rows = list(csv.reader(open(f, encoding="utf-8")))
         ok = len(rows) > 1 and all(len(r) == len(rows[0]) for r in rows)
-        res(iid, ok, f"{f.name}: {len(rows) - 1} rows x {len(rows[0])} columns, consistent")
+        res(iid, ok, f"{f.name}: {len(rows) - 1} rows x {len(rows[0])} columns, "
+                     + ("consistent" if ok else f"INCONSISTENT column counts {sorted({len(r) for r in rows})}"))
 
 
 def check_e2pkg(iid, folder):
@@ -328,7 +335,8 @@ def check_doc(iid, folder):
 
 
 def doi_ok(d):
-    url = d if d.startswith("http") else f"https://doi.org/{d}"
+    import urllib.parse
+    url = urllib.parse.quote(d, safe=":/?#[]@!$&'()*+,;=%") if d.startswith("http") else f"https://doi.org/{d}"
     req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Mozilla/5.0 (reference check)"})
 
     class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -358,12 +366,20 @@ def check_refs(iid, folder, web):
                     links.add(part.rstrip(".,"))
     with ThreadPoolExecutor(8) as ex:
         out = list(ex.map(doi_ok, sorted(links)))
-    good = [d for d, s in out if isinstance(s, int) and (300 <= s < 400 or s < 300)]
-    blocked = [(d, s) for d, s in out if s in (401, 403, 405, 429)]
-    bad = [(d, s) for d, s in out if (d, s) not in blocked and d not in good]
-    RESULTS.setdefault("links", []).append({"checked": len(out), "resolved": len(good), "site_refused": blocked, "failed": bad})
-    res(iid, not bad, f"{len(good)}/{len(out)} DOIs/URLs resolve; {len(blocked)} sites refused automated access (exist, not "
-                      f"checked further){'; FAILED: ' + str(bad) if bad else ''}")
+    good = [d for d, s in out if isinstance(s, int) and s < 400]
+    refused = [(d, s) for d, s in out if s in (401, 403, 405, 429)]          # server answered: the page exists
+    manual = [d for d, s in out if not isinstance(s, int) and d in MANUAL_LINK_CHECKS]
+    unconfirmed = [(d, s) for d, s in out if not isinstance(s, int) and d not in MANUAL_LINK_CHECKS]
+    broken = [(d, s) for d, s in out if isinstance(s, int) and s >= 400 and (d, s) not in refused]
+    RESULTS.setdefault("links", []).append({"checked": len(out), "resolved": good, "refused_but_answered": refused,
+                                            "manual": {d: MANUAL_LINK_CHECKS[d] for d in manual},
+                                            "unconfirmed": unconfirmed, "broken": broken})
+    res(iid, not broken, f"{len(good)}/{len(out)} DOIs/URLs resolve automatically; {len(refused)} answered but refused robots; "
+                         f"{len(manual)} confirmed in the browser; {len(broken)} broken (HTTP 404/410)")
+    if unconfirmed:
+        DOWNGRADE[iid] = (f"{len(unconfirmed)} link(s) unreachable from this network (no HTTP answer, browser too): "
+                          + ", ".join(d for d, _ in unconfirmed))
+        res(iid, None, DOWNGRADE[iid])
 
 
 def check_repo(iid, folder):
@@ -419,7 +435,13 @@ def status_of(iid, default):
     r = RESULTS.get(iid, [])
     if any(x["ok"] is False for x in r):
         return "Blocked" if default != "Pending Physical Experiment" else default
+    if default == "Verified" and iid in DOWNGRADE:
+        return "Complete"
     return default
+
+
+def action_of(iid, action):
+    return action if iid not in DOWNGRADE else (action.rstrip(".") + ". " if action != "None." else "") +         "Open the unconfirmed links from another network; replace or drop any that are dead (L32 is already marked weak)."
 
 
 def write_docs(index, broken, scanned, found):
@@ -430,7 +452,7 @@ def write_docs(index, broken, scanned, found):
         st = status_of(iid, status)
         ev = " · ".join(x["evidence"] for x in RESULTS.get(iid, [])) or "-"
         path = f"[{folder}/]({folder.replace(' ', '%20')}/)" if folder else ("`" + "`, `".join(sources) + "`" if sources else "-")
-        rows.append((iid, name, path, fmt, st, ev, action))
+        rows.append((iid, name, path, fmt, st, ev, action_of(iid, action)))
     counts = {s: sum(r[4] == s for r in rows) for s in ("Complete", "Verified", "Pending Physical Experiment", "Blocked")}
 
     # readiness report

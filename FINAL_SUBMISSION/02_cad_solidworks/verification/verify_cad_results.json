@@ -1,0 +1,1276 @@
+{
+ "run": "2026-10-14 23:38:14",
+ "counts": {
+  "PASS": 99,
+  "FAIL": 0,
+  "BLOCKED": 5,
+  "INFO": 0
+ },
+ "results": [
+  {
+   "group": "2 STEP",
+   "item": "clamp_base_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "clamp_lid_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "dermasense_bench_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 12",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "dowel_2x12.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "dressing_reference_bordered_foam.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "pogo_pin_P75_simplified.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "rig_base_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "seal_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "strip_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 4",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "wound_bed_spacer_v0_1.STEP",
+   "check": "schema / mm units / solids",
+   "expected": "AP2xx, mm, >=1 solid",
+   "actual": "CONFIG_CONTROL_DESIGN, mm, 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "strip_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "strip_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "LIG sensing strip, strip_v0_1, SCALE:1:1, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "strip_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "96.00, 10.00, 0.125, 2.00, 28.24, 16.00",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "seal_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "seal_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "Seal tape, seal_v0_1, SCALE:1:1, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "seal_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "73.00, 6.00, 3.90, 0.090, 17.50",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "clamp_base_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "clamp_base_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "Contact clamp, clamp_base_v0_1, SCALE:2:1, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "clamp_base_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "26.00, 43.24, 16.00, 1.10, 3.40, 5.08",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "clamp_lid_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "clamp_lid_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "Contact clamp lid, clamp_lid_v0_1, SCALE:2:1, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "clamp_lid_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "26.00, 4.00, 2.30",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "rig_base_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "rig_base_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "Bench rig base, rig_base_v0_1, SCALE:1:2, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "rig_base_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "160.00, 120.00, 5.00, 4.30",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "wound_bed_spacer_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "wound_bed_spacer_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "Wound-bed spacer, wound_bed_spacer_v0_1, SCALE:1:2, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "wound_bed_spacer_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "90.00, 11.91",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "dermasense_bench_v0_1_drawing.PDF",
+   "check": "pages / A3 size",
+   "expected": "1 page, 420x297",
+   "actual": "1, 420x297",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "dermasense_bench_v0_1_drawing.PDF",
+   "check": "title block / scale / notes",
+   "expected": "Bench test, dermasense_bench_v0_1, SCALE:1:2, PROVISIONAL, First-angle",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing PDF",
+   "item": "dermasense_bench_v0_1_drawing.PDF",
+   "check": "key dimensions shown",
+   "expected": "ITEM NO., QTY.",
+   "actual": "all present",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "strip_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "strip_v0_1",
+   "check": "volume mm3",
+   "expected": "179.5",
+   "actual": "179.5",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "strip_v0_1",
+   "check": "bounding box mm",
+   "expected": [
+    0,
+    -9.12,
+    -0.02,
+    96.0,
+    19.12,
+    0.125
+   ],
+   "actual": [
+    0.0,
+    -9.12,
+    -0.02,
+    96.0,
+    19.12,
+    0.125
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "strip_v0_1",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "seal_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "seal_v0_1",
+   "check": "volume mm3",
+   "expected": "61.5",
+   "actual": "61.5",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "seal_v0_1",
+   "check": "bounding box mm",
+   "expected": [
+    23.0,
+    0,
+    0,
+    96.0,
+    10.0,
+    0.09
+   ],
+   "actual": [
+    23.0,
+    0.0,
+    0.0,
+    96.0,
+    10.0,
+    0.09
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "seal_v0_1",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_base_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_base_v0_1",
+   "check": "volume mm3",
+   "expected": "16414.9",
+   "actual": "16414.9",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_base_v0_1",
+   "check": "bounding box mm",
+   "expected": [
+    -4.0,
+    -16.62,
+    0,
+    22.0,
+    26.62,
+    16.0
+   ],
+   "actual": [
+    -4.0,
+    -16.62,
+    0.0,
+    22.0,
+    26.62,
+    16.0
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_base_v0_1",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_lid_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_lid_v0_1",
+   "check": "volume mm3",
+   "expected": "4391.1",
+   "actual": "4391.1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_lid_v0_1",
+   "check": "bounding box mm",
+   "expected": [
+    -4.0,
+    -16.62,
+    0,
+    22.0,
+    26.62,
+    4.0
+   ],
+   "actual": [
+    -4.0,
+    -16.62,
+    0.0,
+    22.0,
+    26.62,
+    4.0
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "clamp_lid_v0_1",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "pogo_pin_P75_simplified",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "pogo_pin_P75_simplified",
+   "check": "volume mm3",
+   "expected": "12.9",
+   "actual": "12.9",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "pogo_pin_P75_simplified",
+   "check": "bounding box mm",
+   "expected": [
+    -0.51,
+    -0.51,
+    0,
+    0.51,
+    0.51,
+    15.8
+   ],
+   "actual": [
+    -0.51,
+    -0.51,
+    0.0,
+    0.51,
+    0.51,
+    15.8
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "pogo_pin_P75_simplified",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dowel_2x12",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dowel_2x12",
+   "check": "volume mm3",
+   "expected": "37.7",
+   "actual": "37.7",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dowel_2x12",
+   "check": "bounding box mm",
+   "expected": [
+    -1.0,
+    -1.0,
+    0,
+    1.0,
+    1.0,
+    12.0
+   ],
+   "actual": [
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    12.0
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dowel_2x12",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "rig_base_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "rig_base_v0_1",
+   "check": "volume mm3",
+   "expected": "95644.8",
+   "actual": "95644.8",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "rig_base_v0_1",
+   "check": "bounding box mm",
+   "expected": [
+    -10,
+    -55.0,
+    0,
+    150.0,
+    65.0,
+    5.0
+   ],
+   "actual": [
+    -10.0,
+    -55.0,
+    0.0,
+    150.0,
+    65.0,
+    5.0
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "rig_base_v0_1",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "wound_bed_spacer_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "wound_bed_spacer_v0_1",
+   "check": "volume mm3",
+   "expected": "96433.6",
+   "actual": "96433.6",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "wound_bed_spacer_v0_1",
+   "check": "bounding box mm",
+   "expected": [
+    45.0,
+    -40.0,
+    0,
+    135.0,
+    50.0,
+    11.91
+   ],
+   "actual": [
+    45.0,
+    -40.0,
+    0.0,
+    135.0,
+    50.0,
+    11.91
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "wound_bed_spacer_v0_1",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dressing_reference_bordered_foam",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dressing_reference_bordered_foam",
+   "check": "volume mm3",
+   "expected": "23812.5",
+   "actual": "23812.5",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dressing_reference_bordered_foam",
+   "check": "bounding box mm",
+   "expected": [
+    -50.0,
+    -50.0,
+    0,
+    50.0,
+    50.0,
+    4.0
+   ],
+   "actual": [
+    -50.0,
+    -50.0,
+    0.0,
+    50.0,
+    50.0,
+    4.0
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "1 part",
+   "item": "dressing_reference_bordered_foam",
+   "check": "custom properties",
+   "expected": [
+    "Description",
+    "Revision",
+    "Material"
+   ],
+   "actual": [
+    "Description",
+    "Revision",
+    "Material",
+    "Project",
+    "DrawnBy",
+    "MaterialNote"
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "strip_v0_1.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "179.5",
+   "actual": "179.5",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "seal_v0_1.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "61.5",
+   "actual": "61.5",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "clamp_base_v0_1.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "16414.9",
+   "actual": "16414.9",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "clamp_lid_v0_1.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "4391.1",
+   "actual": "4391.1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "pogo_pin_P75_simplified.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "12.9",
+   "actual": "12.9",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "dowel_2x12.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "37.7",
+   "actual": "37.7",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "rig_base_v0_1.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "95644.8",
+   "actual": "95644.8",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "wound_bed_spacer_v0_1.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "96433.6",
+   "actual": "96433.6",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "2 STEP",
+   "item": "dressing_reference_bordered_foam.STEP",
+   "check": "re-imported volume mm3",
+   "expected": "23812.5",
+   "actual": "23812.5",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "dermasense_bench_v0_1",
+   "check": "unit system",
+   "expected": "5 (MMGS)",
+   "actual": 5,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "components",
+   "check": "count",
+   "expected": 13,
+   "actual": 13,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "rig_base_v0_1-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    0,
+    0,
+    -21.02
+   ],
+   "actual": [
+    0.0,
+    0.0,
+    -21.02
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "wound_bed_spacer_v0_1-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    0,
+    0,
+    -16.02
+   ],
+   "actual": [
+    0.0,
+    0.0,
+    -16.02
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "dressing_reference_bordered_foam-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    90.0,
+    5.0,
+    -4.11
+   ],
+   "actual": [
+    90.0,
+    5.0,
+    -4.11
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "seal_v0_1-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    0,
+    0,
+    -0.11
+   ],
+   "actual": [
+    0.0,
+    0.0,
+    -0.11
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "strip_v0_1-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    0,
+    0,
+    0
+   ],
+   "actual": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "clamp_base_v0_1-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    0,
+    0,
+    -16.02
+   ],
+   "actual": [
+    0.0,
+    0.0,
+    -16.02
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "clamp_lid_v0_1-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    0,
+    0,
+    0.125
+   ],
+   "actual": [
+    0.0,
+    0.0,
+    0.125
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "pogo_pin_P75_simplified-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    8.0,
+    -2.62,
+    -15.82
+   ],
+   "actual": [
+    8.0,
+    -2.62,
+    -15.82
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "pogo_pin_P75_simplified-2",
+   "check": "position mm (no rotation)",
+   "expected": [
+    8.0,
+    2.46,
+    -15.82
+   ],
+   "actual": [
+    8.0,
+    2.46,
+    -15.82
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "pogo_pin_P75_simplified-3",
+   "check": "position mm (no rotation)",
+   "expected": [
+    8.0,
+    7.54,
+    -15.82
+   ],
+   "actual": [
+    8.0,
+    7.54,
+    -15.82
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "pogo_pin_P75_simplified-4",
+   "check": "position mm (no rotation)",
+   "expected": [
+    8.0,
+    12.62,
+    -15.82
+   ],
+   "actual": [
+    8.0,
+    12.62,
+    -15.82
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "dowel_2x12-1",
+   "check": "position mm (no rotation)",
+   "expected": [
+    8.0,
+    -6.62,
+    -10.02
+   ],
+   "actual": [
+    8.0,
+    -6.62,
+    -10.02
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "dowel_2x12-2",
+   "check": "position mm (no rotation)",
+   "expected": [
+    8.0,
+    16.62,
+    -10.02
+   ],
+   "actual": [
+    8.0,
+    16.62,
+    -10.02
+   ],
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "3 assembly",
+   "item": "interference",
+   "check": "volume clashes (coincident faces allowed)",
+   "expected": "none",
+   "actual": "none",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "strip_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "1:1, first-angle, 4 views, sheets 1",
+   "actual": "1:1, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "seal_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "1:1, first-angle, 4 views, sheets 1",
+   "actual": "1:1, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "clamp_base_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "2:1, first-angle, 4 views, sheets 1",
+   "actual": "2:1, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "clamp_lid_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "2:1, first-angle, 4 views, sheets 1",
+   "actual": "2:1, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "rig_base_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "1:2, first-angle, 4 views, sheets 1",
+   "actual": "1:2, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "wound_bed_spacer_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "1:2, first-angle, 4 views, sheets 1",
+   "actual": "1:2, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "4 drawing",
+   "item": "dermasense_bench_v0_1.SLDDRW",
+   "check": "scale / projection / views",
+   "expected": "1:2, first-angle, 4 views, sheets 1",
+   "actual": "1:2, first-angle, 4 views, sheets 1",
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "group": "5 measured",
+   "item": "strip_v0_1 vs E2",
+   "check": "trace width F >= smallest reliable LIG line",
+   "expected": "E2 measurement",
+   "actual": "no data",
+   "status": "BLOCKED",
+   "note": "(waiting for 04_lig_lab/e2/measured_process.json)"
+  },
+  {
+   "group": "5 measured",
+   "item": "strip_v0_1 vs E2",
+   "check": "as-built gap >= smallest isolating gap",
+   "expected": "E2 measurement",
+   "actual": "no data",
+   "status": "BLOCKED",
+   "note": "(waiting for 04_lig_lab/e2/measured_process.json)"
+  },
+  {
+   "group": "5 measured",
+   "item": "strip_v0_1 vs E2",
+   "check": "lead resistance over 85 mm <= 10 kOhm",
+   "expected": "E2 measurement",
+   "actual": "no data",
+   "status": "BLOCKED",
+   "note": "(waiting for 04_lig_lab/e2/measured_process.json)"
+  },
+  {
+   "group": "5 measured",
+   "item": "strip_v0_1 vs E2",
+   "check": "laser-cut hole fits the 2.0 mm dowel",
+   "expected": "E2 measurement",
+   "actual": "no data",
+   "status": "BLOCKED",
+   "note": "(waiting for 04_lig_lab/e2/measured_process.json)"
+  },
+  {
+   "group": "5 measured",
+   "item": "strip_v0_1 vs E2",
+   "check": "LIG relief vs 0.02 mm CAD assumption",
+   "expected": "E2 measurement",
+   "actual": "no data",
+   "status": "BLOCKED",
+   "note": "(waiting for 04_lig_lab/e2/measured_process.json)"
+  }
+ ]
+}

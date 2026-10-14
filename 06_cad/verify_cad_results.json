@@ -1,5 +1,5 @@
 {
- "run": "2026-10-14 22:52:23",
+ "run": "2026-10-14 23:38:14",
  "counts": {
   "PASS": 99,
   "FAIL": 0,
@@ -1266,7 +1266,7 @@
   {
    "group": "5 measured",
    "item": "strip_v0_1 vs E2",
-   "check": "LIG thickness vs 0.02 mm CAD assumption",
+   "check": "LIG relief vs 0.02 mm CAD assumption",
    "expected": "E2 measurement",
    "actual": "no data",
    "status": "BLOCKED",

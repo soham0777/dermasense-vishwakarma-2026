@@ -10,7 +10,18 @@ We started again from zero on 14 Oct 2026. The old version is in `Desktop/MBF vi
 
 ## Where we are now
 
-**Experiment E1** (reproduce and bracket the earlier "setting 12" observation): planned, not yet performed. See [04_lig_lab/E1_protocol.md](04_lig_lab/E1_protocol.md) and [BUILD_PLAN.md](BUILD_PLAN.md).
+**Submission state:** see [FINAL_SUBMISSION/SUBMISSION_READINESS_REPORT.md](FINAL_SUBMISSION/SUBMISSION_READINESS_REPORT.md) (rebuilt by `python 00_control/assemble_submission.py`).
+
+| Part | State |
+|---|---|
+| CAD v0.1 (SolidWorks) | Frozen. `06_cad/verify_cad.py`: 99 PASS / 0 FAIL / 5 BLOCKED (waiting for E2 data) |
+| Laser files | 35/35 file checks pass (`04_lig_lab/verify_laser_files.py`) |
+| **E2 fabrication validation** | **Ready to run, not performed.** [04_lig_lab/e2/E2_procedure.md](04_lig_lab/e2/E2_procedure.md). It replaces E1 as Part A |
+| Reader schematic (KiCad) | ERC 0 violations: [05_electronics/kicad](05_electronics/kicad/README.md) |
+| Reader firmware | Compiles, 22 compile-time tests; **not yet run on hardware** ([07_firmware/BENCH_TEST.md](07_firmware/BENCH_TEST.md)) |
+| BOM / FMEA | [09_procurement](09_procurement/README.md) (estimated prices) · [00_control/fmea_v0_1.md](00_control/fmea_v0_1.md) |
+
+No measurement exists yet. The layer is a laser-carbonised conductive layer (LIG-like); graphene is not confirmed.
 
 **Evidence register:** `00_control/evidence_register.csv`, with categories A (our records), B (planned measurements), C (literature) and X (excluded claims).
 
@@ -23,10 +34,12 @@ We started again from zero on 14 Oct 2026. The old version is in `Desktop/MBF vi
 | `02_research/` | `literature.csv` (every paper, with how it was verified) and paper notes |
 | `03_sensors/` | Sensor concepts, the comparison, the chosen portfolio (S1, S2, S3) |
 | `04_lig_lab/` | Laser test files, the laser log, photos, measurements |
-| `05_electronics/` | Architecture, BOM, power budget, later KiCad files |
+| `05_electronics/` | Architecture, readout calculations, KiCad schematic of the reader (`kicad/`) |
 | `06_cad/` | SolidWorks plan, parameters, models and drawings |
-| `07_firmware/` | ESP32-C3 code (from Step 6) |
-| `08_submission/` | Stage 2/3 decks and their source material |
+| `07_firmware/` | ESP32-C3 reader firmware, PC logger, wiring table, bench test |
+| `08_submission/` | Stage 2/3 decks, the official template(s) and their source material |
+| `09_procurement/` | Bill of materials v0.1 |
+| `FINAL_SUBMISSION/` | Verified copies for submission. Generated; never edit there |
 | `LAB_NOTEBOOK.md` | Five lines after every work session |
 
 ## How we keep track (version control)

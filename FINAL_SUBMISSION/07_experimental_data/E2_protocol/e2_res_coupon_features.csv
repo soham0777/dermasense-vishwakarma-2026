@@ -1,0 +1,15 @@
+feature,kind,drawn_mm,x_from_notch_end_mm,line_length_mm,note
+W030,line,0.3,10.0,16.0,"dog-bone: R pad to pad, width at 3 points"
+W050,line,0.5,38.0,16.0,"dog-bone: R pad to pad, width at 3 points"
+W080,line,0.8,66.0,16.0,"dog-bone: R pad to pad, width at 3 points"
+W100,line,1.0,94.0,16.0,"dog-bone: R pad to pad, width at 3 points"
+W150,line,1.5,122.0,16.0,"dog-bone: R pad to pad, width at 3 points"
+G020,gap,0.2,10.0,16.0,two 1.0 mm lines; measure R between pad A (lower left) and pad B (upper right)
+G030,gap,0.3,38.0,16.0,two 1.0 mm lines; measure R between pad A (lower left) and pad B (upper right)
+G050,gap,0.5,66.0,16.0,two 1.0 mm lines; measure R between pad A (lower left) and pad B (upper right)
+G080,gap,0.8,94.0,16.0,two 1.0 mm lines; measure R between pad A (lower left) and pad B (upper right)
+G100,gap,1.0,122.0,16.0,two 1.0 mm lines; measure R between pad A (lower left) and pad B (upper right)
+G150,gap,1.5,150.0,16.0,two 1.0 mm lines; measure R between pad A (lower left) and pad B (upper right)
+H1,hole,2.0,150.0,,CUT layer; measure 2 diameters; try a 2 mm dowel
+H2,hole,2.0,156.0,,CUT layer; measure 2 diameters; try a 2 mm dowel
+H3,hole,2.0,162.0,,CUT layer; measure 2 diameters; try a 2 mm dowel

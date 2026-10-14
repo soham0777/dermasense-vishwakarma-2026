@@ -1,6 +1,6 @@
-# CAD verification report (verify_cad.py, 2026-10-14 22:52)
+# CAD verification report (verify_cad.py, 2026-10-14 23:38)
 
-**99 PASS · 0 FAIL · 5 BLOCKED · 0 INFO** (run time 69 s).
+**99 PASS · 0 FAIL · 5 BLOCKED · 0 INFO** (run time 51 s).
 
 Expected values are recomputed from `strip_v0_1_geometry.json` and `calc_mechanical.DIMS`, not read from the build script. The measured-data checks stay BLOCKED until E2 data exists.
 
@@ -109,4 +109,4 @@ Expected values are recomputed from `strip_v0_1_geometry.json` and `calc_mechani
 | BLOCKED | 5 measured | strip_v0_1 vs E2 | as-built gap >= smallest isolating gap | E2 measurement | no data (waiting for 04_lig_lab/e2/measured_process.json) |
 | BLOCKED | 5 measured | strip_v0_1 vs E2 | lead resistance over 85 mm <= 10 kOhm | E2 measurement | no data (waiting for 04_lig_lab/e2/measured_process.json) |
 | BLOCKED | 5 measured | strip_v0_1 vs E2 | laser-cut hole fits the 2.0 mm dowel | E2 measurement | no data (waiting for 04_lig_lab/e2/measured_process.json) |
-| BLOCKED | 5 measured | strip_v0_1 vs E2 | LIG thickness vs 0.02 mm CAD assumption | E2 measurement | no data (waiting for 04_lig_lab/e2/measured_process.json) |
+| BLOCKED | 5 measured | strip_v0_1 vs E2 | LIG relief vs 0.02 mm CAD assumption | E2 measurement | no data (waiting for 04_lig_lab/e2/measured_process.json) |
