@@ -25,3 +25,11 @@ build/
 
 # Office lock files
 .~lock.*
+
+# Private team records (application confirmation, Stage 1 proposal): never committed
+_private/
+
+# Test caches and scratch output
+.pytest_cache/
+output/
+tmp/

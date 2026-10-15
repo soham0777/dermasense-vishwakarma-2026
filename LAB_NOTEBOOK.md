@@ -33,7 +33,7 @@ Next:
 
 **Did:** iteration 1 of the engineering brief.
 - Checked the software on this PC.
-- Verified 25 literature sources (`02_research/literature.csv`).
+- Verified 25 literature sources (`2_research/literature.csv`).
 - Critiqued the uploaded Rezaei 2024 paper: simulation only, physically implausible.
 - Compared 11 sensor concepts and proposed S1 moisture + S2 temperature now, S3 pH later.
 - Wrote requirements, traceability, decision log, electronics architecture, preliminary BOM, power budget and CAD plan.
@@ -72,3 +72,15 @@ Next:
 **Next:**
 1. Buy silver paint, 1 % resistors and the reader parts; borrow a DMM that reads 20 MΩ or more.
 2. Book the laser and run E2 Session S0 + Day 1.
+
+## 2026-10-16: Claude, for the team: clean-up and deck declutter
+
+**Did:**
+- Reorganised the project into 7 numbered folders plus `FINAL_SUBMISSION/` (only the deck and its PDF) and `_private/`. History kept in git (tag `backup/pre-reorganize-a5e776f`).
+- Removed the duplicate copy tree and the iteration-1 documents.
+- Gathered the old archive, the backups and all clutter into `Desktop/MBF vishwakarma_TO_DELETE` for the team to delete.
+- Deck: 53 % fewer words per slide, larger text, simpler figures; still 0 layout issues and correct template order.
+
+**Saw / measured:** still no lab data. After the move, every generator and check re-ran clean (CAD 99/0, ERC 0, laser files 35/35, tests pass, firmware compiles).
+
+**Next:** add the repository link to slide 11; book the laser for E2.

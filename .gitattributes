@@ -1,2 +1,0 @@
-# Keep FINAL_SUBMISSION byte-exact so the SHA-256 values in file_index.csv stay valid in any checkout
-FINAL_SUBMISSION/** -text
