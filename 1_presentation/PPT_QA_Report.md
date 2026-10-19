@@ -1,40 +1,37 @@
-# PPT QA report: Vishwakarma Stage 2 final deck (decluttered version)
+# PPT QA report: Vishwakarma Stage 2 final deck
 
-**Date:** 16 Oct 2026.
+**Date:** 19 Oct 2026 (gap-review version; the decluttered version of 16 Oct is in git history).
 
-**Files:** `FINAL_SUBMISSION/Vishwakarma_Stage2_Final.pptx` (4.5 MB) and `.pdf` (2.1 MB, exported by PowerPoint).
+**Files:** `FINAL_SUBMISSION/Vishwakarma_Stage2_Final.pptx` (4.5 MB) and `.pdf` (1.7 MB, exported by PowerPoint).
 
 **Method:**
 - `qa_deck.py` opens the deck in **Microsoft PowerPoint** and measures every rendered text box, table and figure. Raw output: `qa_results.json`.
-- Every slide was then reviewed by eye.
+- Every changed slide was then reviewed by eye.
 
 ## Final status
 
-**READY FOR SUBMISSION, after one team action:** replace the bracketed repository placeholder on slide 11 with the real link.
+**READY FOR SUBMISSION, after one team action:** replace the bracketed repository placeholder on slide 11 with the real link. The full submission checklist is `../STAGE2_CHECKLIST.md`.
 
-## What changed in this version
+## What changed on 19 Oct, and why
 
-The team reviewed the deck and found it crowded. It was rewritten to one design rule:
+A full review against the template, the organiser's website and the Stage 1 proposal (`../STAGE2_CHECKLIST.md`) found these gaps. Each one is closed in the deck:
 
-> One message per slide, one large visual, at most 4–5 short points, and a one-line takeaway in the template's rationale bar.
-
-| Measure | Before (15 Oct) | Now (16 Oct) |
+| Gap found | Slide | Fix |
 |---|---|---|
-| Words on content slides 2–16 | 3,128 | **1,472 (53 % fewer)** |
-| Average words per content slide | 209 | **98** |
-| Panel text size | 9.2–10.4 pt | **11–12 pt** |
-| Journey figures | 5 steps with sentences + 3 notes | 4 steps of 3–6 words + 1 highlighted number |
-| Block diagram | paragraph per block | title + one line + status per block |
-| Spec / BOM / FMEA tables | 3–5 columns | 2–3 columns |
+| Roadmap ran Nov → Feb, past the December prototype video and the IIT Indore finale (26 Jan – 1 Feb) | 14 | Plan and figure moved onto the programme's own dates (decision D-014) |
+| Template asks for time, material and cost numbers; the slide said "not estimated" | 3 | Cited numbers: ≈ 18 min a visit (ref 13), ₹240–510 a dressing (ref 15) |
+| "Quantified efficiency" had targets only | 4 | "up to 44.9 %" early changes, and the strip's payback, both labelled as projections |
+| Sub-theme is *Remote Monitoring*, but the reader had no radio ("BLE later") | 4, 5, 6, 12 | Bluetooth state broadcast added to the firmware (compiled and tested in software, not on hardware; D-015) |
+| BOM had no real prices; template wants part numbers, quantities, sources | 10 | Template table form; 3 key parts quoted on 19 Oct |
+| A visual change indicator already exists (ALLEVYN LIFE) and was not cited | 2, 12 | Cited as prior art (ref 14); novelty stated as reading the line electrically |
+| Stage 1 wrongly called Kapton "medical-grade" | 12 | Corrected openly (ref 11) |
 
-**What moved:**
-- Details left the slides for the speaker notes, this folder's claim-check document, and the project files.
-- No fact was dropped from the record.
-- Four claims regained a qualifier while being shortened:
-  - "reported rates span"
-  - "can leak"
-  - "would lift"
-  - "likely a % command"
+| Measure | 16 Oct | 19 Oct |
+|---|---|---|
+| Words on content slides 2–16 | 1,476 | 1,563 |
+| Average words per content slide | 98 | **104** (rule: about 100) |
+| Most words on one slide | 140 (slide 16) | 143 (slide 16) |
+| References | 12 | 15 |
 
 ## Template compliance
 
@@ -61,7 +58,7 @@ The team reviewed the deck and found it crowded. It was rewritten to one design 
 
 | Item | Where | Action |
 |---|---|---|
-| Repository link | Slide 11 (bracketed placeholder) | **Team:** create the GitHub / Drive link and paste it in |
-| Lab photographs | Slide 11 says none yet | Photograph the first laser session (E2) |
+| Repository link | Slide 11 (bracketed placeholder) | **Team:** create the Drive / GitHub link and paste it in (see the checklist for the IP note) |
+| Lab photos with ID badges | Slide 11 says none yet | Photograph the team modelling in SolidWorks / KiCad now, and the first laser session (E2) |
 | Faculty sign-off, institution name | Not shown (not confirmed) | Team decides |
-| Measured results | Not claimed anywhere | Run E2, the reader bench test, then E4 |
+| Measured results | Not claimed anywhere | Run E2, the reader bench test (T0–T11), then E4 |

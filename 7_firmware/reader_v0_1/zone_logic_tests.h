@@ -1,6 +1,7 @@
 // Compile-time tests of zone_logic.h: if any fails, the sketch does not compile.
 // (There is no host C++ compiler on the team laptop; the ESP32 toolchain evaluates these during the build.)
 #pragma once
+#include "ble_beacon.h"
 #include "zone_logic.h"
 
 namespace zl_tests {
@@ -44,4 +45,16 @@ static_assert(classify(Wet::WET, Wet::DRY, false) == State::Ok, "exudate contain
 static_assert(classify(Wet::WET, Wet::WET, false) == State::Change, "front reached the change line");
 static_assert(classify(Wet::DRY, Wet::WET, false) == State::Check, "A wet before C: leak or wrong placement");
 static_assert(classify(Wet::WET, Wet::WET, true) == State::Fault, "fault overrides");
+
+// --- BLE broadcast payload (ble_beacon.h)
+static_assert(bb::r_code(12345.0) == 123 && bb::r_code(0.0) == 0, "resistance in 100-ohm steps");
+static_assert(bb::r_code(INF) == bb::R_OPEN && bb::r_code(7e6) == bb::R_OPEN && bb::r_code(__builtin_nan("")) == bb::R_OPEN,
+              "open, out of range and NaN all read as open");
+constexpr bb::Payload change_pkt = bb::pack(State::Change, bb::F_C_WET | bb::F_A_WET, 0x10203, 4200.0, 15000.0);
+static_assert(change_pkt.b[0] == 0xFF && change_pkt.b[1] == 0xFF && change_pkt.b[2] == 'D' && change_pkt.b[3] == 'S' &&
+                  change_pkt.b[4] == bb::VERSION,
+              "header: test company ID, magic, version");
+static_assert(change_pkt.b[5] == 1 && change_pkt.b[6] == 3 && change_pkt.b[7] == 0x03 && change_pkt.b[8] == 0x02 &&
+                  change_pkt.b[9] == 42 && change_pkt.b[10] == 0 && change_pkt.b[11] == 150 && change_pkt.b[12] == 0,
+              "state, flags, scan (low 16 bits, little endian), zone resistances");
 }  // namespace zl_tests

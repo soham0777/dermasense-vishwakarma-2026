@@ -12,6 +12,25 @@ Next:
 
 ---
 
+## 2026-10-19: Claude, for the team: full review against what the organisers expect
+
+**Did:**
+- Read every folder, the official template, the shortlist email, the Stage 1 proposal and the official website. Wrote `STAGE2_CHECKLIST.md`.
+- Found and fixed:
+  - the roadmap ran past the December video and the IIT Indore finale
+  - the sub-theme (Remote Monitoring) had no radio
+  - missing D-012 and stale decisions
+  - old experiment names
+  - three different BOM totals
+- Firmware: Bluetooth state broadcast + PC decoder + bench step T11.
+- Deck: cited time and cost numbers, quoted prices, prior art (ALLEVYN LIFE), Stage 1 correction, 15 references. QA 0 issues.
+
+**Saw / measured:** still no lab data. Bluetooth is verified only in software (compile + tests).
+
+**Problem:** the Internshala listing says the design proposal was due 16 Oct; our email says 25 Oct. Must be confirmed with the organisers.
+
+**Next:** confirm the deadline; repository link; ID-badge photos; E2 if the laser is free; submit by 24 Oct.
+
 ## 2026-10-14 (evening): Soham (with Claude)
 
 **Did:**

@@ -1,10 +1,12 @@
 // Dermasense two-zone reader v0.1 (bench). ESP32-C3 SuperMini + ADS1115.
 // Every scan measures zone C, zone A, the COM loop and the on-board check resistor, then prints one CSV line over USB.
-// Wired logging first: no radio. Build: arduino-cli compile --fqbn esp32:esp32:esp32c3:CDCOnBoot=cdc reader_v0_1
+// The state is also broadcast over Bluetooth LE (ble_beacon.h) so a phone can see it. Build: arduino-cli compile --fqbn esp32:esp32:esp32c3:CDCOnBoot=cdc reader_v0_1
 // Bench test with known resistors: 7_firmware/BENCH_TEST.md. Log on a PC: python ../tools/serial_logger.py --port COMx
+#include <BLEDevice.h>
 #include <Wire.h>
 
 #include "ads1115.h"
+#include "ble_beacon.h"
 #include "config.h"
 #include "zone_logic.h"
 #include "zone_logic_tests.h"   // compile-time tests
@@ -20,6 +22,7 @@ zl::Zone zone_c, zone_a;
 uint32_t scan_no = 0, last_scan = 0, last_blink = 0;
 zl::State state = zl::State::Ok;
 bool adc_present = false, blink_on = false;
+BLEAdvertising* adv = nullptr;   // null when BLE is off or failed to start
 
 struct Path {
   double r = zl::INF;   // series resistance between the drive pin and node N (ohm)
@@ -65,6 +68,29 @@ static void print_r(double r) {
   else Serial.print(r, 0);
 }
 
+static void beacon_begin() {
+  if (!cfg::BLE_ENABLED) return;
+  if (!BLEDevice::init(cfg::BLE_NAME)) return;
+  adv = BLEDevice::getAdvertising();
+  adv->setMinInterval(cfg::BLE_ADV_INTERVAL);
+  adv->setMaxInterval(cfg::BLE_ADV_INTERVAL);
+  BLEAdvertisementData name;   // the name goes in the scan response: flags + payload already use 18 of 31 bytes
+  name.setName(cfg::BLE_NAME);
+  adv->setScanResponseData(name);
+}
+
+// Replace the advertised payload with the latest scan (one advertisement packet; no connection needed).
+static void beacon_update(uint8_t flag_bits, double rc, double ra) {
+  if (adv == nullptr) return;
+  const bb::Payload p = bb::pack(state, flag_bits, scan_no, rc, ra);
+  BLEAdvertisementData data;
+  data.setFlags(0x06);   // LE general discoverable, no classic Bluetooth
+  data.setManufacturerData(String(p.b, bb::LEN));
+  adv->stop();
+  adv->setAdvertisementData(data);
+  adv->start();
+}
+
 static void set_leds() {
   digitalWrite(cfg::PIN_LED_G, state == zl::State::Ok ? HIGH : LOW);
   digitalWrite(cfg::PIN_LED_Y, state == zl::State::Change ? HIGH : LOW);
@@ -90,10 +116,11 @@ static void scan() {
   const double vdd = chk.vdd;
   const bool vdd_ok = !isnan(vdd) && vdd >= cfg::VDD_MIN && vdd <= cfg::VDD_MAX;
 
-  if (!adc_present || !adc_ok) flags += "ADC;";
-  if (!k_ok) flags += "CHECK_R;";
-  if (!vdd_ok) flags += "VDD;";
-  if (rl > cfg::LOOP_MAX_OHM) flags += "LOOP_OPEN;";
+  uint8_t bits = 0;
+  if (!adc_present || !adc_ok) { flags += "ADC;"; bits |= bb::F_ADC; }
+  if (!k_ok) { flags += "CHECK_R;"; bits |= bb::F_CHECK_R; }
+  if (!vdd_ok) { flags += "VDD;"; bits |= bb::F_VDD; }
+  if (rl > cfg::LOOP_MAX_OHM) { flags += "LOOP_OPEN;"; bits |= bb::F_LOOP_OPEN; }
   const bool fault = flags.length() > 0;
   if (!fault) {   // only update the zones from trustworthy readings
     zone_c = zl::step_zone(zone_c, rc, cfg::WET_OHM, cfg::DRY_OHM, cfg::PERSIST);
@@ -113,6 +140,10 @@ static void scan() {
   Serial.print((int)zone_a.stable); Serial.print(',');
   Serial.print(zl::state_name(state)); Serial.print(',');
   Serial.println(flags);
+
+  if (zone_c.stable == zl::Wet::WET) bits |= bb::F_C_WET;
+  if (zone_a.stable == zl::Wet::WET) bits |= bb::F_A_WET;
+  beacon_update(bits, rc, ra);
 }
 
 void setup() {
@@ -127,8 +158,9 @@ void setup() {
   Wire.begin(cfg::PIN_SDA, cfg::PIN_SCL);
   Wire.setClock(100000);
   adc_present = adc.begin(Wire, cfg::ADS_ADDR);
-  Serial.printf("# %s | Rref %.0f | Rcheck %.0f | Rprot %.0f | wet<%.0f dry>%.0f persist %u | loop max %.0f | ADS1115 %s\n",
-                cfg::FW_VERSION, cfg::R_REF, cfg::R_CHECK, cfg::R_PROT, cfg::WET_OHM, cfg::DRY_OHM, cfg::PERSIST,
+  beacon_begin();
+  Serial.printf("# %s | BLE %s | Rref %.0f | Rcheck %.0f | Rprot %.0f | wet<%.0f dry>%.0f persist %u | loop max %.0f | ADS1115 %s\n",
+                cfg::FW_VERSION, adv ? cfg::BLE_NAME : "off", cfg::R_REF, cfg::R_CHECK, cfg::R_PROT, cfg::WET_OHM, cfg::DRY_OHM, cfg::PERSIST,
                 cfg::LOOP_MAX_OHM, adc_present ? "found" : "NOT FOUND");
   Serial.println(CSV_HEADER);
 }

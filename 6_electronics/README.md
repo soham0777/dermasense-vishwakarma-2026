@@ -7,7 +7,9 @@
 | `bom_v0_1.csv` | Bill of materials for the bench prototype: 23 lines, each linked to the file that needs it |
 
 **About the BOM:**
-- Every price is an **estimate** (about ₹2,400–11,000 in total). Check the supplier page before ordering.
+- **Quoted on 19 Oct 2026** (incl. GST, in stock): ESP32-C3 SuperMini ₹242 and ADS1115 ₹125 (Probots), P75-B1 pogo pins ₹354 per 100 (Hubtronics).
+- Every other price is an **estimate**. All 23 lines together: about **₹2,560–8,040**. The deck's prototype total leaves out the borrowed meter (P08), the USB cable (R08) and the E4 test dressings (S02).
+- Check the supplier page again before ordering.
 - Fill in `have_it_YN` first; many items may already be in the lab.
 - **Order first:** silver paint, a 1 % resistor set, 0.1 % 100 kΩ resistors, ADS1115, ESP32-C3 SuperMini, and a meter reading ≥ 20 MΩ if the lab has none.
 

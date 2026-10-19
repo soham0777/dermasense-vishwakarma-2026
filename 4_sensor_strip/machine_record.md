@@ -1,4 +1,4 @@
-# Laser machine record: E1 Session 0 (fill in at the machine, about 20 min)
+# Laser machine record: E2 Session S0 (fill in at the machine, about 20 min)
 
 **Rule:** write only what you **see**: on the machine label, the control panel, or the LaserCAD screen. Leave a field empty rather than guess.
 

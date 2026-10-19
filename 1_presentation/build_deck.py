@@ -40,7 +40,7 @@ FIG = HERE / "figures"
 NAVY, BODY, MUTED, GREEN, BLUE = "0F172A", "334155", "64748B", "059669", "0369A1"
 PILL = {"green": ("047857", "D1FAE5"), "amber": ("B45309", "FEF3C7"), "grey": ("475569", "E2E8F0"), "blue": ("0369A1", "E0F2FE")}
 TITLE_FONT, BODY_FONT = "Poppins SemiBold", "DM Sans"
-SUP = dict(zip(range(1, 14), "¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ¹⁰ ¹¹ ¹² ¹³".split()))
+SUP = dict(zip(range(1, 16), "¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ¹⁰ ¹¹ ¹² ¹³ ¹⁴ ¹⁵".split()))
 NOTES = {}
 
 
@@ -271,19 +271,19 @@ def bom_groups():
             q = float(rows[i]["qty"])
             lo, hi = lo + a * q, hi + b * q
         return lo, hi
-    groups = [("ESP32-C3 SuperMini", "USB-C, native USB serial", "1", "Local / online", ["R01"]),
-              ("ADS1115 module", "16-bit I²C ADC, auto-range", "1", "Local / online", ["R02"]),
-              ("Precision resistors", "100 kΩ 0.1 % ×2 · 1 kΩ 1 % ×7", "9", "Online (element14 / Mouser IN)", ["R03", "R04"]),
-              ("C0G capacitor, LEDs, perfboard", "10 nF C0G · 3 LEDs · headers", "set", "Local", ["R05", "R06", "R07"]),
-              ("Pogo pins P75-B1", "1.02 mm, 2 mm travel (4 + 2 spare)", "6", "Online (Probots)", ["M01"]),
-              ("Clamp + bench rig", "PETG print · acrylic · M3/M4 · dowels", "set", "Lab / local", ["M02", "M03", "M04", "M05", "P04"]),
-              ("Strip materials", "polyimide film · seal tape · silver paint", "set", "Lab / online", ["P01", "S01", "P02"]),
-              ("Test consumables", "1 % resistor set · IPA · gloves · saline", "set", "Local", ["P03", "P05", "P06", "P07"])]
+    groups = [("ESP32-C3 SuperMini", "USB-C, native USB serial", "1", "Probots · quoted", ["R01"]),
+              ("ADS1115 16-bit ADC", "I²C, auto-range", "1", "Probots · quoted", ["R02"]),
+              ("P75-B1 pogo pins", "1 mm, pack of 100", "100", "Hubtronics · quoted", ["M01"]),
+              ("Resistors, C0G cap, LEDs, board", "0.1 % + 1 % resistors, headers", "set", "local / online",
+               ["R03", "R04", "R05", "R06", "R07"]),
+              ("Clamp + bench rig", "PETG print · acrylic · M3/M4 · dowels", "set", "lab / local", ["M02", "M03", "M04", "M05", "P04"]),
+              ("Strip materials", "polyimide film · seal tape · silver paint", "set", "lab / online", ["P01", "S01", "P02"]),
+              ("Test consumables", "1 % resistor set · IPA · gloves · saline", "set", "local", ["P03", "P05", "P06", "P07"])]
     out, tl, th = [], 0.0, 0.0
     for name, spec, qty, src, ids in groups:
         lo, hi = rng(ids)
         tl, th = tl + lo, th + hi
-        out.append((name, spec, qty, src, f"{lo:,.0f}–{hi:,.0f}"))
+        out.append((name, spec, qty, src, f"{lo:,.0f}" if lo == hi else f"{lo:,.0f}–{hi:,.0f}"))
     return out, (tl, th)
 
 
@@ -346,51 +346,56 @@ def problem(sl):
              "fig_problem.png", "Figure: the change line is invisible under a cover (to scale, our design).",
              "Target Beneficiary & Problem Statement",
              pts(("Who:", "nurses and home carers of chronic wounds under foam dressings."),
-                 ("Pain:", "the 'change now' sign is visual, and the dressing is covered."),
+                 ("Pain:", f"the maker's 'change now' sign is visual{SUP[14]}, and the dressing is covered."),
                  ("Today:", "change by the clock, by lifting the cover, or after a leak."),
                  ("Gap:", f"in our search, no low-cost sensor reads that change line{SUP[4]}{SUP[5]}.")),
              [[("Problem: ", True, NAVY), ("carers cannot see when a covered dressing is really full.", False)]],
              "Target user: nurses and carers (diabetic foot, venous leg, pressure ulcers). Public search: WoundSense reads one "
              "point [1]; a lab study mapped 8 points [3]; diaper wetness strips with clip-on readers exist [4]; smart bandages "
-             "use custom electronics [5]. Why now: some makers define 'full' as a distance from the pad edge [2] and conductive "
+             "use custom electronics [5]. Visual change indicators exist (ALLEVYN LIFE: 'At 75%, it's time to change' [14]) but "
+             "need the dressing face to be visible. Why now: some makers define 'full' as a distance from the pad edge [2] and conductive "
              "carbon can be laser-written on polyimide in one pass [7]. Project: Dermasense, VK26-IITI-HT-0050, Health Tech.")
 
 
 def journey_before(sl):
     e4_slide(sl, "User Journey: Before State", "CURRENT STATE · CITED", "blue",
              [("44.9 %", f"CHANGES WHILE MOISTURE WAS STILL OPTIMAL{SUP[1]}"),
-              ("0.1–1.3 g/cm²·day", f"REPORTED EXUDATE RATES, 2 METHODS{SUP[6]}"),
-              ("Hidden", "EXUDATE FRONT UNDER BANDAGE OR GARMENT"),
-              ("Lift to look", "THE ONLY WAY TO CHECK A COVERED PAD")],
+              ("≈ 18 min", f"A DRESSING VISIT, PATIENT-REPORTED{SUP[13]}"),
+              ("₹240–510", f"ONE 10 × 10 CM FOAM DRESSING, RETAIL{SUP[15]}"),
+              ("0.1–1.3 g/cm²·day", f"REPORTED EXUDATE RATES, 2 METHODS{SUP[6]}")],
              "fig_journey_before.png", "Figure: today's pain-point map (cited numbers only).",
              "Current Pain Point Mapping",
-             pts(("Time:", "every check means unwrap, look, re-secure."),
-                 ("Waste:", f"44.9 % of changes came while moisture was still optimal{SUP[1]}."),
+             pts(("Time:", f"every check means unwrap, look, re-secure: about 18 min a visit{SUP[13]}."),
+                 ("Waste:", f"44.9 % of changes came while moisture was still optimal{SUP[1]}; each discards a "
+                            f"dressing{SUP[15]}."),
                  ("Risk:", "a late change can leak: wet skin, soiled clothing."),
                  ("Cause:", f"reported exudate rates span over 10×{SUP[6]}; a clock cannot follow.")),
-             [[("Quantified Inefficiency: ", True, NAVY), ("published numbers only; nurse time will be measured in our "
-                                                           "interviews.", False)]],
-             "Sources: Milne 2016 [1]; Dealey 2006 [6] (0.10 and 0.21 g/cm²/24 h by one method, mean 1.3 by the other). "
-             "Not yet measured and not estimated: nurse minutes per check, dressing cost per patient.")
+             [[("Quantified Inefficiency: ", True, NAVY), ("published figures only (a UK patient survey, Indian retail "
+                                                           "prices); we will time real checks with nurses.", False)]],
+             "Sources: Milne 2016 [1]; Dealey 2006 [6] (0.10 and 0.21 g/cm²/24 h by one method, mean 1.3 by the other); "
+             "UK survey of >200 patients commissioned by Mölnlycke, 2018 [13]: average dressing time 18 min, about 5 changes a "
+             "week (patient-reported, industry-sponsored); Truemeds listings [15]: Mepilex Lite 10x10 cm Rs 242, Mepilex Border "
+             "10x10 cm Rs 514 (pack size unclear). Not yet measured: nurse minutes per check in Indian clinics.")
 
 
 def journey_after(sl):
     e4_slide(sl, "User Journey: After State (Intended)", "INTENDED · NOT CLINICALLY VALIDATED", "amber",
-             [("2 zones", "CENTRE C + MAKER'S CHANGE LINE A"),
-              ("4 states", "OK · CHANGE · CHECK · FAULT"),
+             [("up to 44.9 %", f"EARLY CHANGES A RELIABLE ALERT COULD AVOID{SUP[1]}"),
+              ("≤ ₹100", "TARGET STRIP COST (ESTIMATE)"),
               ("±10 %", "TARGET ALERT ACCURACY (BENCH, E4)"),
               ("0", "CONTACT WITH THE WOUND BED (BY DESIGN)")],
              "fig_journey_after.png", "Figure: the intended workflow; bench-testable, not clinically validated.",
              "Future Solution Mapping & Quantified Efficiency",
              pts(("Same routine:", "strip on the pad, reader clips on."),
-                 ("CHANGE:", "when the change line is wet."),
-                 ("CHECK:", "if the line wets before the centre (leak)."),
-                 ("Target:", "alert within ±10 % of the visible front (E4).")),
+                 ("Clear signal:", "CHANGE when the line is wet; CHECK if it wets first."),
+                 ("Remote:", "the state is broadcast over Bluetooth to a phone."),
+                 ("Payback:", f"a ≤ ₹100 strip pays for itself if 1 in 2–5 changes is avoided{SUP[15]}.")),
              [[("Design Principle: ", True, NAVY), ("only film and carbon are disposable; the strip never touches the "
                                                     "wound.", False)]],
-             "Targets, not results. Who benefits (expected, to verify): fewer needless removals, a logged reason for each "
-             "change, fewer wasted dressings. Cost target <= Rs 100 per strip (film + laser time; estimate). FAULT covers a "
-             "broken strip or reader error.")
+             "Targets and projections, not results. Payback: strip <= Rs 100 (estimate) / dressing Rs 242-514 [15] = 0.19-0.41, "
+             "i.e. one avoided change in every 2.4-5.1 dressings. 'Up to 44.9 %' assumes every change waits for CHANGE; some "
+             "changes are made for other clinical reasons, so the real figure is lower and must be measured. Bluetooth: compiled, "
+             "not yet tested on hardware (bench test T11). FAULT covers a broken strip or reader error.")
 
 
 def arch(sl):
@@ -407,15 +412,16 @@ def arch(sl):
         ("Sensing zones", "2: pad centre C, change line A"),
         ("Wet / dry", "< 100 kΩ / > 300 kΩ, 3 scans"),
         ("Drive", "bipolar, ≤ 33 µA, no net DC"),
-        ("ADC / MCU", "ADS1115 16-bit · ESP32-C3"),
+        ("ADC / MCU", "ADS1115 16-bit (I²C) · ESP32-C3"),
         ("Contacts", "4 pogo pins + 2 dowels"),
-        ("Output", "LEDs + USB log (BLE later)"),
+        ("Output", "LEDs · USB log · BLE broadcast"),
     ], [1.6, 3.2], size=10.5, head_size=9.5, row_h=0.5)
     set_text(by_id(sl, 188), [[("Architecture Rationale: ", True, NAVY),
                                ("only film and carbon are disposable; every electronic part is reused.", False)]], BAR_SIZE, BODY)
     move(sl, 188, w=11.7)
     notes(sl, "Electrode lines/gaps 1.0 mm (provisional until E2). Windows 6 x 3.9 mm. Expected wet 4.2-14.8 kOhm, dry >= 1 MOhm "
-              "(calc_readout.py). Self-check: 100 kOhm 0.1 % resistor (+/-5 %) and COM loop -> FAULT. Sources: config.h, "
+              "(calc_readout.py). Self-check: 100 kOhm 0.1 % resistor (+/-5 %) and COM loop -> FAULT. BLE: one 13-byte "
+              "advertisement per scan (ble_beacon.h), compiled, not run on hardware. Sources: config.h, "
               "strip_v0_1_geometry.json.")
 
 
@@ -444,12 +450,13 @@ def firmware(sl):
                  ("Read:", "16-bit ADC, scaled to the 3V3 rail."),
                  ("Decide:", "wet < 100 kΩ, dry > 300 kΩ, 3 scans in a row."),
                  ("Self-check:", "a known 100 kΩ every scan, else FAULT."),
-                 ("Log:", "one CSV line per scan over USB.")),
-             [[("Software vs Hardware: ", True, NAVY), ("19 logic tests and 10 PC tests pass; not yet run on a wired board.",
+                 ("Share:", "CSV over USB, and a Bluetooth broadcast to a phone.")),
+             [[("Software vs Hardware: ", True, NAVY), ("23 compile-time and 16 PC tests pass; not yet run on a wired board.",
                                                         False)]],
              "ADS1115 single-shot 128 SPS, auto-range; A1 reads the 3V3 rail. Rx from both phases, averaged, scaled by the check "
              "resistor (+/-5 % else FAULT), minus 2 kOhm protection. Idle pins high-Z; zones frozen during FAULT. Compiles for "
-             "ESP32-C3 with 0 warnings (327,176 bytes).")
+             "ESP32-C3 with 0 warnings (650,349 bytes, 49 % of flash, with Bluetooth). BLE payload: state, wet flags, scan number, "
+             "both zone resistances; unencrypted, test company ID 0xFFFF, bench only. Decoder: 7_firmware/tools/decode_beacon.py.")
 
 
 def cad(sl):
@@ -510,28 +517,23 @@ def schematic(sl):
 def bom(sl):
     title(sl, 281, "Electronics Schematics & BOM: Bill of Materials")
     delete(sl, 282, 285, 286, *range(289, 324))
-    pill(sl, "ESTIMATES · NOT YET ORDERED", "amber")
+    pill(sl, "3 PRICES QUOTED · NOTHING ORDERED", "amber")
     picture_in(sl, FIG / "fig_window.png", 0.59, 1.06, 5.92, 4.24, frame=280)
     cap = by_id(sl, 284)
     set_text(cap, [[("Figure: why a 100 kΩ reference (calculated ranges).", False)]], 7.6, MUTED)
     cap.top, cap.height = Inches(5.36), Inches(0.24)
     groups, (tl, th) = bom_groups()
-    merged = [("Reader: ESP32-C3 + ADS1115", groups[0][4], groups[1][4]), ("Resistors, capacitor, LEDs, board", groups[2][4],
-                                                                          groups[3][4])]
-
-    def add(a, b):
-        lo = sum(float(x.split("–")[0].replace(",", "")) for x in (a, b))
-        hi = sum(float(x.split("–")[1].replace(",", "")) for x in (a, b))
-        return f"{lo:,.0f}–{hi:,.0f}"
-    rows = [("Item", "Est. ₹")] + [(n, add(a, b)) for n, a, b in merged] + \
-           [(g[0], g[4]) for g in groups[4:]] + [(("Total (estimate)", True, NAVY), (f"≈ {tl:,.0f}–{th:,.0f}", True, NAVY))]
+    rows = [("Item", "Qty", "Source", "₹")] + [(g[0], g[2], g[3], g[4]) for g in groups] + \
+           [(("Total", True, NAVY), "", "", (f"≈ {tl:,.0f}–{th:,.0f}", True, NAVY))]
     set_text(by_id(sl, 288), [[("Prototype Bill of Materials", True)]], 11.5, NAVY)
-    table(sl, 7.05, 1.70, 5.48, rows, [3.4, 1.6], size=10.5, head_size=9.5, row_h=0.47)
+    table(sl, 7.05, 1.66, 5.48, rows, [2.3, 0.45, 1.45, 1.28], size=9.8, head_size=9.2, row_h=0.41)
     set_text(by_id(sl, 283), [[("Procurement Status: ", True, NAVY),
-                               ("nothing ordered yet; all parts sold in India; prices to confirm.", False)]], BAR_SIZE, BODY)
+                               ("reader parts and pins quoted 19 Oct, in stock in India; the rest are estimates.", False)]], BAR_SIZE, BODY)
     move(sl, 283, w=11.7)
     notes(sl, "Line items: 6_electronics/bom_v0_1.csv (23 lines, each traced to the file that needs it). First order: silver "
-              "paint, 1 % resistor set, 0.1 % 100 kOhm resistors, ADS1115, ESP32-C3. Ranges = sum of min/max estimates.")
+              "paint, 1 % resistor set, 0.1 % 100 kOhm resistors, ADS1115, ESP32-C3. Quoted 19 Oct 2026 incl. GST: Probots PRO4607 "
+              "ESP32-C3 SuperMini Rs 242; Probots PRO789 ADS1115 Rs 125; Hubtronics 05880 P75-B1 pack of 100 Rs 354. Total leaves "
+              "out the borrowed meter, USB cable and E4 dressings. Ranges = sum of min/max estimates.")
 
 
 def e12_slide(sl, ttl, pill_txt, pill_kind, fig, caption, heading, bullets, bar, note):
@@ -569,15 +571,17 @@ def iterations(sl):
     e12_slide(sl, "Maker Journey: Engineering Iterations", "DOCUMENTED DECISIONS", "blue", "fig_decision.png",
               "Figure: concept scores and the iteration path (each a dated commit).",
               "Stage 1 to Stage 2 Iterations",
-              pts(("Pivot:", "broad electrotherapy bandage → one job: is it full?"),
-                  ("Choice:", "two-zone strip (4.36) beat one zone (4.29)."),
-                  ("Why:", "its order check tells a real front from a leak."),
-                  ("Simplify:", "4 zones → 2 until E2 proves finer lines."),
+              pts(("Pivot:", f"therapy bandage (already shown in labs{SUP[5]}) → one job: is it full?"),
+                  ("Choice:", "two-zone strip (4.36) beat one zone (4.29): it spots leaks."),
+                  ("Kept:", "Stage 1's Bluetooth telemetry, now a state broadcast."),
+                  ("Corrected:", f"Stage 1 called Kapton 'medical-grade'; DuPont cautions otherwise{SUP[11]}."),
                   ("Redesign:", "FMEA risk → v0.2 loops each sense lead.")),
-              [[("Prior Art: ", True, NAVY), (f"diaper wetness strips exist{SUP[4]}; our novelty is the change-line "
-                                              "placement and order check.", False)]],
+              [[("Prior Art: ", True, NAVY), (f"diaper strips{SUP[4]} and visual change indicators{SUP[14]} exist; our "
+                                              "novelty is reading the change line electrically, with an order check.", False)]],
               "5 concepts scored on 13 weighted criteria (3_decisions/decision_matrix.md). Verification fixes: seal moved off the "
-              "clamp; STEP was in cm, now mm; drawings rebuilt first-angle. FMEA F04 (cracked sense lead reads dry, RPN 224).")
+              "clamp; STEP was in cm, now mm; drawings rebuilt first-angle. FMEA F04 (cracked sense lead reads dry, RPN 224). "
+              "4 zones were cut to 2 until E2 proves finer lines. Stage 1 also estimated '60 % fewer changes'; we dropped that "
+              "number (no source). IP: concept and files are the team's own; no patent filed yet.")
 
 
 def safety(sl):
@@ -619,7 +623,7 @@ def roadmap(sl):
     delete(sl, 422, 423, *range(426, 435), 437, 438, 441, 442, 443, 444, 445, 446)
     pill(sl, "FUTURE SCOPE · GATED PLAN", "grey")
     move(sl, 418, h=2.62)
-    set_text(by_id(sl, 425), [[("4-Month Plan: each gate must pass before the next step", True)]], 11.5, NAVY)
+    set_text(by_id(sl, 425), [[("4-Month Plan on the programme's own dates: each gate must pass first", True)]], 11.5, NAVY)
     by_id(sl, 425).width = Inches(9.0)
     picture_in(sl, FIG / "fig_roadmap.png", 0.72, 1.55, 11.9, 2.05)
     for pid, iid, hid in ((419, 435, 436), (420, 439, 440)):
@@ -628,15 +632,17 @@ def roadmap(sl):
         move(sl, hid, y=4.03, w=5.3)
     set_text(by_id(sl, 436), [[("Build & Bench (Months 1 - 2)", True)]], 11.5, NAVY)
     set_text(by_id(sl, 440), [[("Validate & Demo (Months 3 - 4)", True)]], 11.5, NAVY)
-    textbox(sl, 0.84, 4.42, 5.5, 1.9, pts(("Nov:", "E2 laser tests; build and bench-test the reader."),
-                                         ("Dec:", "strip v0.2; print clamp; contact and bend tests.")),
+    textbox(sl, 0.84, 4.42, 5.5, 1.9, pts(("Nov:", "E2 laser tests (G1); build and bench-test the reader (G2)."),
+                                         ("Early Dec:", "first strips on a dressing; 3-min prototype video.")),
             11.5, bullets=True, space=10)
-    textbox(sl, 7.07, 4.42, 5.5, 1.9, pts(("Jan:", "strips on real dressings with simulated exudate."),
-                                         ("Feb:", "repeatability; integrated bench demo."),
-                                         ("Stage 3:", "OK → CHANGE shown live on a dressing.")),
+    textbox(sl, 7.07, 4.42, 5.5, 1.9, pts(("Dec:", "strip v0.2 + printed clamp; E4 wet tests (G3)."),
+                                         ("Jan:", "repeatability; virtual semi-final with a live demo."),
+                                         ("Stage 3:", "OK → CHANGE live on a dressing at IIT Indore.")),
             11.5, bullets=True, space=10)
-    notes(sl, "Gates: G1 E2 Rs CV <= 20 %; G2 reader bench test T0-T10; G3 E4 alert within +/-10 %; G4 demo with logged raw "
-              "data. No patient use. Raman/SEM via a partner lab if access is granted.")
+    notes(sl, "Gates: G1 E2 Rs CV <= 20 %; G2 reader bench test T0-T11; G3 E4 alert within +/-10 %; G4 live demo with logged "
+              "raw data. Programme dates (vishwakarma-awards.org and the Internshala listing, read 19 Oct 2026): prototype video "
+              "+ updated PPT in December (listing: 4 Dec 2026); Health Tech semi-final interviews in January; IIT Indore bootcamp "
+              "and finale 26 Jan - 1 Feb 2027. No patient use. Raman/SEM via a partner lab if access is granted.")
 
 
 def e18_cards(sl, ttl, pill_txt, pill_kind, cards, bar, note, card_h=3.05):
@@ -699,7 +705,7 @@ def solutions(sl):
                                           ("Material:", "Raman and SEM before any 'graphene' claim."),
                                           ("Reliability:", "bending, contact cycling, humidity drift.")),
             11, bullets=True, space=8)
-    textbox(sl, 6.85, 4.25, 5.75, 1.7, pts(("Product:", "battery pod with BLE; strips per dressing model."),
+    textbox(sl, 6.85, 4.25, 5.75, 1.7, pts(("Product:", "battery pod; phone app on the BLE broadcast; strips per dressing."),
                                           ("Before patients:", "ISO 10993, IEC 60601-1, ethics approval."),
                                           ("Not claimed:", "sensing performance, graphene, clinical benefit.")),
             11, bullets=True, space=8)
@@ -727,6 +733,12 @@ REFS = [
     "online link not reachable from our network",
     "DuPont position statement on the use of DuPont materials in medical applications (Kapton caution) · web page",
     "Texas Instruments ADS1115 datasheet (SBAS444); Espressif ESP32-C3 datasheet · vendor documents",
+    "Wounds UK news (22 Aug 2018) on a Mölnlycke-commissioned survey of >200 UK patients with chronic wounds: average "
+    "dressing time 18 min · patient-reported, industry-sponsored; web page read",
+    "Smith+Nephew, ALLEVYN LIFE product page: visual change indicator ('At 75%, it's time to change your dressing') · "
+    "manufacturer web page, read 19 Oct 2026",
+    "Truemeds.in retail listings: Mepilex Lite 10 × 10 cm ₹242; Mepilex Border 10 × 10 cm ₹514 (pack size unclear) · "
+    "retail pages, read 19 Oct 2026",
 ]
 
 
@@ -738,8 +750,8 @@ def references(sl):
                                           "deeply it was read; nothing is labelled verified beyond that.", False)]],
             9, MUTED)
     textbox(sl, 0.62, 1.50, 12.1, 5.2, [[(f"{i}. ", True, NAVY), (r, False)] for i, r in enumerate(REFS, 1)],
-            10.2, BODY, space=7)
-    notes(sl, "Full list with verification notes: 2_research/literature.csv and research_matrix.csv (36 + 16 entries).")
+            9.8, BODY, space=5)
+    notes(sl, "Full list with verification notes: 2_research/literature.csv and research_matrix.csv (41 + 16 entries).")
 
 
 IMAGES = [

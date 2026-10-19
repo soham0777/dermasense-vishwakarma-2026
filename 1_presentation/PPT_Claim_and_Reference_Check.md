@@ -1,6 +1,6 @@
 # PPT claim and reference check
 
-**Checked:** 15 Oct 2026; re-checked 16 Oct after the slides were shortened (four claims regained a qualifier: "reported rates span", "can leak", "would lift", "likely a % command"). Checked against the project files and sources named below. Each important claim in the deck is listed with where it comes from.
+**Checked:** 15 Oct 2026; re-checked 16 Oct after the slides were shortened (four claims regained a qualifier: "reported rates span", "can leak", "would lift", "likely a % command"); re-checked 19 Oct after the gap review (`STAGE2_CHECKLIST.md`): claims 42–53 and references 13–15 added, claim 19 updated. Checked against the project files and sources named below. Each important claim in the deck is listed with where it comes from.
 
 **Status words:**
 
@@ -43,7 +43,7 @@
 | 16 | Expected wet 4.2–14.8 kΩ, dry ≥ 1 MΩ | 5, 10 | `6_electronics/calc_readout_report.md` | Calculation |
 | 17 | Excitation ≤ 33 µA | 5 | `calc_readout_report.md`: 32 µA | Calculation (rounded up) |
 | 18 | ADS1115 single-shot, 128 SPS, auto-range; A1 = 3V3 (ratiometric) | 6 | `reader_v0_1/ads1115.h`, `reader_v0_1.ino`, schematic | Verified (source) |
-| 19 | 19 compile-time tests; 10 PC-side tests; compiles with 0 warnings, 327,176 bytes (24 %) | 5, 6, 11 | `zone_logic_tests.h` (19 `static_assert`), pytest output, arduino-cli output | Verified (tool) |
+| 19 | 23 compile-time tests; 16 PC-side tests; compiles with 0 warnings, 650,349 bytes (49 %) with Bluetooth | 5, 6, 11 | `zone_logic_tests.h` (23 `static_assert`: 19 logic + 4 BLE payload; a deliberately false one breaks the build, re-proved 19 Oct), pytest output, arduino-cli output | Verified (tool) |
 | 20 | The firmware has not run on hardware | 5, 6, 9 | `7_firmware/BENCH_TEST.md` not executed | Stated as pending |
 | 21 | 9 parts, 1 assembly, 7 A3 drawings, STEP; 13 component positions | 7, 11 | `5_cad/solidworks/`, `verify_cad_results.json` | Verified (tool) |
 | 22 | CAD verification: 99 pass, 0 fail, 5 blocked (waiting for E2) | 7, 11 | `5_cad/verify_cad_results.json` (run 14 Oct 23:38) | Verified (tool) |
@@ -55,17 +55,29 @@
 | 28 | "12" is most likely a % PWM command, not watts | 8, 15 | Inference from the config + Ref 8 | Hypothesis, worded "most likely" |
 | 29 | E2: 4 bracket + 3 resolution coupons, 72 pre-registered samples; pass rules | 8 | `4_sensor_strip/e2_experiment/e2_sample_matrix.csv`, `E2_procedure.md` | Verified (file) |
 | 30 | ERC 0 violations; netlist ↔ firmware ↔ pads 0 mismatches; pin map | 9 | `6_electronics/kicad/out/erc.json`, `7_firmware/tools/check_consistency.py` | Verified (tool) |
-| 31 | BOM groups and total ≈ ₹2,078–7,361 | 10 | Computed by the builder from `6_electronics/bom_v0_1.csv` | Calculation from **estimated** prices; nothing ordered |
+| 31 | BOM groups (template table form: item, qty, source, ₹) | 10 | Computed by the builder from `6_electronics/bom_v0_1.csv`; total in claim 49 | Calculation; 3 quoted prices, the rest **estimates**; nothing ordered |
 | 32 | Concept scores 4.36 / 4.29 / 3.96 / 3.46 / 3.39 | 12 | `3_decisions/decision_matrix.md` | Verified (file); scores are engineering judgement |
 | 33 | FMEA RPN 224 / 210 / 150 / 140 / 120; 15 modes | 13 | `3_decisions/fmea_v0_1.csv` | Verified (file); ratings are **estimates** |
 | 34 | Standards ISO 14971, IEC 60601-1, ISO 10993-1, EN 13726, IEC 60825-1 | 13 | Design intent | "Considered, not claimed" |
 | 35 | Bench test T8 checks average DC < 5 mV | 13 | `7_firmware/BENCH_TEST.md` | Planned test |
 | 36 | Alert within ±10 % of the visible-front volume; ≤ ₹100 per strip; who benefits | 4 | E4 plan; BOM film price | Target, labelled "target" / "expected, to verify" |
-| 37 | Roadmap months, gates G1–G4, Stage 3 target | 14 | E2, bench-test and E4 plans | Plan |
+| 37 | Roadmap months, gates G1–G4, Stage 3 target | 14 | E2, bench-test and E4 plans; dates in claim 50 | Plan |
 | 38 | Git history from `330b474`; commits shown | 11, 12 | `git log` | Verified (tool) |
 | 39 | SolidWorks window with the FeatureManager tree | 11 | Screen capture of our machine by `render_cad.py`, 15 Oct | Verified (genuine capture) |
 | 40 | Team names, application ID VK26-IITI-HT-0050, track | 1, 2 | As registered (team records) | As provided; not independently verifiable here |
-| 41 | Workflow steps, maceration risk of late changes, time per check "to be measured" | 3 | Dressing-care practice | Description; no number given |
+| 41 | Workflow steps, maceration risk of late changes | 3 | Dressing-care practice | Description; no number given |
+| 42 | ≈ 18 min per dressing visit | 3 | Ref 13 (L39): UK survey of >200 patients, commissioned by Mölnlycke, 2018 | Cited; **patient-reported, industry-sponsored** (stated on slide 17) |
+| 43 | ₹240–510 for one 10 × 10 cm foam dressing | 3, 4 | Ref 15 (L41): Truemeds listings, Mepilex Lite ₹241.86, Mepilex Border ₹514.14 | Cited (retail pages); Border pack size unclear (stated) |
+| 44 | Makers' change sign is visual (ALLEVYN LIFE: "At 75%, it's time to change your dressing") | 2, 12 | Ref 14 (L40): Smith+Nephew product page, read 19 Oct | Cited (manufacturer page) |
+| 45 | "up to 44.9 %" of early changes a reliable alert could avoid | 4 | Ref 1; upper bound if every change waited for CHANGE | Projection, worded "up to … could"; caveat in notes (some changes have other clinical reasons) |
+| 46 | A ≤ ₹100 strip pays for itself if 1 in 2–5 changes is avoided | 4 | ₹100 target (estimate) ÷ ₹242–514 (ref 15) = 0.19–0.41 | Calculation from an estimate and cited prices; labelled projection in notes |
+| 47 | State broadcast over Bluetooth to a phone | 4, 5, 6, 12 | `7_firmware/reader_v0_1/ble_beacon.h`, `reader_v0_1.ino`; decision D-015 | Verified in software (compiles, 4 + 6 tests); **not run on hardware** (bench test T11) |
+| 48 | ESP32-C3 ₹242, ADS1115 ₹125, P75-B1 pins ₹354 per 100; in stock | 10 | Probots PRO4607 and PRO789, Hubtronics 05880, pages read 19 Oct 2026 | Quoted (incl. GST); nothing ordered |
+| 49 | Prototype total ≈ ₹2,259–6,942 | 10 | Builder sums `bom_v0_1.csv` groups (leaves out the borrowed meter, USB cable and E4 dressings) | Calculation; mostly estimates |
+| 50 | Prototype video early Dec; semi-final interview in January; IIT Indore finale 26 Jan – 1 Feb | 14 | vishwakarma-awards.org (L42) and the Internshala listing (L43), read 19 Oct; decision D-014 | Organiser's published timeline |
+| 51 | Stage 1 called Kapton "medical-grade"; DuPont cautions otherwise | 12 | Stage 1 proposal (team record, `_private/`); ref 11 | Correction of our own earlier claim |
+| 52 | Therapy bandage already shown in labs | 12 | Ref 5, Jiang 2022 | Cited (listing + coverage) |
+| 53 | Stage 1's Bluetooth telemetry kept, now a state broadcast | 12 | Stage 1 proposal; claim 47 | Software only; see 47 |
 
 ## References as printed on slide 17
 
@@ -85,5 +97,8 @@ Link checks were run by our submission checker on 14 Oct (DOI resolution through
 | 10 | EN 13726-1:2002 / EN 13726:2023 | catalogue entry | **Not reachable from our network (stated on the slide)** |
 | 11 | DuPont position statement on medical applications | web page | Resolves |
 | 12 | TI ADS1115 datasheet (SBAS444); Espressif ESP32-C3 datasheet | vendor documents | ESP32-C3 PDF resolves; ADS1115 not link-checked |
+| 13 | Wounds UK news, 22 Aug 2018 (Mölnlycke-commissioned patient survey) | web page; patient-reported, industry-sponsored | Opened 19 Oct |
+| 14 | Smith+Nephew ALLEVYN LIFE product page (change indicator) | manufacturer web page | Opened 19 Oct |
+| 15 | Truemeds.in listings, Mepilex Lite and Mepilex Border 10 × 10 cm | retail pages | Border page opened 19 Oct; Lite price from the search listing |
 
-**Image credits:** slide 18 lists all 14 deck images. Every one is generated from project files or captured from our own SolidWorks session. No external, stock or AI-generated image is used.
+**Image credits:** slide 18 lists all 14 deck images (the roadmap, block-diagram, data-flow and after-state figures were redrawn on 19 Oct from the same scripts). Every one is generated from project files or captured from our own SolidWorks session. No external, stock or AI-generated image is used.

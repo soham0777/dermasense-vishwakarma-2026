@@ -38,7 +38,7 @@ T_WET = (0.2e-3, 1.0e-3)  # m, thickness of the wet layer contacting the electro
 RS = (20.0, 100.0)        # ohm/sq, LIG sheet resistance window (literature 15-35; ours unknown) [PUB/EST]
 LEAD_SQUARES = 100        # squares of LIG lead in series (e.g. 100 mm x 1 mm) [DES]
 C_DL = 4e-3               # F/cm2 LIG areal capacitance, 1 M H2SO4 at 20 mV/s (Lin 2014) [PUB, other electrolyte]
-DRY_MIN = 1e6             # ohm, lowest expected dry reading (humid dressing) - TO BE MEASURED in E3 [EST]
+DRY_MIN = 1e6             # ohm, lowest expected dry reading (humid dressing) - TO BE MEASURED in E4 [EST]
 
 
 def best_fsr(v):
@@ -102,7 +102,7 @@ def main():
         f"| Wet zone resistance (gap {GAP*1e3:.1f} mm, length {LEN*1e3:.0f} mm) | {min(r_zone):.0f}–{max(r_zone):.0f} Ω | [EST] R = g/(κ_eff·L·t), κ_eff {KAPPA_EFF[0]}–{KAPPA_EFF[1]} S/m, t {T_WET[0]*1e3:.1f}–{T_WET[1]*1e3:.1f} mm |",
         f"| LIG lead resistance ({LEAD_SQUARES} squares) | {r_lead[0]/1e3:.1f}–{r_lead[1]/1e3:.1f} kΩ | Rs {RS[0]:.0f}–{RS[1]:.0f} Ω/sq [PUB/EST] |",
         f"| Total wet reading Rx | {wet_min/1e3:.1f}–{wet_max/1e3:.1f} kΩ | sum incl. 2 × {RP/1e3:.0f} kΩ protection |",
-        f"| Dry reading (lowest expected) | ≥ {DRY_MIN/1e6:.0f} MΩ | [EST], **must be measured** on the real dressing (E3 baseline) |",
+        f"| Dry reading (lowest expected) | ≥ {DRY_MIN/1e6:.0f} MΩ | [EST], **must be measured** on the real dressing (E4 baseline) |",
         f"| Geometric-mean threshold | {thr/1e3:.0f} kΩ → use 100 kΩ alert, 300 kΩ release (hysteresis) | [DES] |",
         f"| Margin wet → threshold / threshold → dry | {1e5/wet_max:.1f}× / {DRY_MIN/1e5:.0f}× | [EST] |",
         f"| Resolution at 1 kΩ / 100 kΩ / 10 MΩ (best phase) | {100*at(1e3)[3]:.3f} % / {100*at(1e5)[3]:.3f} % / {100*at(1e7)[3]:.2f} % per LSB | [DS] ADS1115 auto-ranged |",
@@ -114,7 +114,7 @@ def main():
         "## Conclusions",
         "",
         f"1. **Wet vs dry is easy to tell apart.** Expected wet readings ({wet_min/1e3:.1f}–{wet_max/1e3:.0f} kΩ) and dry readings (≥ 1 MΩ) differ by more than 10×. A 100 kΩ threshold leaves margin on both sides **if** the real dry baseline is ≥ 1 MΩ.",
-        "2. **The ADS1115 is more than adequate.** Resolution is better than 0.1 % per LSB from 1 kΩ to 1 MΩ. The ESP32-C3's internal ADC would also do for a binary threshold; the ADS1115 is chosen for logged, quantitative data (E3).",
+        "2. **The ADS1115 is more than adequate.** Resolution is better than 0.1 % per LSB from 1 kΩ to 1 MΩ. The ESP32-C3's internal ADC would also do for a binary threshold; the ADS1115 is chosen for logged, quantitative data (E4).",
         f"3. **No electrolysis expected.** Bipolar pulses move the LIG double layer by about {dv_dl*1e3:.1f} mV. Even with 100× less capacitance than the published value, that stays below the 1.23 V needed to split water.",
         "4. **Leads matter when wet.** Lead resistance (up to about 10 kΩ) is comparable to the wet zone itself. Treat the measurement as *wet/dry per zone* plus a trend, not as an absolute conductivity.",
         "",

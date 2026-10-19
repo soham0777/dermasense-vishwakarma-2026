@@ -1,7 +1,7 @@
 # Reader v0.1 bench test (known resistors in place of the strip)
 
 **Status:** READY. The firmware compiles; it has **not yet run on hardware**. This test is what makes it a *working* reader.
-**Time:** about 1.5 h once the board is wired. **Record in:** `bench_test.csv` (one row per step).
+**Time:** about 1.75 h once the board is wired. **Record in:** `bench_test.csv` (one row per step).
 
 ## You need
 
@@ -28,6 +28,7 @@
 | T8 | **No net DC on the strip.** Zone C = 10 k. DMM on DC volts across J4.1–J4.3 for 30 s. | Average reading within ±5 mV (the drive is bipolar and idle pins are high-Z) |
 | T9 | Remove the loop resistor during operation. | **FAULT** on the next scan; zones frozen (no state change while faulted) |
 | T10 | Log 30 min with C 10 k, A 100 k, loop 10 k. | No bad lines in `.bad.txt`; `rc` drift (max − min) < 1 %; no resets |
+| T11 | **BLE broadcast.** During T6, scan with nRF Connect on a phone 1 m away; copy the manufacturer data at each state and run `python tools/decode_beacon.py <hex>`. | `Dermasense-R01` is listed; the decoded state matches the serial `state` column at (b), (c) and (d); the scan number advances |
 
 **If a step fails:** don't change the firmware to make the numbers fit. Write down the result and look first for a wiring error (re-run `WIRING.md` with the beeper). Only change `config.h` with a written reason.
 
@@ -36,5 +37,6 @@
 - real dressings or fluid (E4)
 - the pogo-pin contact (T-CON-01)
 - battery operation
+- BLE range, or reception through a dressing and clothing
 
 The reader runs on USB from a laptop. It is a bench tool, not for patient use.

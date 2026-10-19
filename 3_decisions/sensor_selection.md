@@ -8,7 +8,7 @@
 |---|---|---|---|
 | 1 | **S2: two-zone strip, pad centre C + change line A** | 4.36 | **Primary (v0.1)** |
 | 2 | S1: single zone at the change line | 4.29 | **Fallback 1**, if sealing registration fails in E2 (one window, no lane under it) |
-| 3 | S3: four zones C, M, A, E | 3.96 | **Upgrade path**, only if E3 shows that early warning (M) or leak warning (E) changes a decision |
+| 3 | S3: four zones C, M, A, E | 3.96 | **Upgrade path**, only if E4 shows that early warning (M) or leak warning (E) changes a decision |
 | 4 | S5: capacitive, sealed | 3.46 | Fallback 2, if saline contact proves unworkable (fouling, drift) |
 | 5 | S4: continuous resistive locator | 3.39 | Rejected for now: its reading depends directly on LIG uniformity, our least-known property |
 
@@ -45,11 +45,11 @@
 
 | Look-alike | Expected signature (hypothesis) | Detection in v0.1 | Test that confirms or refutes |
 |---|---|---|---|
-| Real saturation front | C wets, then A after a delay that depends on flow; both reach low kΩ | Order + persistence | E3 runs (dressing + Solution A, centre inflow) |
-| External leak or spill at the edge | A wets first, C stays dry | CHECK | E3-L: drip on the outer face at A |
-| Condensation under the cover film | Both zones drift down slowly, probably not to the kΩ range (unknown) | Not separable from a front if it reaches < 100 kΩ | **E3-H:** warm humid chamber, dry dressing, 2 h. If readings drop below 300 kΩ, the threshold must change |
+| Real saturation front | C wets, then A after a delay that depends on flow; both reach low kΩ | Order + persistence | E4 runs (dressing + Solution A, centre inflow) |
+| External leak or spill at the edge | A wets first, C stays dry | CHECK | E4-L: drip on the outer face at A |
+| Condensation under the cover film | Both zones drift down slowly, probably not to the kΩ range (unknown) | Not separable from a front if it reaches < 100 kΩ | **E4-H:** warm humid chamber, dry dressing, 2 h. If readings drop below 300 kΩ, the threshold must change |
 | Sweat (skin side) | The strip is on the outer face of the pad; sweat must pass through the pad first | Same as a front | Not tested on the bench; documented limitation |
-| Handling / pressing | Brief changes | Persistence ≥ 3 scans (15 s) | E3-P: press and flex a dry strip |
+| Handling / pressing | Brief changes | Persistence ≥ 3 scans (15 s) | E4-P: press and flex a dry strip |
 | Cracked trace or bad contact | Loop open, or one zone stuck at the open-circuit limit | FAULT | Cut test: cut the common leg → must report FAULT |
 
 ## 5. Geometry v0.1 (PROVISIONAL: conservative 1.0 mm features until E2 measures line growth and minimum gap)
@@ -64,8 +64,8 @@
 
 ## 6. What is NOT yet known
 
-- Real Rs and line width (E1).
+- Real Rs and line width (E2).
 - Minimum isolating gap and sealing registration (E2).
-- Dry baseline on real dressings, and the condensation response (E3-H).
-- Whether the strip changes the dressing's fluid uptake (E3 control with no strip).
+- Dry baseline on real dressings, and the condensation response (E4-H).
+- Whether the strip changes the dressing's fluid uptake (E4 control with no strip).
 - Whether pogo-pin contact on LIG pads is stable (T-CON-01).

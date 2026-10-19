@@ -2,6 +2,8 @@
 
 **Status:** analysis of 2026-10-14. It is based on targeted searches, not a full systematic review, so **no novelty is claimed** until the "evidence needed" column is satisfied.
 
+**Experiment names:** this analysis was written when the laser study was called **E1**. E1 is now **Part A of E2** (`4_sensor_strip/e2_experiment/`), with the same coupon and decision rule. The dressing test called E3 at the time is now **E4**.
+
 **Labels:** `[C]` = published (IDs in `literature.csv` / `3_decisions/evidence_register.csv`) · `[A]` = our earlier observation · `[B]` = to be measured.
 
 | # | Aspect | What the literature already establishes `[C]` | What is still unclear | Can *we* contribute with *our* resources? | Evidence needed before claiming anything |

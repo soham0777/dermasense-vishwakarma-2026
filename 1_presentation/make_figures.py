@@ -135,7 +135,7 @@ def fig_journeys():
             [("Strip on\nthe pad", "outer face,\nnot the wound", "neutral"),
              ("Reader\nclips on", "4 pins,\n2 dowels", "neutral"),
              ("Zones\nread", "centre C,\nchange line A", "ok"),
-             ("Clear\nstate", "OK · CHANGE\nor CHECK", "warn")],
+             ("Clear\nstate", "OK · CHANGE\nor CHECK, on\nLEDs + phone", "warn")],
             "Target: alert within ±10 % of the visible front (bench test E4)", GREEN,
             "INTENDED WORKFLOW · NOT CLINICALLY VALIDATED", AMBER)
 
@@ -148,8 +148,8 @@ def fig_block():
         (35, 44, 28, 20, "Contact clamp", "4 pogo pins", "✓ CAD", "◐ not printed"),
         (67, 44, 32, 20, "Front end", "100 kΩ reference", "✓ ERC", "◐ not wired"),
         (67, 17, 32, 20, "ADC", "ADS1115 16-bit", "✓ code", "◐ hardware"),
-        (35, 17, 28, 20, "Firmware", "ESP32-C3", "✓ 19 tests", "◐ hardware"),
-        (1, 17, 30, 20, "Output", "LEDs + USB log", "✓ 10 tests", "◐ hardware"),
+        (35, 17, 28, 20, "Firmware", "ESP32-C3", "✓ 23 tests", "◐ hardware"),
+        (1, 17, 30, 20, "Output", "LEDs · USB · BLE", "✓ 16 tests", "◐ hardware"),
     ]
     for x, y, w, h, t, sub, s1, s2 in rows:
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=1.8", fc="#FFFBEB", ec=AMBER, lw=1.5))
@@ -159,7 +159,7 @@ def fig_block():
         ax.text(x + w / 2 + 1, y + 3.4, s2, fontsize=7.8, color=AMBER, ha="left", va="center", fontweight="bold")
     for (x1, y1, x2, y2) in ((31, 54, 35, 54), (63, 54, 67, 54), (83, 44, 83, 37), (67, 27, 63, 27), (35, 27, 31, 27)):
         arrow(ax, x1, y1, x2, y2, color=NAVY, lw=1.6)
-    box(ax, 1, 2, 98, 9, "Future: BLE phone view  ·  battery pod  ·  multi-strip logging", fc="white", ec="#94A3B8",
+    box(ax, 1, 2, 98, 9, "Future: phone app  ·  battery pod  ·  multi-strip logging", fc="white", ec="#94A3B8",
         tc=MUTED, size=8.6, ls=(0, (3, 2)), r=1.4)
     ax.text(50, 69.5, "✓ verified in software      ◐ hardware still to prove      dashed = future", fontsize=8,
             color=SLATE, va="top", ha="center")
@@ -169,7 +169,7 @@ def fig_block():
 # ------------------------------------------------------------------ 5 firmware data flow (decluttered)
 def fig_dataflow():
     fig, ax = canvas(5.94, 4.25, (0, 100), (0, 71.5))
-    ax.text(1, 70, "One scan, every 2 s", fontsize=10.5, color=NAVY, fontweight="bold", va="top")
+    ax.text(1, 70, "One scan, every 2 s  →  LEDs · USB log · BLE broadcast", fontsize=10.5, color=NAVY, fontweight="bold", va="top")
     stages = [("CHECK", "known 100 kΩ"), ("ZONE C", "pad centre"), ("ZONE A", "change line"), ("LOOP", "strip intact?")]
     for i, (s, sub) in enumerate(stages):
         x = 1 + i * 24.8
@@ -438,27 +438,36 @@ def fig_fmea():
 
 # ------------------------------------------------------------------ 13 roadmap gantt
 def fig_roadmap():
+    """Weeks from Mon 26 Oct 2026. Programme dates: vishwakarma-awards.org + Internshala listing (read 19 Oct 2026)."""
     fig = plt.figure(figsize=(12.17, 2.15))
-    ax = fig.add_axes([0.20, 0.17, 0.79, 0.73])
-    tasks = [("E2 laser fabrication validation", 0, 3.5, AMBER), ("Order parts · wire + bench-test reader", 0, 4, AMBER),
-             ("Strip v0.2: E2 dimensions + looped sense leads", 3.5, 6, BLUE), ("Print clamp · contact & bend tests", 5, 8, BLUE),
-             ("E4: strips on dressings, simulated exudate", 7, 12, GREEN), ("Repeatability: ≥ 5 strips × 3 runs", 10, 13.5, GREEN),
-             ("Raman / SEM via partner lab (if access)", 6, 12, "#94A3B8"), ("Battery pod + BLE (stretch goal)", 11, 15, "#94A3B8"),
-             ("Integrated bench demo + Stage 3 video", 13.5, 16, NAVY)]
+    ax = fig.add_axes([0.20, 0.17, 0.79, 0.70])
+    tasks = [("E2 laser fabrication validation", 0, 2.5, AMBER),
+             ("Order parts · wire + bench-test reader (T0–T11)", 0, 3, AMBER),
+             ("First strips on a dressing · 3-min prototype video", 3, 5.6, NAVY),
+             ("Strip v0.2 (E2 sizes, looped leads) · print clamp", 4, 8, BLUE),
+             ("E4: strips on real dressings, simulated exudate", 6, 11, GREEN),
+             ("Repeatability: ≥ 5 strips × 3 runs", 9, 12.5, GREEN),
+             ("Raman / SEM via partner lab (if access)", 4, 12, "#94A3B8"),
+             ("Semi-final prep: 5-min live demo (virtual)", 10.5, 13, NAVY),
+             ("Finale demo at IIT Indore", 13, 14, NAVY)]
     for i, (t, a, b, c) in enumerate(tasks[::-1]):
         ax.barh(i, b - a, left=a, color=c, height=0.62, alpha=0.9)
-        ax.text(-0.25, i, t, ha="right", va="center", fontsize=7.4, color=NAVY)
-    for g, x, lab, ha in (("G1", 3.5, "E2: Rs CV ≤ 20 %", "right"), ("G2", 4.0, "reader T0–T10 pass", "left"),
-                          ("G3", 12, "E4: alert within ±10 %", "center"), ("G4", 16, "demo", "right")):
+        ax.text(-0.15, i, t, ha="right", va="center", fontsize=7.4, color=NAVY)
+    for g, x, lab, ha in (("G1", 2.5, "E2: Rs CV ≤ 20 %", "right"), ("G2", 3.0, "reader T0–T11 pass", "left"),
+                          ("G3", 11, "E4: alert within ±10 %", "center"), ("G4", 14, "live demo", "right")):
         ax.plot(x, len(tasks) - 0.35, marker="D", color=RED, ms=6)
-        ax.text(x + (-0.12 if ha == "right" else 0.12 if ha == "left" else 0), len(tasks) + 0.12, f"{g} {lab}", ha=ha,
+        ax.text(x + (-0.1 if ha == "right" else 0.1 if ha == "left" else 0), len(tasks) + 0.12, f"{g} {lab}", ha=ha,
                 fontsize=6.4, color=RED)
-    ax.set_xlim(0, 16.3)
+    for x, lab in ((5.6, "video + PPT (early Dec)"), (13, "IIT Indore 26 Jan – 1 Feb")):
+        ax.axvline(x, color=NAVY, lw=1.0, ls=(0, (3, 2)))
+        ax.text(x - 0.1, -0.5, lab, fontsize=6.2, color=NAVY, va="bottom", ha="right", fontweight="bold")
+    ax.set_xlim(0, 14.2)
     ax.set_ylim(-0.6, len(tasks) + 0.6)
     ax.set_yticks([])
-    ax.set_xticks([0, 4, 8, 12, 16])
-    ax.set_xticklabels(["Month 1 · Nov 2026", "Month 2 · Dec", "Month 3 · Jan 2027", "Month 4 · Feb", "Stage 3"], fontsize=7)
-    for x in (4, 8, 12):
+    months = (0.86, 5.14, 9.57, 14.0)   # 1 Nov, 1 Dec, 1 Jan, 1 Feb in weeks from 26 Oct
+    ax.set_xticks([0, *months])
+    ax.set_xticklabels(["26 Oct", "Nov 2026", "Dec", "Jan 2027", "1 Feb"], fontsize=7)
+    for x in months[:3]:
         ax.axvline(x, color=LINE, lw=0.8)
     ax.spines[["top", "right", "left"]].set_visible(False)
     save(fig, "fig_roadmap.png")

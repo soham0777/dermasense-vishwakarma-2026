@@ -35,6 +35,11 @@ constexpr double LOOP_MAX_OHM = 200e3;  // COM loop above this = broken strip/co
 constexpr double CHECK_TOL = 0.05;    // check resistor must read within +/-5 % else FAULT
 constexpr double VDD_MIN = 3.0, VDD_MAX = 3.6;
 
+// ---- Bluetooth LE broadcast (ble_beacon.h). Bench prototype: unencrypted, test company ID.
+constexpr bool BLE_ENABLED = true;
+constexpr const char* BLE_NAME = "Dermasense-R01";
+constexpr uint16_t BLE_ADV_INTERVAL = 1600;   // x 0.625 ms = 1 s
+
 // ---- timing
 constexpr uint32_t SETTLE_MS = 10;    // >= 10 tau of node N (100 k x 10 nF = 1 ms)
 constexpr uint32_t SCAN_PERIOD_MS = 2000;   // bench logging; a wearable would scan every ~60 s
