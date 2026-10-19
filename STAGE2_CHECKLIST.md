@@ -100,7 +100,7 @@
 | # | Do | Time | Pass when |
 |---|---|---|---|
 | 1 | **Confirm the deadline** (WhatsApp group, or reply to the organiser's email quoting VK26-IITI-HT-0050) | 10 min | You have it in writing: 25 Oct, 23:59 |
-| 2 | **Make the repository link.** Upload `Desktop/Dermasense_VK26-IITI-HT-0050_repository.zip` to Google Drive, then set Share to *Anyone with the link: Viewer*. The zip holds only project files; your private PDFs are not in it | 20 min | The link opens in a private/incognito browser window |
+| 2 | **Make the repository link.** Upload `Desktop/Dermasense_VK26-IITI-HT-0050_repository.zip` to Google Drive, then set Share to *Anyone with the link: Viewer*. The zip (made from git) holds only project files plus `WORK_HISTORY.txt`, the dated log of every commit, since the template says timestamps are audited; your private PDFs are not in it | 20 min | The link opens in a private/incognito browser window |
 | 3 | **Send me the link.** I put it on slide 11, rebuild and re-check | 5 min | QA says `issues 0` and no "[team to insert" text is left |
 | 4 | **Take photos with ID badges:** both of you modelling in SolidWorks; the KiCad schematic on screen; at the laser if you get access. Real moments only, no edits | 30 min | 3 or more sharp photos, faces and badges visible. Send them to me for slide 11 |
 | 5 | *(Strongest, optional)* **Run E2 Session S0 + Day 1** (`4_sensor_strip/e2_experiment/E2_procedure.md`) | 4–5 h at the laser | The data sheets are filled; send me the CSVs and I'll add the first real results to slides 8 and 15 |
