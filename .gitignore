@@ -33,3 +33,7 @@ _private/
 .pytest_cache/
 output/
 tmp/
+
+# Refined Stage 2 deck (20 Oct): its build scripts, template copy and assets ARE committed; PNG renders are not
+!Stage2_Review_Output_2026-10-20/build/
+Stage2_Review_Output_2026-10-20/build/renders/

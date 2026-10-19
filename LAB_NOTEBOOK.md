@@ -12,6 +12,23 @@ Next:
 
 ---
 
+## 2026-10-20: Claude, for the team: rebuild on the team's own template
+
+**Did:**
+- Read the template the team named (Downloads, MD5 4d96244a…) page by page, twice. It matches the earlier copy "(2)" in text, notes and layout; only the image encoding differs.
+- Read the deadline line in the organiser's e-mail: "11:59 PM on 25th October 2026".
+- Researched who is affected: Indian chronic-wound prevalence 1.9–4.5 per 1,000 (Gupta 2004; Sharma 2024), 101 million with diabetes (ICMR-INDIAB 2023), foot-ulcer lifetime risk 19–34 % (estimate), and 40.3 % of patients naming dressing-change pain the worst part (Price 2008).
+- Rebuilt the deck in `Stage2_Review_Output_2026-10-20/`. The old deck is untouched.
+  - Slide 1: ID + names only.
+  - Problem Context: 2 slides, problem only, with an editable comparison table.
+  - User Journey: who is affected + editable journey maps.
+  - Team photos: on the Maker Journey slide.
+- QA: 19 slides, 0 issues.
+
+**Saw / measured:** no lab data yet.
+
+**Next:** the team adds photos, roles and the link on slide 12; re-export the PDF; submit.
+
 ## 2026-10-19 (night): Claude, for the team: audit and deck refinement
 
 **Did:**

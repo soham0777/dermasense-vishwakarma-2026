@@ -8,6 +8,8 @@ A laser-written two-zone moisture strip that tells a carer when a wound dressing
 
 **[`FINAL_SUBMISSION/`](FINAL_SUBMISSION/)** holds the deck (`.pptx`) and its PDF. Nothing else is uploaded.
 
+**Current deck (20 Oct):** [`Stage2_Review_Output_2026-10-20/`](Stage2_Review_Output_2026-10-20/), rebuilt on the team's own template copy. It contains `Vishwakarma_Stage2_Refined.pptx` + `.pdf`, and its `User_Action_Checklist.md` lists what the team still adds (photos, roles, link on slide 12). `FINAL_SUBMISSION/` keeps the 19 Oct version unchanged.
+
 **Start with:**
 - [`STAGE2_REMAINING_ACTIONS.md`](STAGE2_REMAINING_ACTIONS.md): what only the team can still do before submitting (photos, roles, link, deadline), each with a pass check.
 - [`PROJECT_AUDIT.md`](PROJECT_AUDIT.md): everything done so far; what is verified and what is not; who did what.
