@@ -8,7 +8,9 @@ A laser-written two-zone moisture strip that tells a carer when a wound dressing
 
 **[`FINAL_SUBMISSION/`](FINAL_SUBMISSION/)** holds the deck (`.pptx`) and its PDF. Nothing else is uploaded.
 
-**[`STAGE2_CHECKLIST.md`](STAGE2_CHECKLIST.md)**: what the organisers expect, how the jury scores, what we deliver, and the steps only the team can do before 25 Oct.
+**Start with:**
+- [`STAGE2_REMAINING_ACTIONS.md`](STAGE2_REMAINING_ACTIONS.md): what only the team can still do before submitting (photos, roles, link, deadline), each with a pass check.
+- [`PROJECT_AUDIT.md`](PROJECT_AUDIT.md): everything done so far; what is verified and what is not; who did what.
 
 ## Folder map
 
@@ -28,7 +30,7 @@ A laser-written two-zone moisture strip that tells a carer when a wound dressing
 
 | Part | State |
 |---|---|
-| Deck | Final, 18 slides on the official template; roadmap on the programme's dates. **Needs the repository link on slide 11** |
+| Deck | Refined, 19 slides on the official template; QA 0 issues. **Needs team photos and roles (slide 2), lab photos and the repository link (slide 12)** |
 | CAD | Frozen v0.1; independent check: 99 pass, 0 fail (5 wait for E2 data) |
 | Laser files | 35/35 file checks pass; **not yet lased** |
 | Reader | Schematic checks clean (0 errors); firmware (with a Bluetooth state broadcast) compiles and passes 23 + 16 software tests; **not yet built** |
@@ -36,4 +38,4 @@ A laser-written two-zone moisture strip that tells a carer when a wound dressing
 
 The layer is called **laser-carbonised (LIG-like)**; graphene is not confirmed.
 
-**Next actions:** confirm the deadline, make the repository link and take the ID-badge photos (`STAGE2_CHECKLIST.md`, section 5); then book the laser and run E2 (`4_sensor_strip/e2_experiment/E2_procedure.md`).
+**Next actions:** follow `STAGE2_REMAINING_ACTIONS.md`; then book the laser and run E2 (`4_sensor_strip/e2_experiment/E2_procedure.md`).

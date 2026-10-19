@@ -12,6 +12,27 @@ Next:
 
 ---
 
+## 2026-10-19 (night): Claude, for the team: audit and deck refinement
+
+**Did:**
+- Read-only audit of every folder: `PROJECT_AUDIT.md`. Re-ran the CAD verification in SolidWorks (99 / 0 / 5) and KiCad ERC (0).
+- Read the template twice: `1_presentation/TEMPLATE_EVIDENCE_MAP.md`. It has no team slide; the team photos go on the Project Overview slide (template T2) and the Maker Journey.
+- Deck 18 → 19 slides:
+  - new Project Overview & Team slide, with photo placeholders
+  - new "how it senses" figure
+  - annotated SolidWorks exploded view
+  - measurement path drawn from the netlist
+  - evidence gallery
+  - restored the spec basis, CAD checks table, pin map and FMEA top 5 that the 16 Oct declutter had removed
+  - corrected wording on Bluetooth, payback and image credits
+- Renamed the deck documents: `CLAIM_EVIDENCE_MATRIX.md`, `FINAL_QA_REPORT.md`, `STAGE2_REMAINING_ACTIONS.md`; new `SLIDE_BY_SLIDE_CHANGELOG.md`.
+
+**Saw / measured:** no lab data yet. Everything is checked in software and CAD only.
+
+**Problem:** the deadline is still unconfirmed (25 Oct in the email vs 16 Oct on Internshala).
+
+**Next:** the team adds photos, roles and the link; re-export the PDF; submit by 24 Oct.
+
 ## 2026-10-19: Claude, for the team: full review against what the organisers expect
 
 **Did:**

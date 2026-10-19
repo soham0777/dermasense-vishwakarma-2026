@@ -1,6 +1,6 @@
-# CAD verification report (verify_cad.py, 2026-10-16 03:13)
+# CAD verification report (verify_cad.py, 2026-10-19 23:21)
 
-**99 PASS · 0 FAIL · 5 BLOCKED · 0 INFO** (run time 54 s).
+**99 PASS · 0 FAIL · 5 BLOCKED · 0 INFO** (run time 76 s).
 
 Expected values are recomputed from `strip_v0_1_geometry.json` and `calc_mechanical.DIMS`, not read from the build script. The measured-data checks stay BLOCKED until E2 data exists.
 

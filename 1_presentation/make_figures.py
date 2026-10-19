@@ -2,8 +2,9 @@
 Presentation figures for the final Stage 2 deck. Every figure is drawn from project files (no stock or AI images):
 geometry from 4_sensor_strip/strip_v0_1_geometry.json and the DXFs, numbers from calc_readout.py / calc_mechanical.py,
 FMEA from 3_decisions/fmea_v0_1.csv, concept scores from 3_decisions/decision_matrix.md, KiCad schematic from its PDF,
-CAD renders from render_cad.py, tool output quoted verbatim from the runs of 14-15 Oct 2026.
-Illustrations that are concepts are labelled as such inside the image.
+CAD renders from render_cad.py, measurement path from the reader_v0_1 netlist, tool output as printed by the
+re-runs of 19 Oct 2026 (fig_maker). Illustrations that are concepts are labelled as such inside the image.
+Photo placeholders are plain marked boxes: the team's real photos replace them (build_deck.py, team_photos/).
 Usage: python make_figures.py      (run render_cad.py first for the CAD images)
 """
 import csv
@@ -140,32 +141,6 @@ def fig_journeys():
             "INTENDED WORKFLOW · NOT CLINICALLY VALIDATED", AMBER)
 
 
-# ------------------------------------------------------------------ 4 system block diagram (decluttered)
-def fig_block():
-    fig, ax = canvas(5.94, 4.25, (0, 100), (0, 71.5))
-    rows = [  # x, y, w, h, title, subtitle, verified, pending
-        (1, 44, 30, 20, "Disposable strip", "2 LIG-like zones", "✓ DRC", "◐ not lased"),
-        (35, 44, 28, 20, "Contact clamp", "4 pogo pins", "✓ CAD", "◐ not printed"),
-        (67, 44, 32, 20, "Front end", "100 kΩ reference", "✓ ERC", "◐ not wired"),
-        (67, 17, 32, 20, "ADC", "ADS1115 16-bit", "✓ code", "◐ hardware"),
-        (35, 17, 28, 20, "Firmware", "ESP32-C3", "✓ 23 tests", "◐ hardware"),
-        (1, 17, 30, 20, "Output", "LEDs · USB · BLE", "✓ 16 tests", "◐ hardware"),
-    ]
-    for x, y, w, h, t, sub, s1, s2 in rows:
-        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=1.8", fc="#FFFBEB", ec=AMBER, lw=1.5))
-        ax.text(x + w / 2, y + h - 4, t, fontsize=10.5, color=NAVY, fontweight="bold", va="top", ha="center")
-        ax.text(x + w / 2, y + h - 10, sub, fontsize=8.8, color=SLATE, va="top", ha="center")
-        ax.text(x + w / 2 - 1, y + 3.4, s1, fontsize=7.8, color=GREEN, ha="right", va="center", fontweight="bold")
-        ax.text(x + w / 2 + 1, y + 3.4, s2, fontsize=7.8, color=AMBER, ha="left", va="center", fontweight="bold")
-    for (x1, y1, x2, y2) in ((31, 54, 35, 54), (63, 54, 67, 54), (83, 44, 83, 37), (67, 27, 63, 27), (35, 27, 31, 27)):
-        arrow(ax, x1, y1, x2, y2, color=NAVY, lw=1.6)
-    box(ax, 1, 2, 98, 9, "Future: phone app  ·  battery pod  ·  multi-strip logging", fc="white", ec="#94A3B8",
-        tc=MUTED, size=8.6, ls=(0, (3, 2)), r=1.4)
-    ax.text(50, 69.5, "✓ verified in software      ◐ hardware still to prove      dashed = future", fontsize=8,
-            color=SLATE, va="top", ha="center")
-    save(fig, "fig_block.png")
-
-
 # ------------------------------------------------------------------ 5 firmware data flow (decluttered)
 def fig_dataflow():
     fig, ax = canvas(5.94, 4.25, (0, 100), (0, 71.5))
@@ -193,41 +168,300 @@ def fig_dataflow():
     save(fig, "fig_dataflow.png")
 
 
-# ------------------------------------------------------------------ 6 CAD collage
+# ------------------------------------------------------------------ 5 HOW IT WORKS (refinement 19 Oct): mechanism + signal path
+def fig_howitworks():
+    """Plain-English mechanism. Layer order from 3_decisions/sensor_selection.md; values from calc_readout_report.md;
+    part names from the KiCad netlist. Concept drawing: thicknesses not to scale."""
+    fig, ax = canvas(5.94, 4.25, (0, 100), (0, 71.5))
+    ax.text(1, 70.6, "How it senses: wet pad → closed gap → lower resistance → state", fontsize=10.2, color=NAVY,
+            fontweight="bold", va="top")
+    # ---- 1. layers (side view)
+    ax.text(1, 65.4, "① Side view of a dressing with the strip (not to scale)", fontsize=8, color=BLUE, fontweight="bold",
+            va="top")
+    X0, X1 = 34, 99
+    layers = [  # y, h, colour, label (layer order: 3_decisions/sensor_selection.md)
+        (57.4, 1.4, "#CBD5E1", "cover film"),
+        (55.2, 2.2, KAPTON, "strip (polyimide; carbon faces down)"),
+        (53.7, 1.5, "#F2A24A", "seal tape with 2 windows"),
+        (46.0, 7.7, PAD, "absorbent pad"),
+        (44.6, 1.4, "#E2E8F0", "wound-contact layer"),
+        (42.0, 2.6, "#FBCFE8", "wound (never touched)")]
+    for y, h, c, lab in layers:
+        ax.add_patch(Rectangle((X0, y), X1 - X0, h, fc=c, ec="#94A3B8", lw=0.5))
+        ax.plot([X0 - 1.2, X0], [y + h / 2, y + h / 2], color="#94A3B8", lw=0.6)
+        ax.text(X0 - 1.6, y + h / 2, lab, fontsize=6.6, color=SLATE, ha="right", va="center")
+    xc, xa = 54, 86                                         # window C over the pad centre, A on the change line
+    for xw, name, where, col in ((xc, "C", "pad centre", NAVY), (xa, "A", "change line", RED)):
+        ax.add_patch(Rectangle((xw - 3, 53.7), 6, 1.5, fc="white", ec="none"))
+        ax.add_patch(Rectangle((xw - 3, 54.5), 6, 0.7, fc=LIG, ec="none"))
+        ax.text(xw, 60.2, f"zone {name} ({where})", fontsize=7.2, color=col, fontweight="bold", ha="center")
+        ax.plot([xw, xw], [59.8, 58.8], color=NAVY, lw=0.7)
+    ax.add_patch(Polygon([(xc - 6, 44.6), (xc + 6, 44.6), (xc + 22, 53.6), (xc - 18, 53.6)], closed=True,
+                         fc="#60A5FA", alpha=0.45, ec="none"))
+    ax.annotate("", (xa - 2, 51.6), (xc + 12, 49.6), arrowprops=dict(arrowstyle="-|>", color=BLUE, lw=1.1))
+    ax.text(xc + 13, 47.2, "exudate spreads outward", fontsize=6.8, color=BLUE)
+    # ---- 2. one window, dry vs wet
+    ax.text(1, 38.4, "② Inside one window (seen from below)", fontsize=8, color=BLUE, fontweight="bold", va="top")
+    for k, (x0, wet) in enumerate(((3, False), (52, True))):
+        ax.add_patch(FancyBboxPatch((x0, 22.5), 45, 13, boxstyle="round,pad=0,rounding_size=1.2",
+                                    fc="#EFF6FF" if wet else "#F8FAFC", ec=BLUE if wet else LINE, lw=1.1))
+        ax.add_patch(Rectangle((x0 + 4, 29), 14, 3.2, fc=LIG, ec="none"))
+        ax.add_patch(Rectangle((x0 + 22, 29), 14, 3.2, fc=LIG, ec="none"))
+        ax.text(x0 + 11, 33.4, "sense", fontsize=6.6, color=SLATE, ha="center")
+        ax.text(x0 + 29, 33.4, "common", fontsize=6.6, color=SLATE, ha="center")
+        ax.annotate("", (x0 + 18.2, 27.6), (x0 + 21.8, 27.6), arrowprops=dict(arrowstyle="<->", color=MUTED, lw=0.7))
+        ax.text(x0 + 20, 25.6, "1.0 mm gap", fontsize=6.4, color=MUTED, ha="center")
+        if wet:
+            ax.add_patch(FancyBboxPatch((x0 + 10, 28.2), 20, 4.8, boxstyle="round,pad=0,rounding_size=2.2",
+                                        fc="#60A5FA", alpha=0.55, ec="none"))
+        ax.text(x0 + 41, 31, "WET" if wet else "DRY", fontsize=8.2, color=BLUE if wet else MUTED, fontweight="bold",
+                ha="center", va="center")
+        ax.text(x0 + 22.5, 23.7, "fluid bridges the gap → ≈ 4–15 kΩ" if wet else "gap open → above 1 MΩ",
+                fontsize=7.2, color=BLUE if wet else SLATE, ha="center", fontweight="bold")
+    arrow(ax, 48.6, 29, 51.4, 29, color=BLUE, lw=1.4)
+    # ---- 3. the reader chain (real part names)
+    ax.text(1, 19.6, "③ The reader turns resistance into a state (part names from our KiCad schematic)", fontsize=8,
+            color=BLUE, fontweight="bold", va="top")
+    chain = [("Strip\nzones C, A", "#FFF7E6", "#D6B98C"), ("4 pogo pins\n(clamp)", "#EFF6FF", BLUE),
+             ("1 kΩ + 100 kΩ\ndivider", "#EFF6FF", BLUE), ("ADS1115\n16-bit ADC", "#EFF6FF", BLUE),
+             ("ESP32-C3\nrules", "#EFF6FF", BLUE), ("OK · CHANGE\nCHECK · FAULT", MINT, GREEN)]
+    w, gap = 14.4, 2.2
+    for i, (t, fc, ec) in enumerate(chain):
+        x = 1 + i * (w + gap)
+        box(ax, x, 6.2, w, 10, t, fc=fc, ec=ec, size=7.2, bold=i in (0, 5), r=1.2)
+        if i < len(chain) - 1:
+            arrow(ax, x + w + 0.2, 11.2, x + w + gap - 0.2, 11.2, color=MUTED, lw=1.1)
+    ax.text(50, 3.4, "Output: LEDs · CSV over USB · Bluetooth broadcast (compiled; hardware test pending)", fontsize=7,
+            color=SLATE, ha="center")
+    ax.text(50, 0.6, "Values calculated (calc_readout.py), to be measured in E2 / E4. Concept drawing, layers not to scale.",
+            fontsize=6.2, color=MUTED, ha="center")
+    save(fig, "fig_howitworks.png")
+
+
+# ------------------------------------------------------------------ 6 CAD (refinement 19 Oct): annotated exploded render
+CAD_PARTS = [  # number, x, y on cad_exploded_iso.png (927 x 586 px), part, material / role
+    (1, 118, 74, "Clamp lid", "PETG print (shown clear)"),
+    (2, 330, 128, "Sensor strip", "polyimide 0.125 mm + carbon tracks"),
+    (3, 228, 182, "Seal tape", "polyimide tape, 2 windows"),
+    (4, 176, 232, "Pogo pins ×4", "P75-B1, 2 mm travel"),
+    (5, 148, 300, "Dowels ×2", "Ø2 mm stainless"),
+    (6, 128, 345, "Clamp base", "PETG print"),
+    (7, 470, 235, "Reference dressing", "bordered foam, 75 mm pad"),
+    (8, 420, 415, "Wound-bed spacer", "acrylic 6 mm"),
+    (9, 330, 520, "Rig base", "acrylic 5 mm, rubber feet")]
+
+
 def fig_cad():
-    import pymupdf
-    d = pymupdf.open(ROOT / "5_cad" / "solidworks" / "clamp_base_v0_1_drawing.PDF")
-    pg = d[0]
-    r = pg.rect
-    pix = pg.get_pixmap(dpi=260, clip=pymupdf.Rect(r.width * 0.10, r.height * 0.24, r.width * 0.43, r.height * 0.66))
-    pix.save(HERE / "_drw.png")
-    ex, iso, clo, drw = (Image.open(FIG / "cad_exploded_iso.png"), Image.open(FIG / "cad_assembly_iso.png"),
-                         Image.open(FIG / "cad_clamp_closeup.png"), Image.open(HERE / "_drw.png"))
+    ex = Image.open(FIG / "cad_exploded_iso.png")
+    iso = Image.open(FIG / "cad_assembly_iso.png")
+    clo = Image.open(FIG / "cad_clamp_closeup.png")
     fig = plt.figure(figsize=(5.94, 4.25))
-    cells = [(ex, [0.0, 0.50, 0.57, 0.48], "Exploded stack (SolidWorks, verified parts)"),
-             (clo, [0.59, 0.50, 0.41, 0.48], "Contact clamp, lid shown clear"),
-             (drw, [0.0, 0.12, 0.57, 0.36], "A3 drawing extract, clamp base (mm, first-angle, 2:1)"),
-             (iso, [0.59, 0.12, 0.41, 0.36], "Assembled bench rig")]
-    for im, rect, cap in cells:
-        a = fig.add_axes(rect)
-        a.imshow(im)
-        a.axis("off")
-        a.set_title(cap, fontsize=6.8, color=MUTED, pad=1.5)
-    a = fig.add_axes([0, 0, 1, 0.11])
+    a = fig.add_axes([0.0, 0.27, 0.64, 0.70], anchor="N")
+    a.imshow(ex)
     a.axis("off")
-    a.set_xlim(0, 100)
-    a.set_ylim(0, 10)
-    items = [("#2E6BC6", "clamp base (PETG)"), ("#8CB8EE", "lid"), ("#E6B84A", "pogo pins"), ("#A3A6AD", "dowels"),
-             (KAPTON, "strip"), ("#F2A24A", "seal tape"), ("#F5ECD2", "dressing (ref.)"), ("#CFE4EE", "acrylic rig")]
-    for i, (c, t) in enumerate(items):
-        x = 1 + (i % 4) * 25
-        y = 6.5 if i < 4 else 2
-        a.add_patch(Rectangle((x, y - 1.3), 2.6, 2.6, fc=c, ec=SLATE, lw=0.5))
-        a.text(x + 3.6, y, t, fontsize=6.8, va="center", color=SLATE)
+    for n, x, y, _, _ in CAD_PARTS:
+        a.add_patch(Circle((x, y), 15, fc=NAVY, ec="white", lw=1.2, zorder=5))
+        a.text(x, y, str(n), color="white", fontsize=7.4, ha="center", va="center", fontweight="bold", zorder=6)
+    a.set_title("Exploded view: our SolidWorks 2019 models (numbers = parts below)", fontsize=6.8, color=MUTED, pad=1.5)
+    for im, rect, cap in ((iso, [0.655, 0.68, 0.345, 0.27], "Assembled bench rig"),
+                          (clo, [0.655, 0.29, 0.345, 0.33], "Clamp: pins press on the strip pads")):
+        b = fig.add_axes(rect)
+        b.imshow(im)
+        b.axis("off")
+        b.set_title(cap, fontsize=6.8, color=MUTED, pad=1.5)
+    c = fig.add_axes([0, 0, 1, 0.255])
+    c.axis("off")
+    c.set_xlim(0, 100)
+    c.set_ylim(0, 10)
+    for k, (n, _, _, part, mat) in enumerate(CAD_PARTS):
+        col, row = k % 3, k // 3
+        x, y = 1 + col * 33.4, 8.6 - row * 3.35
+        c.add_patch(Circle((x + 1.3, y), 1.2, fc=NAVY, ec="none"))
+        c.text(x + 1.3, y, str(n), color="white", fontsize=6.4, ha="center", va="center", fontweight="bold")
+        c.text(x + 3.4, y + 0.55, part, fontsize=7.2, color=NAVY, fontweight="bold", va="center")
+        c.text(x + 3.4, y - 1.05, mat, fontsize=6.3, color=SLATE, va="center")
     fig.savefig(FIG / "fig_cad.png", dpi=DPI, facecolor="white")
     plt.close(fig)
-    (HERE / "_drw.png").unlink()
     print("wrote fig_cad.png")
+
+
+# ------------------------------------------------------------------ 8 schematic (refinement 19 Oct): measurement path drawn
+# from the reader_v0_1 netlist (same reference designators) + the real KiCad sheet
+def _res(ax, x, y, w, label, vertical=False, value=""):
+    if vertical:
+        ax.add_patch(Rectangle((x - 1.1, y), 2.2, w, fc="white", ec=NAVY, lw=1.1, zorder=3))
+        ax.text(x + 1.8, y + w / 2 + 0.9, label, fontsize=6.8, color=NAVY, fontweight="bold", va="center")
+        ax.text(x + 1.8, y + w / 2 - 1.4, value, fontsize=6.4, color=SLATE, va="center")
+    else:
+        ax.add_patch(Rectangle((x, y - 1.1), w, 2.2, fc="white", ec=NAVY, lw=1.1, zorder=3))
+        ax.text(x + w / 2, y + 2.2, label, fontsize=6.8, color=NAVY, fontweight="bold", ha="center")
+        ax.text(x + w / 2, y - 3.6, value, fontsize=6.4, color=SLATE, ha="center")
+
+
+def fig_schematic():
+    """Zone-C measurement path drawn from the reader_v0_1 netlist (same reference designators and pins), above the
+    real KiCad sheet. Pins and values: 6_electronics/kicad/out/reader_v0_1.net, 7_firmware/reader_v0_1/config.h."""
+    import pymupdf
+    pg = pymupdf.open(ROOT / "6_electronics" / "kicad" / "out" / "reader_v0_1_schematic.pdf")[0]
+    r = pg.rect
+    pix = pg.get_pixmap(dpi=220, clip=pymupdf.Rect(r.width * 0.055, r.height * 0.07, r.width * 0.99, r.height * 0.80))
+    pix.save(HERE / "_sch.png")
+    sheet = Image.open(HERE / "_sch.png")
+    fig, ax = canvas(5.94, 4.25, (0, 100), (0, 71.5))
+    ax.text(1, 70.8, "One zone's measurement path (zone C; zone A is the same via GPIO4, R2, J4.2)", fontsize=8.2,
+            color=NAVY, fontweight="bold", va="top")
+    Y = 58.5
+    box(ax, 0.5, Y - 4, 12, 8, "ESP32-C3\nGPIO3\nDRV_C", fc="#EFF6FF", ec=BLUE, size=6.6, r=1)
+    ax.plot([12.5, 15], [Y, Y], color=NAVY, lw=1.1)
+    _res(ax, 15, Y, 7, "R1", value="1 kΩ")
+    ax.plot([22, 26], [Y, Y], color=NAVY, lw=1.1)
+    for xp, lab in ((26.6, "J4.1"), (47.6, "J4.3")):
+        ax.add_patch(Circle((xp, Y), 0.7, fc=KAPTON, ec="#92400E", lw=0.8, zorder=4))
+        ax.text(xp, Y + 2.4, lab, fontsize=6.4, color="#92400E", ha="center")
+    ax.add_patch(FancyBboxPatch((28.5, Y - 4.5), 17, 9, boxstyle="round,pad=0,rounding_size=1", fc="#FFF7E6",
+                                ec="#D6B98C", lw=1))
+    ax.add_patch(Rectangle((30, Y - 1), 5.5, 2, fc=LIG, ec="none"))
+    ax.add_patch(Rectangle((38.5, Y - 1), 5.5, 2, fc=LIG, ec="none"))
+    ax.add_patch(FancyBboxPatch((33.5, Y - 1.4), 7, 2.8, boxstyle="round,pad=0,rounding_size=1.2", fc="#60A5FA",
+                                alpha=0.5, ec="none"))
+    ax.text(37, Y + 2.6, "strip zone C = Rx", fontsize=6.6, color="#92400E", ha="center", fontweight="bold")
+    ax.text(37, Y - 3.6, "wet ≈ 4–15 kΩ · dry > 1 MΩ", fontsize=6, color=SLATE, ha="center")
+    ax.plot([45.5, 47], [Y, Y], color=NAVY, lw=1.1)
+    ax.plot([48.3, 50], [Y, Y], color=NAVY, lw=1.1)
+    _res(ax, 50, Y, 7, "R3", value="1 kΩ")
+    ax.plot([57, 70], [Y, Y], color=NAVY, lw=1.1)
+    NX = 62
+    ax.add_patch(Circle((NX, Y), 0.9, fc=NAVY, ec="none", zorder=4))
+    ax.text(NX - 1.2, Y + 2.0, "N", fontsize=7.2, color=NAVY, fontweight="bold", ha="right")
+    _res(ax, 70, Y, 8, "R5", value="100 kΩ 0.1 %")
+    ax.plot([78, 86], [Y, Y], color=NAVY, lw=1.1)
+    box(ax, 86, Y - 4, 13.5, 8, "ESP32-C3\nGPIO10\nDRV_REF", fc="#EFF6FF", ec=BLUE, size=6.6, r=1)
+    ax.plot([NX, NX], [Y, 61.5], color=NAVY, lw=1.1)                     # check resistor from above
+    _res(ax, NX, 61.5, 4.2, "R6", vertical=True, value="100 kΩ check")
+    ax.plot([NX, NX], [65.7, 66.6], color=NAVY, lw=1.1)
+    ax.text(NX, 67.0, "GPIO20 DRV_CHK", fontsize=6.4, color=BLUE, ha="center")
+    ax.plot([NX, NX], [Y, 46], color=NAVY, lw=1.1)                       # node N down to the ADC
+    ax.plot([NX, 56], [51, 51], color=NAVY, lw=1.1)                      # C1 to ground
+    ax.plot([56, 56], [51, 49.9], color=NAVY, lw=1.1)
+    ax.plot([53.5, 58.5], [49.9, 49.9], color=NAVY, lw=1.5)
+    ax.plot([53.5, 58.5], [48.7, 48.7], color=NAVY, lw=1.5)
+    ax.plot([56, 56], [48.7, 47.4], color=NAVY, lw=1.1)
+    for k, half in enumerate((2.2, 1.4, 0.6)):
+        ax.plot([56 - half, 56 + half], [47.4 - k * 0.7, 47.4 - k * 0.7], color=NAVY, lw=1.0)
+    ax.text(52.6, 49.3, "C1 10 nF", fontsize=6.2, color=NAVY, ha="right", va="center")
+    box(ax, 55, 37, 20, 9, "ADS1115 (U2)\nA0 = node N\nA1 = 3V3 rail", fc="#EFF6FF", ec=BLUE, size=6.6, r=1)
+    ax.plot([75, 82], [41.5, 41.5], color=NAVY, lw=1.1)
+    ax.text(78.5, 42.9, "I²C 0x48", fontsize=6.2, color=SLATE, ha="center")
+    box(ax, 82, 37, 17.5, 9, "ESP32-C3\nSDA GPIO6\nSCL GPIO7", fc="#EFF6FF", ec=BLUE, size=6.6, r=1)
+    for k, t in enumerate(("Phase +: DRV_C high, DRV_REF low; phase −: reversed",
+                           "→ no net DC on the wet strip",
+                           "Loop: GPIO5 → R4 → J4.4 → strip loop → J4.3 (open = FAULT)",
+                           "LEDs: GPIO0 / 1 / 21 → R7–R9 1 kΩ → D1–D3")):
+        ax.text(1, 49.5 - k * 3.1, t, fontsize=6.3, color=SLATE, va="top")
+    b = fig.add_axes([0.0, 0.0, 1.0, 0.46])
+    b.imshow(sheet)
+    b.axis("off")
+    b.set_title("Our full KiCad 10 schematic (reader_v0_1.kicad_sch), ERC 0 violations", fontsize=6.8, color=MUTED, pad=1)
+    fig.savefig(FIG / "fig_schematic.png", dpi=DPI, facecolor="white")
+    plt.close(fig)
+    (HERE / "_sch.png").unlink()
+    print("wrote fig_schematic.png")
+
+
+# ------------------------------------------------------------------ 10 maker evidence gallery (refinement 19 Oct)
+def _code_excerpt():
+    """classify() from zone_logic.h and one of its compile-time tests; only line breaks are added. Checked against the
+    source so the excerpt cannot drift from the firmware."""
+    src = (ROOT / "7_firmware" / "reader_v0_1" / "zone_logic.h").read_text(encoding="utf-8")
+    tests = (ROOT / "7_firmware" / "reader_v0_1" / "zone_logic_tests.h").read_text(encoding="utf-8")
+    assert "fault ? State::Fault" in src and "(a == Wet::WET ? (c == Wet::WET ? State::Change : State::Check) : State::Ok)" in src
+    assert 'classify(Wet::WET, Wet::WET, false) == State::Change, "front reached the change line"' in tests
+    return ["// C = pad centre, A = maker's change line",
+            "constexpr State classify(Wet c, Wet a,",
+            "                         bool fault) {",
+            "  return fault ? State::Fault",
+            "    : (a == Wet::WET ? (c == Wet::WET",
+            "         ? State::Change : State::Check)",
+            "       : State::Ok);",
+            "}",
+            "static_assert(classify(Wet::WET, Wet::WET,",
+            "   false) == State::Change,",
+            '   "front reached the change line");']
+
+
+def fig_maker():
+    import pymupdf
+    drw = pymupdf.open(ROOT / "5_cad" / "solidworks" / "clamp_base_v0_1_drawing.PDF")[0]
+    r = drw.rect
+    drw.get_pixmap(dpi=150, clip=pymupdf.Rect(0, 0, r.width, r.height)).save(HERE / "_drw.png")
+    sch = pymupdf.open(ROOT / "6_electronics" / "kicad" / "out" / "reader_v0_1_schematic.pdf")[0]
+    sch.get_pixmap(dpi=110).save(HERE / "_sch.png")
+    e2 = pymupdf.open(ROOT / "4_sensor_strip" / "e2_experiment" / "E2_bench_sheets.pdf")[0]
+    e2.get_pixmap(dpi=90).save(HERE / "_e2.png")
+    tiles = [(Image.open(FIG / "sw_ui_assembly.png"), "SolidWorks: our assembly + feature tree"),
+             (Image.open(HERE / "_drw.png"), "A3 drawing: clamp base (mm, first-angle)"),
+             (Image.open(HERE / "_sch.png"), "KiCad 10: reader schematic"),
+             (None, "Firmware: state rule + compile-time test"),
+             (Image.open(ROOT / "4_sensor_strip" / "strip_v0_1_drawing.png"), "Laser file: strip v0.1 (from DXF)"),
+             (Image.open(HERE / "_e2.png"), "E2 bench sheet: 72 samples fixed in advance")]
+    fig = plt.figure(figsize=(5.94, 4.25))
+    for k, (im, cap) in enumerate(tiles):
+        col, row = k % 3, k // 3
+        a = fig.add_axes([0.005 + col * 0.333, 0.665 - row * 0.335, 0.323, 0.285])
+        if im is None:
+            a.set_xlim(0, 10)
+            a.set_ylim(0, 10)
+            a.add_patch(Rectangle((0, 0), 10, 10, fc="#0F172A", ec="none"))
+            for i, line in enumerate(_code_excerpt()):
+                a.text(0.25, 9.55 - i * 0.86, line, fontsize=4.5, color="#86EFAC" if line.startswith(("static", "   false", "   the"))
+                       else "#E2E8F0", family="Consolas", va="top")
+        else:
+            a.imshow(im)
+        a.set_xticks([])
+        a.set_yticks([])
+        for s in a.spines.values():
+            s.set_color(LINE)
+        a.set_title(cap, fontsize=6.3, color=NAVY, pad=1.5)
+    c = fig.add_axes([0, 0, 1, 0.29])
+    c.axis("off")
+    c.set_xlim(0, 10)
+    c.set_ylim(0, 3)
+    c.add_patch(FancyBboxPatch((0.05, 0.05), 9.9, 2.9, boxstyle="round,pad=0,rounding_size=0.15", fc="#0F172A", ec="none"))
+    c.text(0.25, 2.75, "Checks re-run on 19 Oct 2026 (results as printed by each tool)", fontsize=6, color="#94A3B8",
+           family="Consolas", va="top")
+    out = [("verify_cad.py (SolidWorks)", "{'PASS': 99, 'FAIL': 0, 'BLOCKED': 5}"),
+           ("kicad-cli sch erc", "Found 0 violations"),
+           ("verify_laser_files.py", "35 PASS, 0 FAIL"),
+           ("arduino-cli compile (esp32c3)", "Sketch uses 650349 bytes (49%)"),
+           ("pytest (firmware tools)", "16 passed"),
+           ("pytest (E2 analysis, synthetic data)", "3 passed")]
+    for i, (cmd, res) in enumerate(out):
+        y = 2.28 - i * 0.37
+        c.text(0.25, y, cmd, fontsize=5.9, color="#94A3B8", family="Consolas", va="top")
+        c.text(4.6, y, res, fontsize=6.1, color="#86EFAC", family="Consolas", va="top")
+    fig.savefig(FIG / "fig_maker.png", dpi=DPI, facecolor="white")
+    plt.close(fig)
+    for f in ("_drw.png", "_sch.png", "_e2.png"):
+        (HERE / f).unlink()
+    print("wrote fig_maker.png")
+
+
+# ------------------------------------------------------------------ photo placeholders for the team (never fake photos)
+def fig_placeholders():
+    for name, (w, h), lines in (("placeholder_team.png", (3.0, 4.0), ["TEAM PHOTO", "", "replace: right-click →", "Change Picture",
+                                                                       "", "(ID badge visible)"]),
+                                ("placeholder_lab.png", (4.0, 2.67), ["LAB PHOTO", "team at work, ID badges visible", "",
+                                                                      "replace: right-click → Change Picture"])):
+        fig, ax = canvas(w, h, (0, 10), (0, 10 * h / w))
+        H = 10 * h / w
+        ax.add_patch(FancyBboxPatch((0.2, 0.2), 9.6, H - 0.4, boxstyle="round,pad=0,rounding_size=0.4", fc="#F1F5F9",
+                                    ec="#94A3B8", lw=1.4, ls=(0, (4, 3))))
+        for i, t in enumerate(lines):
+            ax.text(5, H / 2 + (len(lines) / 2 - i - 0.5) * 0.9, t, ha="center", va="center",
+                    fontsize=12 if i == 0 else 8.5, color=SLATE if i else NAVY, fontweight="bold" if i == 0 else "normal")
+        fig.savefig(FIG / name, dpi=150, facecolor="white")
+        plt.close(fig)
+        print("wrote", name)
 
 
 # ------------------------------------------------------------------ 7 strip layout + E2 coupon (from the real geometry)
@@ -289,16 +523,6 @@ def fig_strip():
     save(fig, "fig_strip.png")
 
 
-# ------------------------------------------------------------------ 8 KiCad schematic (real export, cropped)
-def fig_schematic():
-    import pymupdf
-    pg = pymupdf.open(ROOT / "6_electronics" / "kicad" / "out" / "reader_v0_1_schematic.pdf")[0]
-    r = pg.rect
-    pix = pg.get_pixmap(dpi=300, clip=pymupdf.Rect(r.width * 0.055, r.height * 0.135, r.width * 0.875, r.height * 0.73))
-    pix.save(FIG / "fig_schematic.png")
-    print("wrote fig_schematic.png", pix.width, pix.height)
-
-
 # ------------------------------------------------------------------ 9 measurement window (calc_readout numbers)
 def fig_window():
     fig = plt.figure(figsize=(5.94, 4.25))
@@ -332,47 +556,6 @@ def fig_window():
     ax2.text(1, 8, "Ranges are calculations (calc_readout.py): Solution A conductivity, LIG Rs 20–100 Ω/sq from literature,\n"
                    "1 mm gap. Real wet and dry values will come from E2 and E4.", fontsize=6.4, color=MUTED, va="top")
     save(fig, "fig_window.png")
-
-
-# ------------------------------------------------------------------ 10 maker evidence collage (real screenshot + verbatim logs)
-def fig_maker():
-    ui = Image.open(FIG / "sw_ui_assembly.png")
-    fig = plt.figure(figsize=(5.94, 4.25))
-    a = fig.add_axes([0, 0.30, 0.64, 0.70])
-    a.imshow(ui)
-    a.axis("off")
-    a.set_title("SolidWorks 2019: our assembly, FeatureManager tree (13 parts + mates)", fontsize=6.6, color=MUTED, pad=2)
-    logs = [("verify_cad.py  (CAD re-opened, recomputed)", "{'PASS': 99, 'FAIL': 0, 'BLOCKED': 5}"),
-            ("kicad-cli sch erc  (KiCad 10.0.6)", "ERC: 0 violations"),
-            ("arduino-cli compile  (esp32c3)", "Sketch uses 327176 bytes (24%)"),
-            ("pytest  (logger + design cross-check)", "10 passed"),
-            ("verify_laser_files.py  (4 DXF)", "35 PASS, 0 FAIL")]
-    for i, (head, out) in enumerate(logs):
-        b = fig.add_axes([0.655, 0.835 - i * 0.135, 0.34, 0.12])
-        b.set_xlim(0, 10)
-        b.set_ylim(0, 3)
-        b.axis("off")
-        b.add_patch(FancyBboxPatch((0, 0), 10, 3, boxstyle="round,pad=0,rounding_size=0.25", fc="#0F172A", ec="none"))
-        b.text(0.35, 2.15, head, fontsize=6.2, color="#94A3B8", family="Consolas", va="center")
-        b.text(0.35, 0.95, out, fontsize=7.8, color="#86EFAC", family="Consolas", va="center", fontweight="bold")
-    c = fig.add_axes([0, 0, 1, 0.27])
-    c.axis("off")
-    c.set_xlim(0, 10)
-    c.set_ylim(0, 3)
-    c.add_patch(FancyBboxPatch((0.05, 0.1), 9.9, 2.75, boxstyle="round,pad=0,rounding_size=0.15", fc="#0F172A", ec="none"))
-    c.text(0.25, 2.55, "git log --oneline   (branch dev/stage2-rebuild, every step committed)", fontsize=5.6,
-           color="#94A3B8", family="Consolas", va="top")
-    commits = ["774c9f4 Store FINAL_SUBMISSION bytes exactly as checksummed",
-               "501ee05 Procurement BOM v0.1, design FMEA v0.1, official Template (2)",
-               "9614988 Minimum two-zone reader: KiCad schematic (ERC clean) + ESP32-C3 firmware",
-               "fba39ef CAD v0.1 freeze + verification; E2 fabrication-validation package",
-               "add9b1b WIP stage2 rebuild: audit, research matrix, two-zone strip, calcs, SolidWorks CAD",
-               "330b474 Restart project from scratch: iteration 1 (requirements + sensor selection)"]
-    for i, t in enumerate(commits[:4]):
-        c.text(0.25, 2.05 - i * 0.45, t, fontsize=6.6, color="#E2E8F0", family="Consolas", va="top")
-    fig.savefig(FIG / "fig_maker.png", dpi=DPI, facecolor="white")
-    plt.close(fig)
-    print("wrote fig_maker.png")
 
 
 # ------------------------------------------------------------------ 11 design decision + iterations
@@ -411,7 +594,7 @@ def fig_decision():
         tl.add_patch(Circle((x, 30), 1.6, fc=col, ec="white", lw=1.2))
         tl.text(x, 35.5, h, ha="center", fontsize=7.4, color=col, fontweight="bold")
         tl.text(x, 26, b, ha="center", va="top", fontsize=6.4, color=SLATE, linespacing=1.15)
-    tl.text(3, 2.5, "Each step is a dated git commit (330b474 → 774c9f4) with its decision written in 3_decisions/decisions.md",
+    tl.text(3, 2.5, "Each step is a dated git commit (from 330b474, 14 Oct) with its decision in 3_decisions/decisions.md",
             fontsize=6.3, color=MUTED)
     save(fig, "fig_decision.png")
 
@@ -440,7 +623,7 @@ def fig_fmea():
 def fig_roadmap():
     """Weeks from Mon 26 Oct 2026. Programme dates: vishwakarma-awards.org + Internshala listing (read 19 Oct 2026)."""
     fig = plt.figure(figsize=(12.17, 2.15))
-    ax = fig.add_axes([0.20, 0.17, 0.79, 0.70])
+    ax = fig.add_axes([0.235, 0.17, 0.755, 0.70])
     tasks = [("E2 laser fabrication validation", 0, 2.5, AMBER),
              ("Order parts · wire + bench-test reader (T0–T11)", 0, 3, AMBER),
              ("First strips on a dressing · 3-min prototype video", 3, 5.6, NAVY),
@@ -452,7 +635,7 @@ def fig_roadmap():
              ("Finale demo at IIT Indore", 13, 14, NAVY)]
     for i, (t, a, b, c) in enumerate(tasks[::-1]):
         ax.barh(i, b - a, left=a, color=c, height=0.62, alpha=0.9)
-        ax.text(-0.15, i, t, ha="right", va="center", fontsize=7.4, color=NAVY)
+        ax.text(-0.15, i, t, ha="right", va="center", fontsize=8.4, color=NAVY)
     for g, x, lab, ha in (("G1", 2.5, "E2: Rs CV ≤ 20 %", "right"), ("G2", 3.0, "reader T0–T11 pass", "left"),
                           ("G3", 11, "E4: alert within ±10 %", "center"), ("G4", 14, "live demo", "right")):
         ax.plot(x, len(tasks) - 0.35, marker="D", color=RED, ms=6)
@@ -466,7 +649,7 @@ def fig_roadmap():
     ax.set_yticks([])
     months = (0.86, 5.14, 9.57, 14.0)   # 1 Nov, 1 Dec, 1 Jan, 1 Feb in weeks from 26 Oct
     ax.set_xticks([0, *months])
-    ax.set_xticklabels(["26 Oct", "Nov 2026", "Dec", "Jan 2027", "1 Feb"], fontsize=7)
+    ax.set_xticklabels(["26 Oct", "Nov 2026", "Dec", "Jan 2027", "1 Feb"], fontsize=8)
     for x in months[:3]:
         ax.axvline(x, color=LINE, lw=0.8)
     ax.spines[["top", "right", "left"]].set_visible(False)
@@ -510,7 +693,7 @@ def fig_challenges():
 if __name__ == "__main__":
     fig_problem()
     fig_journeys()
-    fig_block()
+    fig_howitworks()
     fig_dataflow()
     fig_cad()
     fig_strip()
@@ -521,3 +704,4 @@ if __name__ == "__main__":
     fig_fmea()
     fig_roadmap()
     fig_challenges()
+    fig_placeholders()

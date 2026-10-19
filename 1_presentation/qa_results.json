@@ -10,9 +10,9 @@
   {
    "n": 2,
    "issues": [],
-   "min_font_pt": 7.5,
+   "min_font_pt": 7.2,
    "status_pills": 1,
-   "content_shapes": 15
+   "content_shapes": 24
   },
   {
    "n": 3,
@@ -33,7 +33,7 @@
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 7
+   "content_shapes": 15
   },
   {
    "n": 6,
@@ -82,53 +82,60 @@
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 7
+   "content_shapes": 10
   },
   {
    "n": 13,
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 9
+   "content_shapes": 7
   },
   {
    "n": 14,
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 8
+   "content_shapes": 9
   },
   {
    "n": 15,
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 10
+   "content_shapes": 8
   },
   {
    "n": 16,
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 12
+   "content_shapes": 10
   },
   {
    "n": 17,
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
-   "content_shapes": 4
+   "content_shapes": 12
   },
   {
    "n": 18,
    "issues": [],
    "min_font_pt": 7.5,
    "status_pills": 1,
+   "content_shapes": 4
+  },
+  {
+   "n": 19,
+   "issues": [],
+   "min_font_pt": 7.4,
+   "status_pills": 1,
    "content_shapes": 31
   }
  ],
  "deck": {
-  "slide_count": 18,
+  "slide_count": 19,
   "slide_size_in": [
    13.333,
    7.5
@@ -166,70 +173,74 @@
    ],
    [
     2,
-    "Problem Context"
+    "Project Overview & Team"
    ],
    [
     3,
-    "User Journey: Before State"
+    "Problem Context"
    ],
    [
     4,
-    "User Journey: After State (Intended)"
+    "User Journey: Before State"
    ],
    [
     5,
-    "System Architecture & Specs"
+    "User Journey: After State (Intended)"
    ],
    [
     6,
-    "System Architecture & Specs: Firmware & Data Flow"
+    "System Architecture & Specs"
    ],
    [
     7,
-    "CAD Design & Mechanical Specs"
+    "System Architecture & Specs: Firmware & Data Flow"
    ],
    [
     8,
-    "CAD Design & Mechanical Specs: Sensing Strip & Laser Process"
+    "CAD Design & Mechanical Specs"
    ],
    [
     9,
-    "Electronics Schematics & BOM"
+    "CAD Design & Mechanical Specs: Sensing Strip & Laser Process"
    ],
    [
     10,
-    "Electronics Schematics & BOM: Bill of Materials"
+    "Electronics Schematics & BOM"
    ],
    [
     11,
-    "Maker Journey"
+    "Electronics Schematics & BOM: Bill of Materials"
    ],
    [
     12,
-    "Maker Journey: Engineering Iterations"
+    "Maker Journey"
    ],
    [
     13,
-    "Safety & Hazard Mitigation"
+    "Maker Journey: Engineering Iterations"
    ],
    [
     14,
-    "Roadmap"
+    "Safety & Hazard Mitigation"
    ],
    [
     15,
-    "Technical Challenges & Risks"
+    "Roadmap"
    ],
    [
     16,
-    "Potential Solutions & Risk Mitigation"
+    "Technical Challenges & Risks"
    ],
    [
     17,
-    "References & Sources"
+    "Potential Solutions & Risk Mitigation"
    ],
    [
     18,
+    "References & Sources"
+   ],
+   [
+    19,
     "Image Sources"
    ]
   ],
@@ -244,7 +255,7 @@
    ],
    [
     3,
-    "User Journey"
+    "Problem Context"
    ],
    [
     4,
@@ -252,7 +263,7 @@
    ],
    [
     5,
-    "System Architecture & Specs"
+    "User Journey"
    ],
    [
     6,
@@ -260,7 +271,7 @@
    ],
    [
     7,
-    "CAD Design & Mechanical Specs"
+    "System Architecture & Specs"
    ],
    [
     8,
@@ -268,7 +279,7 @@
    ],
    [
     9,
-    "Electronics Schematics & BOM"
+    "CAD Design & Mechanical Specs"
    ],
    [
     10,
@@ -276,7 +287,7 @@
    ],
    [
     11,
-    "Maker Journey"
+    "Electronics Schematics & BOM"
    ],
    [
     12,
@@ -284,26 +295,30 @@
    ],
    [
     13,
-    "Safety & Hazard Mitigation"
+    "Maker Journey"
    ],
    [
     14,
-    "Roadmap"
+    "Safety & Hazard Mitigation"
    ],
    [
     15,
-    "Technical Challenges & Risks"
+    "Roadmap"
    ],
    [
     16,
-    "Potential Solutions & Risk Mitigation"
+    "Technical Challenges & Risks"
    ],
    [
     17,
-    "References & Sources"
+    "Potential Solutions & Risk Mitigation"
    ],
    [
     18,
+    "References & Sources"
+   ],
+   [
+    19,
     "Image Sources"
    ]
   ],
@@ -316,7 +331,7 @@
     true
    ],
    "Problem Context": [
-    1,
+    2,
     1,
     2,
     true
@@ -390,7 +405,7 @@
   },
   "low_res_pictures": [],
   "pdf": {
-   "pages": 18,
+   "pages": 19,
    "size_in": [
     13.33,
     7.5
@@ -402,16 +417,15 @@
     "BCDHEE+14",
     "BCDIEE+Arial-BoldMT",
     "BCDJEE+1",
-    "BCDKEE+9",
-    "BCDLEE+13",
-    "BCDMEE+CambriaMath",
-    "BCDNEE+ArialMT",
-    "BCDOEE+SegoeUISymbol",
+    "BCDKEE+14",
+    "BCDLEE+9",
+    "BCDMEE+13",
+    "BCDNEE+CambriaMath",
+    "BCDOEE+ArialMT",
     "BCDPEE+Cambria",
-    "BCEAEE+14",
-    "BCEBEE+10,Bold"
+    "BCEAEE+10,Bold"
    ],
-   "titles_found": 18
+   "titles_found": 19
   }
  }
 }

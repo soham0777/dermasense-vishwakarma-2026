@@ -22,7 +22,7 @@ RENDER = Path(sys.argv[1]) if len(sys.argv) > 1 else None
 
 # official template sections in order, with their slide limits
 SECTIONS = [("Application ID (cover)", ("Vishwakarma Application ID",), 1, 1),
-            ("Problem Context", ("Problem Context",), 1, 2),
+            ("Problem Context", ("Problem Context", "Project Overview"), 1, 2),   # T2: Project Overview + Problem Statement
             ("User Journey", ("User Journey",), 1, 2),
             ("System Architecture & Specs", ("System Architecture & Specs",), 1, 2),
             ("CAD Design & Mechanical Specs", ("CAD Design & Mechanical Specs",), 1, 2),

@@ -4,13 +4,16 @@ Build the FINAL Stage 2 deck on the official Vishwakarma template (Template (2),
 Template rule followed: sections in the template's order and within its slide limits; every content slide reuses the
 template's own example-slide design for that section (background, logos, title position, panels, icons, rationale
 bar). The guideline-only instruction slides are dropped, as the template intends; their requirements are mapped
-slide by slide in 1_presentation/PPT_Asset_Index.md.
+slide by slide in 1_presentation/TEMPLATE_EVIDENCE_MAP.md (changes: SLIDE_BY_SLIDE_CHANGELOG.md).
 
-  1 Application ID (cover)            2 Problem Context                3-4 User Journey (before / after)
-  5-6 System Architecture & Specs      7-8 CAD Design & Mechanical      9-10 Electronics Schematics & BOM
-  11-12 Maker Journey                  13 Safety & Hazard Mitigation    14 Roadmap
-  15 Technical Challenges & Risks      16 Potential Solutions & Risk Mitigation
-  17 References & Sources              18 Image Sources
+  1 Application ID (cover)            2-3 Problem Context (Project Overview & Team; Problem Statement)
+  4-5 User Journey (before / after)    6-7 System Architecture & Specs  8-9 CAD Design & Mechanical
+  10-11 Electronics Schematics & BOM   12-13 Maker Journey              14 Safety & Hazard Mitigation
+  15 Roadmap                           16 Technical Challenges & Risks  17 Potential Solutions & Risk Mitigation
+  18 References & Sources              19 Image Sources                 (19 = the most the section limits allow)
+
+Team photos: put real photos in 1_presentation/team_photos/ as member1.*, member2.*, lab1.*, lab2.* and rebuild, or
+replace the placeholder pictures in the PPTX (right-click > Change Picture). Photos are never generated.
 
 Evidence discipline: every slide carries one status pill (green = completed & verified in software or by source,
 amber = designed / physical validation pending, grey = future scope, blue = research or documented decision).
@@ -36,6 +39,7 @@ TEMPLATE = HERE / "template" / "Vishwakarma Awards 2026-27 Stage 2 Submission Te
 OUTDIR = ROOT / "FINAL_SUBMISSION"                     # the only place the deck lives
 OUT = OUTDIR / "Vishwakarma_Stage2_Final.pptx"
 FIG = HERE / "figures"
+PHOTOS = HERE / "team_photos"          # real team photos only (member1, member2, lab1, lab2); placeholders otherwise
 
 NAVY, BODY, MUTED, GREEN, BLUE = "0F172A", "334155", "64748B", "059669", "0369A1"
 PILL = {"green": ("047857", "D1FAE5"), "amber": ("B45309", "FEF3C7"), "grey": ("475569", "E2E8F0"), "blue": ("0369A1", "E0F2FE")}
@@ -163,6 +167,24 @@ def picture_in(slide, path, x, y, w, h, frame=None):
     return pic
 
 
+def photo_in(slide, key, placeholder, x, y, w, h):
+    """The team's photo team_photos/<key>.* cropped to fill the box, else a clearly marked placeholder picture."""
+    from PIL import Image
+    found = sorted(PHOTOS.glob(f"{key}.*")) if PHOTOS.exists() else []
+    path = found[0] if found else FIG / placeholder
+    iw, ih = Image.open(path).size
+    pic = slide.shapes.add_picture(str(path), Inches(x), Inches(y), Inches(w), Inches(h))
+    box_r, img_r = w / h, iw / ih
+    if img_r > box_r:
+        pic.crop_left = pic.crop_right = (1 - box_r / img_r) / 2
+    else:
+        pic.crop_top = pic.crop_bottom = (1 - img_r / box_r) / 2
+    pic.name = f"PHOTO {key}" if found else f"PHOTO {key} - PLACEHOLDER (right-click > Change Picture)"
+    pic.line.color.rgb = RGBColor.from_string("CBD5E1")
+    pic.line.width = Pt(0.75)
+    return pic
+
+
 def _border(cell, color="E2E8F0", width=0.75, sides=("B",)):
     tcPr = cell._tc.get_or_add_tcPr()
     for side in ("L", "R", "T", "B"):
@@ -271,9 +293,9 @@ def bom_groups():
             q = float(rows[i]["qty"])
             lo, hi = lo + a * q, hi + b * q
         return lo, hi
-    groups = [("ESP32-C3 SuperMini", "USB-C, native USB serial", "1", "Probots · quoted", ["R01"]),
-              ("ADS1115 16-bit ADC", "I²C, auto-range", "1", "Probots · quoted", ["R02"]),
-              ("P75-B1 pogo pins", "1 mm, pack of 100", "100", "Hubtronics · quoted", ["M01"]),
+    groups = [("ESP32-C3 SuperMini (PRO4607)", "USB-C, native USB serial", "1", "Probots · quoted", ["R01"]),
+              ("ADS1115 module (PRO789)", "I²C, auto-range", "1", "Probots · quoted", ["R02"]),
+              ("P75-B1 pogo pins (05880)", "1 mm, pack of 100", "100", "Hubtronics · quoted", ["M01"]),
               ("Resistors, C0G cap, LEDs, board", "0.1 % + 1 % resistors, headers", "set", "local / online",
                ["R03", "R04", "R05", "R06", "R07"]),
               ("Clamp + bench rig", "PETG print · acrylic · M3/M4 · dowels", "set", "lab / local", ["M02", "M03", "M04", "M05", "P04"]),
@@ -288,8 +310,8 @@ def bom_groups():
 
 
 # ================================================================== slide content
-# Design rule (declutter, 16 Oct): one message per slide, one large visual, at most 4 short points, one-line takeaway in
-# the template's rationale bar. Details live in the speaker notes and in PPT_Claim_and_Reference_Check.md.
+# Design rule (refinement 19 Oct): simplify the explanation, not the invention. One takeaway, one genuine visual, the
+# annotations needed to read it, and a visible evidence line. Every claim: CLAIM_EVIDENCE_MATRIX.md.
 B_SIZE = 12.0          # panel bullet size (was ~9.5)
 BAR_SIZE = 9.6
 
@@ -303,10 +325,10 @@ def cover(sl):
     by_id(sl, 86).top, by_id(sl, 86).height = Inches(4.30), Inches(0.62)
     set_text(by_id(sl, 86), [[("VK26-IITI-HT-0050", False)]], 24, BLUE, TITLE_FONT, PP_ALIGN.CENTER)
     move(sl, 86, x=2.2, w=8.93)
-    textbox(sl, 1.4, 5.02, 10.53, 0.5, [[("Dermasense: a laser-written strip that reads a dressing's own 'change line'",
+    textbox(sl, 1.4, 5.02, 10.53, 0.5, [[("Dermasense: a laser-written strip designed to read a dressing's own 'change line'",
                                           False)]], 16, NAVY, TITLE_FONT, PP_ALIGN.CENTER, space=2)
     textbox(sl, 1.4, 5.62, 10.53, 0.8, [
-        [("Soham Prabhakar Kadu · Bhakti Ajay Kadam", False)],
+        [("Soham Prabhakar Kadu · Bhakti Ajay Kadam · Sanjivani University", False)],
         [("Health Tech: Emergency Response & Remote Monitoring", False)]], 11, BODY, align=PP_ALIGN.CENTER, space=3)
     textbox(sl, 1.4, 6.45, 10.53, 0.3, [[("Evidence key:  ", True, MUTED), ("● verified", True, GREEN),
                                          ("   ● designed, lab test pending", True, "B45309"),
@@ -337,6 +359,52 @@ def e4_slide(sl, ttl, pill_txt, pill_kind, metrics, fig, caption, heading, bulle
     notes(sl, note)
 
 
+def overview(sl):
+    """Problem Context 1 of 2 = the template's 'Project Overview' (T2). Photos and roles are left for the team."""
+    title(sl, 133, "Project Overview & Team")
+    delete(sl, 134, 152, 153, 154, 155, 148, 149, 150, 151, 145)
+    pill(sl, "PROJECT OVERVIEW", "blue")
+    metrics = [("VK26-IITI-HT-0050", "TEAM / APPLICATION ID"), ("Health Tech", "EMERGENCY RESPONSE & REMOTE MONITORING"),
+               ("Sanjivani University", "INSTITUTION"), ("Stage 2", "DESIGN SPECIFICATION · OCT 2026")]
+    for (vid, lid), (val, lab) in zip(((136, 137), (138, 139), (140, 141), (142, 143)), metrics):
+        v = set_text(by_id(sl, vid), [[(val, False)]], 15 if len(val) < 12 else 12.5, BLUE, TITLE_FONT, PP_ALIGN.CENTER)
+        v.top, v.height = Inches(1.12), Inches(0.33)
+        lb = set_text(by_id(sl, lid), [[(lab, False)]], 7.6, MUTED, "DM Sans Medium", PP_ALIGN.CENTER)
+        lb.top, lb.height = Inches(1.47), Inches(0.24)
+    move(sl, 132, x=0.58, y=1.90, w=5.94, h=3.95)
+    for k, (key, name) in enumerate((("member1", "Soham Prabhakar Kadu"), ("member2", "Bhakti Ajay Kadam"))):
+        x = 1.25 + k * 2.65
+        photo_in(sl, key, "placeholder_team.png", x, 2.04, 1.95, 2.6)
+        textbox(sl, x - 0.25, 4.72, 2.45, 0.95, [[(name, True, NAVY)], [("Role: ", False, MUTED), ("[team to add]", True, "B45309")],
+                                                 [("Sanjivani University", False, MUTED)]], 10, align=PP_ALIGN.CENTER, space=1)
+    cap = by_id(sl, 144)
+    set_text(cap, [[("Team Dermasense (photos taken by the team).", False)]], 7.6, MUTED)
+    cap.top, cap.height = Inches(5.90), Inches(0.22)
+    move(sl, 131, y=1.90, h=4.25)
+    set_text(by_id(sl, 147), [[("What we built in Stage 2 (14–19 Oct 2026)", True)]], 11.5, NAVY)
+    by_id(sl, 147).width = Inches(5.3)
+    textbox(sl, 7.07, 2.55, 5.5, 3.5, pts(("CAD:", "9 SolidWorks parts, 1 assembly, 7 A3 drawings; 99 automated checks pass."),
+                                         ("Circuit:", "KiCad reader schematic; 0 rule-check errors."),
+                                         ("Firmware:", "ESP32-C3 reader with Bluetooth output; 23 + 16 software tests pass."),
+                                         ("Sensor strip:", "laser files for the strip and 2 test coupons; 35/35 file checks."),
+                                         ("Experiment:", "E2 laser test, 72 samples fixed in advance."),
+                                         ("Not yet:", "nothing lased, wired or tested on a dressing.")),
+            11, bullets=True, space=7)
+    for k, (img, cap) in enumerate(((FIG / "cad_exploded_iso.png", "SolidWorks model"),
+                                    (ROOT / "4_sensor_strip" / "strip_v0_1_drawing.png", "Laser file (DXF)"),
+                                    (FIG / "fig_schematic.png", "Reader circuit (KiCad)"))):
+        x = 7.07 + k * 1.86
+        picture_in(sl, img, x, 4.86, 1.72, 0.92)
+        textbox(sl, x, 5.80, 1.72, 0.22, [[(cap, False)]], 7.2, MUTED, align=PP_ALIGN.CENTER)
+    set_text(by_id(sl, 135), [[("Core Innovation: ", True, NAVY),
+                               ("two laser-written zones, at the pad centre and on the maker's change line, let a clip-on "
+                                "reader tell a carer OK, CHANGE or CHECK without lifting the dressing.", False)]], BAR_SIZE, BODY)
+    move(sl, 135, w=11.7, h=0.36)
+    notes(sl, "TEAM TO DO: replace the two photo placeholders (right-click > Change Picture, or put member1/member2 photos in "
+              "1_presentation/team_photos/ and rebuild) and the [team to add] role fields. Counts: PROJECT_AUDIT.md (re-run "
+              "19 Oct). Template T2: Project Overview = title, Team ID, track, 1-line core innovation.")
+
+
 def problem(sl):
     e4_slide(sl, "Problem Context", "PUBLISHED EVIDENCE · CITED", "blue",
              [("44.9 %", f"OF 588 CHANGES MADE AT OPTIMAL MOISTURE{SUP[1]}"),
@@ -360,7 +428,7 @@ def problem(sl):
 def journey_before(sl):
     e4_slide(sl, "User Journey: Before State", "CURRENT STATE · CITED", "blue",
              [("44.9 %", f"CHANGES WHILE MOISTURE WAS STILL OPTIMAL{SUP[1]}"),
-              ("≈ 18 min", f"A DRESSING VISIT, PATIENT-REPORTED{SUP[13]}"),
+              ("≈ 18 min", f"A DRESSING VISIT, PATIENT-REPORTED (UK){SUP[13]}"),
               ("₹240–510", f"ONE 10 × 10 CM FOAM DRESSING, RETAIL{SUP[15]}"),
               ("0.1–1.3 g/cm²·day", f"REPORTED EXUDATE RATES, 2 METHODS{SUP[6]}")],
              "fig_journey_before.png", "Figure: today's pain-point map (cited numbers only).",
@@ -388,8 +456,9 @@ def journey_after(sl):
              "Future Solution Mapping & Quantified Efficiency",
              pts(("Same routine:", "strip on the pad, reader clips on."),
                  ("Clear signal:", "CHANGE when the line is wet; CHECK if it wets first."),
-                 ("Remote:", "the state is broadcast over Bluetooth to a phone."),
-                 ("Payback:", f"a ≤ ₹100 strip pays for itself if 1 in 2–5 changes is avoided{SUP[15]}.")),
+                 ("Remote:", "designed to broadcast the state to a nearby phone over Bluetooth (hardware test pending)."),
+                 ("Payback:", f"a ≤ ₹100 strip pays for itself if 1 in 2–5 changes is avoided{SUP[15]} (strip only; "
+                              "the reader is reused).")),
              [[("Design Principle: ", True, NAVY), ("only film and carbon are disposable; the strip never touches the "
                                                     "wound.", False)]],
              "Targets and projections, not results. Payback: strip <= Rs 100 (estimate) / dressing Rs 242-514 [15] = 0.19-0.41, "
@@ -402,20 +471,23 @@ def arch(sl):
     title(sl, 186, "System Architecture & Specs")
     delete(sl, 187, 190, 191, *range(194, 212))
     pill(sl, "DESIGNED · LAB TEST PENDING", "amber")
-    picture_in(sl, FIG / "fig_block.png", 0.59, 1.06, 5.92, 4.24, frame=185)
+    picture_in(sl, FIG / "fig_howitworks.png", 0.59, 1.06, 5.92, 4.24, frame=185)
     cap = by_id(sl, 189)
-    set_text(cap, [[("Figure: subsystems; ✓ = verified in software, ◐ = hardware still to prove.", False)]], 7.6, MUTED)
+    set_text(cap, [[("Figure: how a wet pad becomes a state (concept drawing; values calculated, to be measured).", False)]],
+             7.6, MUTED)
     cap.top, cap.height = Inches(5.34), Inches(0.24)
     set_text(by_id(sl, 193), [[("Target Specifications & Hardware", True)]], 11.5, NAVY)
-    table(sl, 7.05, 1.70, 5.48, [
-        ("Parameter", "Design value"),
-        ("Sensing zones", "2: pad centre C, change line A"),
-        ("Wet / dry", "< 100 kΩ / > 300 kΩ, 3 scans"),
-        ("Drive", "bipolar, ≤ 33 µA, no net DC"),
-        ("ADC / MCU", "ADS1115 16-bit (I²C) · ESP32-C3"),
-        ("Contacts", "4 pogo pins + 2 dowels"),
-        ("Output", "LEDs · USB log · BLE broadcast"),
-    ], [1.6, 3.2], size=10.5, head_size=9.5, row_h=0.5)
+    table(sl, 7.05, 1.62, 5.48, [
+        ("Parameter", "Design value", "Basis"),
+        ("Sensing zones", "2: centre C, change line A", "decision D-012"),
+        ("Electrodes", "1.0 mm lines and gaps", "E2 confirms"),
+        ("Wet / dry", "< 100 kΩ / > 300 kΩ, 3 scans", "calc: wet 4–15 kΩ"),
+        ("Drive", "bipolar, ≤ 33 µA, no net DC", "calc · bench T8"),
+        ("ADC / MCU", "ADS1115 16-bit (I²C) · ESP32-C3", "datasheets"),
+        ("Self-test", "100 kΩ check ±5 % + strip loop", "else FAULT"),
+        ("Contacts", "4 pogo pins + 2 dowels", "CAD checked"),
+        ("Output", "LEDs · USB log · BLE broadcast", "BLE compiled only"),
+    ], [1.2, 2.45, 1.45], size=9.6, head_size=9.0, row_h=0.41)
     set_text(by_id(sl, 188), [[("Architecture Rationale: ", True, NAVY),
                                ("only film and carbon are disposable; every electronic part is reused.", False)]], BAR_SIZE, BODY)
     move(sl, 188, w=11.7)
@@ -436,7 +508,8 @@ def e8_slide(sl, ttl, pill_txt, pill_kind, fig, caption, heading, bullets, bar, 
     move(sl, 236, h=4.85)
     set_text(by_id(sl, 244), [[(heading, True)]], 11.5, NAVY)
     by_id(sl, 244).width = Inches(5.3)
-    textbox(sl, 7.07, 1.72, 5.5, 4.0, bullets, B_SIZE, bullets=True, space=14)
+    if bullets:
+        textbox(sl, 7.07, 1.72, 5.5, 4.0, bullets, B_SIZE, bullets=True, space=14)
     set_text(by_id(sl, 240), bar, BAR_SIZE, BODY)
     move(sl, 240, w=11.7, h=0.36)
     notes(sl, note)
@@ -450,7 +523,9 @@ def firmware(sl):
                  ("Read:", "16-bit ADC, scaled to the 3V3 rail."),
                  ("Decide:", "wet < 100 kΩ, dry > 300 kΩ, 3 scans in a row."),
                  ("Self-check:", "a known 100 kΩ every scan, else FAULT."),
-                 ("Share:", "CSV over USB, and a Bluetooth broadcast to a phone.")),
+                 ("Output:", "LEDs; a CSV line over USB; a Bluetooth broadcast any scanner app can read (no custom app "
+                             "yet)."),
+                 ("Why remote:", "a carer nearby can see the state without unwrapping or plugging in (to be bench-tested).")),
              [[("Software vs Hardware: ", True, NAVY), ("23 compile-time and 16 PC tests pass; not yet run on a wired board.",
                                                         False)]],
              "ADS1115 single-shot 128 SPS, auto-range; A1 reads the 3V3 rail. Rx from both phases, averaged, scaled by the check "
@@ -461,18 +536,24 @@ def firmware(sl):
 
 def cad(sl):
     e8_slide(sl, "CAD Design & Mechanical Specs", "DESIGNED · CAD VERIFIED · NOT YET BUILT", "amber",
-             "fig_cad.png", "Figure: our SolidWorks 2019 models: exploded stack, clamp, drawing, assembly.",
-             "Materials & Mechanical Checks",
-             pts(("Materials:", "polyimide strip · PETG clamp · acrylic rig."),
-                 ("Contact:", "4 pogo pins, 0.72 N each (calculated)."),
-                 ("Alignment:", "2.8× tolerance margin on 3 mm pads."),
-                 ("Verified:", "99 automated CAD checks pass, 0 fail."),
-                 ("Provisional:", "strip sizes wait for E2 laser data.")),
-             [[("Design Iteration: ", True, NAVY), ("a clash check moved the seal tape off the clamp (decision D-013).",
-                                                    False)]],
-             "Hand calculations (calc_mechanical.py): 1.48 mm pin compression, 2.9 N total, lid deflection 11 um, tolerance stack "
-             "0.49 mm vs +/-1.35 mm, 0.62 % bending strain at 10 mm radius, 20 MPa vs 231 MPa at the dowels. No FEA: loads < 3 N. "
-             "9 parts, 1 assembly, 7 A3 drawings, STEP. Seal clash was 9.0 mm3; now 0.")
+             "fig_cad.png", "Figure: our SolidWorks 2019 models (9 parts, 1 assembly, 7 A3 drawings, STEP); not yet built.",
+             "A clip-on clamp: 4 spring pins, 2 dowels", None,
+             [[("Design Iteration: ", True, NAVY), ("a clash check found the seal tape trapped under the clamp (9.0 mm³); "
+                                                    "moved to x = 23 mm, now 0 clash (decision D-013).", False)]],
+             "Hand calculations: 5_cad/calc_mechanical_report.md (pin rate 0.49 N/mm from the P75-B1 listing; 1.48 mm "
+             "compression; lid 4.0 mm PETG, span 35.7 mm, simply supported; tolerance stack worst case 0.49 mm, RSS 0.25 mm; "
+             "t/2R strain; 10 N tug at the dowels). No FEA: loads are under 3 N, so stresses are far below PETG limits; "
+             "SolidWorks Simulation is available if the judges want plots. CAD checks: 5_cad/verify_cad_report.md.")
+    table(sl, 7.05, 1.66, 5.48, [
+        ("Check", "Result", "Basis"),
+        ("Materials", "polyimide strip · PETG clamp · acrylic rig", "printable, laser-cut"),
+        ("Pin force", "0.72 N each · 2.9 N total", "calc"),
+        ("Lid bending", "11 µm vs 1.48 mm pin travel", "calc"),
+        ("Alignment", "0.49 mm used of ±1.35 mm", "calc · 2.8× margin"),
+        ("Strip bending", "0.62 % strain at 10 mm radius", "calc · yield ≈ 3 %"),
+        ("CAD checks", "99 pass · 0 fail · 5 wait for E2", "verify_cad.py"),
+        ("FEA", "not run: loads are under 3 N", "hand calcs above"),
+    ], [1.15, 2.6, 1.35], size=9.8, head_size=9.0, row_h=0.45)
 
 
 def strip(sl):
@@ -484,7 +565,7 @@ def strip(sl):
                  ("E2 plan:", "7 coupons, 2 days, 72 pre-registered samples."),
                  ("Pass rules:", "CV ≤ 20 %, gaps > 3 MΩ, fixed beforehand."),
                  ("Sealed:", f"leads under tape; LIG made in air wets easily{SUP[9]}.")),
-             [[("Laser Files Verified: ", True, NAVY), ("35/35 file checks pass; LaserCAD import is checked at the machine.",
+             [[("Laser Files Checked: ", True, NAVY), ("35/35 file checks pass (files only; nothing lased yet). LaserCAD import is checked at the machine.",
                                                         False)]],
              "Graphene not confirmed until Raman. Machine (LaserCAD config): 1200 x 900 mm bed, 20 kHz PWM, 98 % cap. Logged per "
              "layer: min/max power, speed, 0.1 mm interval, passes, scan direction, focus, tube current. E2 = 4 bracket coupons "
@@ -497,15 +578,21 @@ def schematic(sl):
     pill(sl, "ERC VERIFIED · NOT YET WIRED", "green")
     picture_in(sl, FIG / "fig_schematic.png", 0.59, 1.06, 5.92, 4.24, frame=280)
     cap = by_id(sl, 284)
-    set_text(cap, [[("Figure: our KiCad 10 schematic of the reader (exported by kicad-cli).", False)]], 7.6, MUTED)
+    set_text(cap, [[("Figure: zone-C path drawn from our netlist, above our real KiCad 10 sheet.", False)]], 7.6, MUTED)
     cap.top, cap.height = Inches(5.36), Inches(0.24)
-    set_text(by_id(sl, 288), [[("Key Connections", True)]], 11.5, NAVY)
-    textbox(sl, 7.07, 1.72, 5.5, 4.0, pts(("Drive:", "GPIO3 / GPIO4 → 1 kΩ → zones C, A."),
-                                         ("Sense:", "node N → 100 kΩ reference → ADC A0."),
-                                         ("Check:", "100 kΩ on GPIO20; strip loop on GPIO5."),
-                                         ("Strip:", "4 pogo pins on 3 × 6 mm pads."),
-                                         ("Power:", "USB-C → 3V3 regulator on the module.")),
-            B_SIZE, bullets=True, space=14)
+    set_text(by_id(sl, 288), [[("Pin & Net Map (from the KiCad netlist)", True)]], 11.5, NAVY)
+    table(sl, 7.05, 1.62, 5.48, [
+        ("Net", "Pin", "Function"),
+        ("DRV_C · DRV_A", "GPIO3 · GPIO4", "drive zone C · A via 1 kΩ"),
+        ("DRV_LOOP", "GPIO5", "strip loop (broken strip)"),
+        ("DRV_REF", "GPIO10", "100 kΩ 0.1 % reference"),
+        ("DRV_CHK", "GPIO20", "100 kΩ self-check"),
+        ("SDA · SCL", "GPIO6 · GPIO7", "I²C to ADS1115 (0x48)"),
+        ("N · 3V3", "ADS1115 A0 · A1", "node · rail (ratiometric)"),
+        ("LED G · Y · R", "GPIO0 · 1 · 21", "OK · CHANGE · CHECK/FAULT"),
+        ("Strip pads", "J4.1 – J4.4", "S_C · S_A · COM1 · COM2"),
+        ("Power", "USB-C → 3V3", "LDO on the SuperMini"),
+    ], [1.35, 1.6, 2.15], size=9.4, head_size=9.0, row_h=0.385)
     set_text(by_id(sl, 283), [[("Verification: ", True, NAVY),
                                ("ERC 0 violations; netlist matches firmware and strip pads (0 mismatches).", False)]],
              BAR_SIZE, BODY)
@@ -528,7 +615,8 @@ def bom(sl):
     set_text(by_id(sl, 288), [[("Prototype Bill of Materials", True)]], 11.5, NAVY)
     table(sl, 7.05, 1.66, 5.48, rows, [2.3, 0.45, 1.45, 1.28], size=9.8, head_size=9.2, row_h=0.41)
     set_text(by_id(sl, 283), [[("Procurement Status: ", True, NAVY),
-                               ("reader parts and pins quoted 19 Oct, in stock in India; the rest are estimates.", False)]], BAR_SIZE, BODY)
+                               ("reader parts and pins quoted 19 Oct, in stock in India; the rest are estimates. The reader is reused; "
+                                "only the strip is consumed.", False)]], BAR_SIZE, BODY)
     move(sl, 283, w=11.7)
     notes(sl, "Line items: 6_electronics/bom_v0_1.csv (23 lines, each traced to the file that needs it). First order: silver "
               "paint, 1 % resistor set, 0.1 % 100 kOhm resistors, ADS1115, ESP32-C3. Quoted 19 Oct 2026 incl. GST: Probots PRO4607 "
@@ -547,24 +635,33 @@ def e12_slide(sl, ttl, pill_txt, pill_kind, fig, caption, heading, bullets, bar,
     move(sl, 364, h=4.95)
     set_text(by_id(sl, 372), [[(heading, True)]], 11.5, NAVY)
     by_id(sl, 372).width = Inches(5.3)
-    textbox(sl, 7.07, 1.72, 5.5, 4.2, bullets, B_SIZE, bullets=True, space=14)
+    if bullets:
+        textbox(sl, 7.07, 1.72, 5.5, 4.2, bullets, B_SIZE, bullets=True, space=14)
     set_text(by_id(sl, 368), bar, BAR_SIZE, BODY)
     move(sl, 368, w=11.7, h=0.36)
     notes(sl, note)
 
 
 def maker(sl):
-    e12_slide(sl, "Maker Journey", "GENUINE ARTIFACTS · NO STAGED EVIDENCE", "green", "fig_maker.png",
-              "Figure: our SolidWorks window and verbatim tool output (14–15 Oct 2026).",
-              "Authenticity: What Each Artifact Proves",
-              pts(("CAD:", "our assembly open in SolidWorks, 13 parts."),
-                  ("Checks:", "CAD, ERC, compile and tests all re-runnable."),
-                  ("History:", "every step a git commit since 14 Oct."),
-                  ("Photos:", "none yet; the first laser session is next.")),
-              [[("Raw Repository Linkage: ", True, NAVY), ("[team to insert the GitHub / Drive link before upload]", False)]],
-              "Native files in the repository: .SLDPRT, .SLDASM, .SLDDRW, .STEP, .kicad_sch, .ino, .dxf. CAD re-check: 99 pass, "
-              "0 fail. KiCad ERC log: 0 violations. Faculty sign-off follows the E2 review. We do not stage or generate lab "
-              "photos.")
+    e12_slide(sl, "Maker Journey", "REAL FILES · RE-CHECKABLE · NO STAGED PHOTOS", "green", "fig_maker.png",
+              "Figure: our own files and tool output (checks re-run 19 Oct 2026).",
+              "Authenticity: real, dated, re-checkable work", None,
+              [[("Raw Repository Linkage: ", True, NAVY), ("[team to insert the Drive link before upload]: all native files "
+                                                           "and a dated work history.", False)]],
+              "Native files in the repository: .SLDPRT, .SLDASM, .SLDDRW, .STEP, .kicad_sch, .ino, .dxf. Every commit since "
+              "14 Oct carries a Co-Authored-By: Claude line; the lab notebook says which entries were AI-drafted. TEAM TO DO: "
+              "replace the two lab-photo placeholders (ID badges visible) and the link. Faculty sign-off only if a mentor "
+              "is attached.")
+    for k, key in enumerate(("lab1", "lab2")):
+        photo_in(sl, key, "placeholder_lab.png", 7.07 + k * 2.78, 1.62, 2.62, 1.72)
+    textbox(sl, 7.07, 3.38, 5.5, 0.25, [[("Team at work, institutional ID badges visible (photos by the team).", False)]],
+            7.6, MUTED)
+    textbox(sl, 7.07, 3.74, 5.5, 2.5, pts(
+        ("Real files:", ".SLDPRT .SLDASM .SLDDRW .STEP .kicad_sch .ino .dxf, dated in 15 git commits since 14 Oct."),
+        ("Re-checkable:", "one command re-runs each check shown on the left."),
+        ("How we work:", "scripts written with AI assistance (Claude), directed by us, build the CAD, schematic and "
+                         "firmware; the physical build and tests are done by us, starting with E2."),
+        ("Photos:", "never staged or generated.")), 10.5, bullets=True, space=6)
 
 
 def iterations(sl):
@@ -573,7 +670,7 @@ def iterations(sl):
               "Stage 1 to Stage 2 Iterations",
               pts(("Pivot:", f"therapy bandage (already shown in labs{SUP[5]}) → one job: is it full?"),
                   ("Choice:", "two-zone strip (4.36) beat one zone (4.29): it spots leaks."),
-                  ("Kept:", "Stage 1's Bluetooth telemetry, now a state broadcast."),
+                  ("Kept:", "Stage 1's Bluetooth telemetry, now a state broadcast (compiled; hardware test pending)."),
                   ("Corrected:", f"Stage 1 called Kapton 'medical-grade'; DuPont cautions otherwise{SUP[11]}."),
                   ("Redesign:", "FMEA risk → v0.2 loops each sense lead.")),
               [[("Prior Art: ", True, NAVY), (f"diaper strips{SUP[4]} and visual change indicators{SUP[14]} exist; our "
@@ -588,28 +685,33 @@ def safety(sl):
     title(sl, 421, "Safety & Hazard Mitigation")
     delete(sl, 422, 423, *range(426, 435), 437, 438, 441, 442, 443, 444, 445, 446)
     pill(sl, "RISKS ESTIMATED · TESTS PLANNED", "amber")
-    move(sl, 418, h=2.30)
-    set_text(by_id(sl, 425), [[("Design FMEA: top risks of 15 (ratings estimated before tests)", True)]], 11.5, NAVY)
-    by_id(sl, 425).width = Inches(7.4)
-    table(sl, 0.82, 1.62, 8.15, [
-        ("Failure mode", "RPN", "Fix"),
-        ("Cracked sense lead reads 'dry'", ("224", True, "DC2626"), "v0.2: loop each lead to a 2nd pad"),
-        ("Front path differs from model", ("210", True, "DC2626"), "test on real foam dressings (E4)"),
-        ("Humid dressing reads 'wet'", ("150", True, "DC2626"), "measure dry baselines (E4)"),
-    ], [3.0, 0.6, 3.4], size=10.5, head_size=9.5, row_h=0.36)
+    move(sl, 418, h=2.42)
+    set_text(by_id(sl, 425), [[("Design FMEA: top 5 of 15 failure modes (ratings estimated before tests)", True)]], 11.5,
+             NAVY)
+    by_id(sl, 425).width = Inches(7.6)
+    red = lambda v: (v, True, "DC2626")
+    table(sl, 0.82, 1.6, 8.15, [
+        ("Failure mode", "Effect", "RPN", "Fix / test"),
+        ("F04 cracked sense lead", "zone reads 'dry' for ever", red("224"), "v0.2 loops each lead · T-MECH-01"),
+        ("F07 front path differs", "CHANGE late or never", red("210"), "E4 on real foam dressings"),
+        ("F08 humid dry baseline", "false 'wet'", red("150"), "measure baselines (E4)"),
+        ("F01 weak carbon layer", "zones always 'dry'", red("140"), "E2 + per-strip QC record"),
+        ("F05 pin contact on carbon", "readings drift high", red("120"), "rounded pins · T-CON-01"),
+    ], [2.2, 1.95, 0.55, 2.6], size=9.4, head_size=9.0, row_h=0.30)
     picture_in(sl, FIG / "fig_fmea.png", 9.15, 1.25, 3.45, 2.06)
     for pid, iid, hid in ((419, 435, 436), (420, 439, 440)):
-        move(sl, pid, y=3.50, h=2.95)
-        move(sl, iid, y=3.74)
-        move(sl, hid, y=3.71, w=5.3)
+        move(sl, pid, y=3.62, h=2.83)
+        move(sl, iid, y=3.86)
+        move(sl, hid, y=3.83, w=5.3)
     set_text(by_id(sl, 436), [[("Fail-safes", True)]], 11.5, NAVY)
     set_text(by_id(sl, 440), [[("Standards (considered, not claimed)", True)]], 11.5, NAVY)
-    textbox(sl, 0.84, 4.10, 5.5, 2.3, pts(("Bench only:", "USB reader, never on a person."),
-                                         ("No net DC:", "bipolar drive, idle pins off."),
+    textbox(sl, 0.84, 4.22, 5.5, 2.2, pts(("Bench only:", "USB reader, never on a person."),
+                                         ("No net DC:", "bipolar drive, idle pins off; bench test T8 checks < 5 mV."),
                                          ("Self-check:", "every scan, else FAULT."),
-                                         ("No wound contact:", "strip on the pad's outer face.")),
+                                         ("No wound contact:", "strip on the pad's outer face, leads sealed."),
+                                         ("Laser work:", "signed safety checklist every session.")),
             11, bullets=True, space=7)
-    textbox(sl, 7.07, 4.10, 5.5, 2.3, pts(("ISO 14971", "risk management"), ("IEC 60601-1", "future on-body reader"),
+    textbox(sl, 7.07, 4.22, 5.5, 2.2, pts(("ISO 14971", "risk management"), ("IEC 60601-1", "future on-body reader"),
                                          ("ISO 10993-1", f"before any skin contact{SUP[11]}"),
                                          ("EN 13726", f"simulated exudate for tests{SUP[10]}"),
                                          ("IEC 60825-1", "laser work during fabrication")),
@@ -637,7 +739,7 @@ def roadmap(sl):
             11.5, bullets=True, space=10)
     textbox(sl, 7.07, 4.42, 5.5, 1.9, pts(("Dec:", "strip v0.2 + printed clamp; E4 wet tests (G3)."),
                                          ("Jan:", "repeatability; virtual semi-final with a live demo."),
-                                         ("Stage 3:", "OK → CHANGE live on a dressing at IIT Indore.")),
+                                         ("Stage 3:", "working strip + reader: OK → CHANGE live on a dressing, raw data logged.")),
             11.5, bullets=True, space=10)
     notes(sl, "Gates: G1 E2 Rs CV <= 20 %; G2 reader bench test T0-T11; G3 E4 alert within +/-10 %; G4 live demo with logged "
               "raw data. Programme dates (vishwakarma-awards.org and the Internshala listing, read 19 Oct 2026): prototype video "
@@ -758,13 +860,13 @@ IMAGES = [
     ("fig_problem.png", "Problem illustration, drawn to scale", "make_figures.py · strip_v0_1_geometry.json"),
     ("fig_journey_before.png", "Before-state pain-point map", "make_figures.py · cited sources 1–3"),
     ("fig_journey_after.png", "After-state intended workflow", "make_figures.py · firmware states"),
-    ("fig_block.png", "System block diagram", "make_figures.py · verification logs"),
+    ("fig_howitworks.png", "How it senses (concept)", "make_figures.py · sensor_selection.md, calc_readout.py"),
     ("fig_dataflow.png", "Firmware scan and state logic", "make_figures.py · reader_v0_1 source"),
-    ("fig_cad.png", "SolidWorks renders + drawing", "render_cad.py · 5_cad/solidworks (our models)"),
+    ("fig_cad.png", "Annotated SolidWorks views", "render_cad.py + make_figures.py · 5_cad/solidworks"),
     ("fig_strip.png", "Strip and E2 coupon layers", "make_figures.py · our DXF files"),
-    ("fig_schematic.png", "KiCad schematic export", "kicad-cli · reader_v0_1.kicad_sch (ours)"),
+    ("fig_schematic.png", "Measurement path + KiCad sheet", "make_figures.py · reader_v0_1 netlist + KiCad PDF"),
     ("fig_window.png", "Measurement window", "make_figures.py · calc_readout.py"),
-    ("fig_maker.png", "SolidWorks screenshot + logs", "screen capture of our machine · verbatim tool output"),
+    ("fig_maker.png", "Evidence gallery + tool output", "our files, screen capture, 19 Oct tool runs"),
     ("fig_decision.png", "Decision matrix + iterations", "make_figures.py · decision_matrix.md"),
     ("fig_fmea.png", "FMEA risk ranking", "make_figures.py · fmea_v0_1.csv"),
     ("fig_roadmap.png", "4-month roadmap", "make_figures.py · E2/bench/E4 plans"),
@@ -774,17 +876,18 @@ IMAGES = [
 
 def image_sources(sl):
     delete(sl, *range(523, 550), 550)
-    pill(sl, "ALL IMAGES ORIGINAL", "green")
-    textbox(sl, 0.58, 1.02, 12.17, 0.45, [[("Every image in this deck was produced by the team from our own project files. "
-                                            "No stock photos, no AI-generated images and no external images are used.",
-                                            False)]], 9.5, BODY)
+    pill(sl, "ALL IMAGES FROM OUR FILES", "green")
+    textbox(sl, 0.58, 1.02, 12.17, 0.45, [[("Every image comes from our own project files: SolidWorks renders and screenshots, "
+                                            "the KiCad export, and plots drawn by our scripts (written with AI assistance). "
+                                            "No stock photos and no AI image generators. Team photos (slides 2 and 12) are "
+                                            "taken by the team.", False)]], 9.5, BODY)
     for k, (f, what, src) in enumerate(IMAGES):
-        col, row = k % 2, k // 2
-        x, y = 0.58 + col * 6.15, 1.55 + row * 0.72
-        picture_in(sl, FIG / f, x, y, 0.94, 0.58)
-        textbox(sl, x + 1.05, y + 0.02, 4.95, 0.6, [[(what, True, NAVY)], [("Source: ", False, MUTED), (src, False, BLUE)],
-                                                    [(f"1_presentation/figures/{f}", False, MUTED)]], 7.6, space=0)
-    notes(sl, "Generators: 1_presentation/render_cad.py and make_figures.py.")
+        col, row = k % 3, k // 3
+        x, y = 0.58 + col * 4.1, 1.66 + row * 0.95
+        picture_in(sl, FIG / f, x, y, 0.95, 0.62)
+        textbox(sl, x + 1.03, y, 3.0, 0.8, [[(what, True, NAVY)], [("Source: ", False, MUTED), (src, False, BLUE)],
+                                            [(f"1_presentation/figures/{f}", False, MUTED)]], 7.4, space=0)
+    notes(sl, "Generators: 1_presentation/render_cad.py and make_figures.py. Photos: 1_presentation/team_photos/.")
 
 
 # ================================================================== build
@@ -792,15 +895,17 @@ def build():
     prs = Presentation(TEMPLATE)
     t = list(prs.slides)
     e4, e6, e8, e10, e12, e15, e18 = t[3], t[5], t[7], t[9], t[11], t[14], t[17]
-    s_before, s_after = duplicate(prs, e4), duplicate(prs, e4)          # duplicates first, from pristine examples
+    s_over = duplicate(prs, e4)                                         # duplicates first, from pristine examples
+    s_before, s_after = duplicate(prs, e4), duplicate(prs, e4)
     s_fw, s_strip = duplicate(prs, e8), duplicate(prs, e8)
     s_bom = duplicate(prs, e10)
     s_iter = duplicate(prs, e12)
     s_road = duplicate(prs, e15)
     s_sol = duplicate(prs, e18)
-    order = [t[0], e4, s_before, s_after, e6, s_fw, e8, s_strip, e10, s_bom, e12, s_iter, e15, s_road, e18, s_sol,
+    order = [t[0], s_over, e4, s_before, s_after, e6, s_fw, e8, s_strip, e10, s_bom, e12, s_iter, e15, s_road, e18, s_sol,
              t[18], t[19]]
     cover(t[0])
+    overview(s_over)
     problem(e4)
     journey_before(s_before)
     journey_after(s_after)

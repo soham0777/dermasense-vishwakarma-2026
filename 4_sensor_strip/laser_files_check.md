@@ -1,4 +1,4 @@
-# Laser job file check (verify_laser_files.py, 2026-10-19 23:03)
+# Laser job file check (verify_laser_files.py, 2026-10-19 23:43)
 
 **35 PASS, 0 FAIL.**
 This checks the files only. LaserCAD's colour-to-layer mapping and import scale are checked at the machine (E2 procedure, step S0-6).
