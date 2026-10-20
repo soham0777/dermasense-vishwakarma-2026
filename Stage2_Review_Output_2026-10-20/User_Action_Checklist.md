@@ -1,3 +1,5 @@
+> **Superseded (20 Oct 2026).** The submitted deck and the current checklist are in [`FINAL_SUBMISSION/`](../FINAL_SUBMISSION/SUBMIT_CHECKLIST.md). This file is kept as a record.
+
 # User action checklist (team only)
 
 **Already done** (not your job):

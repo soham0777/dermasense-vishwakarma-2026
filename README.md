@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <b><a href="Stage2_Review_Output_2026-10-20/Vishwakarma_Stage2_Refined.pdf">📑 Stage 2 deck (PDF)</a></b> ·
+  <b><a href="FINAL_SUBMISSION/Dermasense_VK26-IITI-HT-0050_Stage2.pdf">📑 Stage 2 deck (PDF)</a></b> ·
   <a href="#-the-problem">Problem</a> ·
   <a href="#-how-it-works">How it works</a> ·
   <a href="#-what-we-have-built">What we built</a> ·
@@ -48,7 +48,7 @@
 - Dressing makers already define a *change-now* point: exudate about **2 cm** from the pad edge, or **"at 75 %"** on a visual indicator.
 - That sign is **visual**, but the dressing is hidden under a bandage, a sock or clothing.
 - So the carer can only follow the clock, peek, or wait for a leak.
-- Each visit takes about **18 min** (a UK patient survey), and each early change throws away a **₹240–510** dressing.
+- Each visit takes about **18 min** (a UK patient survey), and each early change throws away a **₹242–514** dressing.
 
 ## 💡 The idea
 
@@ -188,7 +188,8 @@ Sanjivani University · Vishwakarma Awards 2026–27 · Application ID **VK26-II
 
 | Folder | Contents |
 |---|---|
-| [`Stage2_Review_Output_2026-10-20/`](Stage2_Review_Output_2026-10-20/) | **Current deck** (PPTX + PDF), QA report, change log, evidence map |
+| [`FINAL_SUBMISSION/`](FINAL_SUBMISSION/) | **Submitted Stage 2 deck** (PPTX + PDF) and the submission checklist |
+| [`Stage2_Review_Output_2026-10-20/`](Stage2_Review_Output_2026-10-20/) | Build scripts, QA report, change log and evidence map from the template rebuild |
 | [`1_presentation/`](1_presentation/) | Deck builder, figure scripts, figures, claim → evidence matrix |
 | [`2_research/`](2_research/) | Literature, research matrix, research gap |
 | [`3_decisions/`](3_decisions/) | Requirements, decision log, sensor selection, FMEA |

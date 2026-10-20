@@ -6,6 +6,7 @@
 | Pin compression when clamped | 1.48 mm (of 2.0 mm travel) | [DES] protrusion − film |
 | Contact force per pin / total | 0.72 N / 2.89 N | [EST] |
 | Lid deflection (PETG, 4.0 mm, span 35.7 mm) | 11.2 µm | [EST] simply supported, centre load |
+| Lid bending stress (same beam model) | 0.42 MPa | [EST] vs PETG yield ~40-50 MPa [DS typ.]: FoS ≈ 95; > 40 even if FDM printing halves strength. Analytical check, not FEA |
 | Pin landing tolerance on 3 mm pad | allow ±1.35 mm; worst-case 0.49, RSS 0.25 mm | [EST] margin 2.8× worst-case |
 | Strip bending strain at 10 mm radius | 0.62 % | t/2R; Kapton yields near 3 % [DS]; LIG cracking limit unknown → T-MECH-01 |
 | Kapton bearing stress at dowels, 10 N tug | 20 MPa vs 231 MPa tensile | [EST] dowels take the load, not the pins (strain relief) |

@@ -50,6 +50,9 @@ def main():
         ("Pin compression when clamped", f"{comp:.2f} mm (of {d['pin_travel']} mm travel)", "[DES] protrusion − film"),
         ("Contact force per pin / total", f"{f_pin:.2f} N / {f_tot:.2f} N", "[EST]"),
         (f"Lid deflection (PETG, {d['lid_t']} mm, span {span:.1f} mm)", f"{defl*1000:.1f} µm", "[EST] simply supported, centre load"),
+        ("Lid bending stress (same beam model)", f"{6 * (f_tot * span / 4) / (b * d['lid_t'] ** 2):.2f} MPa",
+         f"[EST] vs PETG yield ~40-50 MPa [DS typ.]: FoS ≈ {40 / (6 * (f_tot * span / 4) / (b * d['lid_t'] ** 2)):.0f}; "
+         "> 40 even if FDM printing halves strength. Analytical check, not FEA"),
         ("Pin landing tolerance on 3 mm pad", f"allow ±{allow:.2f} mm; worst-case {worst:.2f}, RSS {rss:.2f} mm",
          f"[EST] margin {allow/worst:.1f}× worst-case"),
         ("Strip bending strain at 10 mm radius", f"{strain:.2f} %", "t/2R; Kapton yields near 3 % [DS]; LIG cracking limit unknown → T-MECH-01"),

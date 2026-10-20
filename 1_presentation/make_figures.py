@@ -158,7 +158,7 @@ def fig_dataflow():
             fontweight="bold")
     box(ax, 1, 3, 33, 25, "Each zone\n\nwet  < 100 kΩ\ndry  > 300 kΩ\n3 scans in a row", fc=MINT, ec=GREEN, size=9.2, r=1.6)
     arrow(ax, 34.6, 15.5, 39.4, 15.5, color=MUTED, lw=1.4)
-    states = [("OK", "line dry", GREEN), ("CHANGE", "line wet", AMBER), ("CHECK", "line before centre", RED),
+    states = [("OK", "line dry", GREEN), ("CHANGE", "line wet", AMBER), ("CHECK", "leak: zone A wet before C", RED),
               ("FAULT", "strip or reader error", NAVY)]
     for i, (s, why, col) in enumerate(states):
         y = 22.5 - i * 6.6
