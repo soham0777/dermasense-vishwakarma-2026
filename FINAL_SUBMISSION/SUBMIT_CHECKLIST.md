@@ -1,5 +1,7 @@
 # Stage 2 submission: VK26-IITI-HT-0050 (Dermasense)
 
+> **Submitted on 20 Oct 2026** through the Design Stage Form (Health Tech · Emergency Response & Remote Monitoring), with the PDF in this folder (MD5 `3264735b…`). The form confirmed: "We have received your response for Stage 2". The table below is kept as a record.
+
 **Files to upload**
 - `Dermasense_VK26-IITI-HT-0050_Stage2.pdf`: 19 pages, exported by PowerPoint from the PPTX next to it.
 - `Dermasense_VK26-IITI-HT-0050_Stage2.pptx`: the editable source.
