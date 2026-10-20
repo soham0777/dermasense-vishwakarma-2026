@@ -1,5 +1,14 @@
 # QA report: Vishwakarma_Stage2_Refined (20 Oct 2026)
 
+> **Update (20 Oct, later):** the team edited the deck after this QA.
+> - **What changed:** wording simplified, a real team photo added on slide 12, slide size now 20 × 11.25 in, exported again from PowerPoint 2019 at 04:59.
+> - **This report describes the 00:27 build.**
+> - **Re-check of the edited file** (PowerPoint, on a copy) found 6 layout issues to fix before upload:
+>   - slide 1: the title wraps and covers the ID
+>   - slide 14: the FMEA table overlaps the "Fail-safes" and "Standards" headings
+>   - slide 16: one text box overflows
+>   - slide 17: one text box overflows
+
 **Files checked:**
 
 | File | MD5 |
