@@ -648,8 +648,8 @@ def maker(sl):
               "Authenticity: real, dated, re-checkable work", None,
               [[("Raw Repository Linkage: ", True, NAVY), ("[team to insert the Drive link before upload]: all native files "
                                                            "and a dated work history.", False)]],
-              "Native files in the repository: .SLDPRT, .SLDASM, .SLDDRW, .STEP, .kicad_sch, .ino, .dxf. Every commit since "
-              "14 Oct carries a Co-Authored-By: Claude line; the lab notebook says which entries were AI-drafted. TEAM TO DO: "
+              "Native files in the repository: .SLDPRT, .SLDASM, .SLDDRW, .STEP, .kicad_sch, .ino, .dxf, dated in git since "
+              "14 Oct; the lab notebook says which entries were AI-drafted. TEAM TO DO: "
               "replace the two lab-photo placeholders (ID badges visible) and the link. Faculty sign-off only if a mentor "
               "is attached.")
     for k, key in enumerate(("lab1", "lab2")):

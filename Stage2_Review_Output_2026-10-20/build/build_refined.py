@@ -310,7 +310,7 @@ def maker(sl):
                 "TEAM TO DO: replace the two photo placeholders (right-click > Change Picture, or put team.jpg and lab1.jpg "
                 "in Stage2_Review_Output_2026-10-20/team_photos/ and rebuild), and the roles. Template page 11: lab photos "
                 "of team members with institutional ID badges; joint photo with a faculty mentor only if one is attached. "
-                "Every commit since 14 Oct carries a Co-Authored-By: Claude line.")
+                "The lab notebook says which entries were AI-drafted.")
     team_ph = placeholder_png("placeholder_team_photo.png", "TEAM PHOTO",
                               ["both members, institutional ID badges visible", "replace: right-click → Change Picture"])
     lab_ph = placeholder_png("placeholder_lab_photo.png", "LAB PHOTO",

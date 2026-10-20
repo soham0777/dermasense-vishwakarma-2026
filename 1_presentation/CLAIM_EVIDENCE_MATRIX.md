@@ -55,7 +55,7 @@
 | 28 | Seal clash 9.0 mm³ found and fixed: seal starts at x = 23 mm, 0 interference | 8, 16, 17 | `verify_cad` report; `3_decisions/decisions.md` D-013 | COMPLETED AND VERIFIED |
 | 29 | Pin force 0.72 N each (2.9 N); lid bending 11 µm; alignment 0.49 mm of ±1.35 mm; strip strain 0.62 % | 8 | `5_cad/calc_mechanical_report.md` (datasheet inputs) | CALCULATED / SIMULATED |
 | 30 | FEA not run (loads under 3 N) | 8 | Stated on the slide | NOT YET COMPLETED |
-| 31 | STEP exported in cm, now mm; a drawing showed 0.13 for 0.125 mm, fixed | 16 | Commit `fba39ef`; `verify_cad` STEP checks | COMPLETED AND VERIFIED |
+| 31 | STEP exported in cm, now mm; a drawing showed 0.13 for 0.125 mm, fixed | 16 | Commit `e9b3211`; `verify_cad` STEP checks | COMPLETED AND VERIFIED |
 | 32 | Materials: polyimide strip, PETG clamp, acrylic rig, stainless dowels, P75-B1 pins | 8 | `sw_build.py` part properties; BOM | PROPOSED (selected; not bought) |
 | 33 | 4 laser files pass 35/35 file checks; nothing lased yet | 2, 9, 12 | `4_sensor_strip/laser_files_check.md` (19 Oct) | COMPLETED AND VERIFIED (files only) / NOT YET COMPLETED (lasing) |
 | 34 | Laser machine: 1200 × 900 mm bed, 20 kHz PWM, 98 % cap | 9 (notes) | `C:\LaserCAD\AWCCfg\SysCfg.ini` on the laptop; match to the lab machine pending | COMPLETED AND VERIFIED (laptop config) |
@@ -74,7 +74,7 @@
 | 47 | Standards ISO 14971, IEC 60601-1, ISO 10993-1, EN 13726, IEC 60825-1 | 14 | Design intent | PROPOSED ("considered, not claimed") |
 | 48 | Roadmap: prototype video in early Dec, semi-final interview in Jan, IIT Indore finale 26 Jan – 1 Feb; gates G1–G4 | 15 | vishwakarma-awards.org (L42), Internshala (L43); D-014 | PROPOSED (plan on the organisers' dates) |
 | 49 | 15 dated git commits since 14 Oct; native files available | 12 | `git log` | COMPLETED AND VERIFIED |
-| 50 | Scripts written with AI assistance (Claude), directed by the team, build the CAD, schematic and firmware | 12, 19 | `Co-Authored-By` lines in every commit; lab notebook | COMPLETED AND VERIFIED |
+| 50 | Scripts written with AI assistance (Claude), directed by the team, build the CAD, schematic and firmware | 12, 19 | Lab notebook entries ("Claude, for the team"); `PROJECT_AUDIT.md` §11 | COMPLETED AND VERIFIED |
 | 51 | Team: Soham Prabhakar Kadu, Bhakti Ajay Kadam; Sanjivani University; ID VK26-IITI-HT-0050; Health Tech / Emergency Response & Remote Monitoring | 1, 2 | Shortlist email; team instruction | As registered; **roles: team to add** |
 | 52 | Lab photos with ID badges | 2, 12 | Placeholders only | NOT YET COMPLETED (team) |
 | 53 | Repository link | 12 | Placeholder; zip prepared | NOT YET COMPLETED (team) |

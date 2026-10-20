@@ -5,7 +5,7 @@
 | Input | Identifier |
 |---|---|
 | Official template (team's file) | `Vishwakarma Awards 2026-27 Stage 2 Submission Template.pptx`, MD5 `4d96244a04c6be5a3a952b42eb965679` (copy in `build/template_source/`) |
-| Previous deck (left untouched) | `FINAL_SUBMISSION/Vishwakarma_Stage2_Final.pptx`, commit `3075e77`, 19 slides |
+| Previous deck (left untouched) | `FINAL_SUBMISSION/Vishwakarma_Stage2_Final.pptx`, commit `1e7ab17`, 19 slides |
 | Reused slide code (imported, not modified) | `1_presentation/build_deck.py`, `qa_deck.py`; figures in `1_presentation/figures/` |
 | Organiser email | Downloads `.eml` of 25 Sep 2026 (deadline line only) |
 | New sources | `new_sources.csv` (refs 16–20) |

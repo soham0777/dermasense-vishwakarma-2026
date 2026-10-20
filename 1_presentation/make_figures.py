@@ -594,7 +594,7 @@ def fig_decision():
         tl.add_patch(Circle((x, 30), 1.6, fc=col, ec="white", lw=1.2))
         tl.text(x, 35.5, h, ha="center", fontsize=7.4, color=col, fontweight="bold")
         tl.text(x, 26, b, ha="center", va="top", fontsize=6.4, color=SLATE, linespacing=1.15)
-    tl.text(3, 2.5, "Each step is a dated git commit (from 330b474, 14 Oct) with its decision in 3_decisions/decisions.md",
+    tl.text(3, 2.5, "Each step is a dated git commit (from 1edae21, 14 Oct) with its decision in 3_decisions/decisions.md",
             fontsize=6.3, color=MUTED)
     save(fig, "fig_decision.png")
 

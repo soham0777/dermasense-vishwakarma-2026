@@ -4,10 +4,10 @@
 
 **Authoritative version:**
 - Project root: `C:\Users\dell\OneDrive\Desktop\MBF vishwakarma` (it has not moved).
-- Git branch `dev/stage2-rebuild`, commit `9626ef0`; working tree clean at the start of the audit.
+- Git branch `dev/stage2-rebuild`, commit `41b2e96`; working tree clean at the start of the audit.
 - Deck: `FINAL_SUBMISSION/Vishwakarma_Stage2_Final.pptx` / `.pdf`, built 19 Oct 23:00 by `1_presentation/build_deck.py`.
 - Official template: `1_presentation/template/…Template (2).pptx`, MD5 `c58ef4fe526045f1a82a806e6532bc3c`, unchanged.
-- Older versions are kept in git: the v2 deck (`5e7d08d`), the full deck before decluttering (`a5e776f`) and the decluttered deck (`86a7ac3`).
+- Older versions are kept in git: the v2 deck (`42a5b1f`), the full deck before decluttering (`6a467f3`) and the decluttered deck (`ea49896`).
 - `Desktop/MBF vishwakarma_TO_DELETE/` holds the old v1 archive and backups, which the team has not yet deleted. They are not used as evidence.
 
 ---
@@ -170,7 +170,7 @@ No claim in the deck says the sensor works, that graphene was made, or that ther
 | Kind of work | What | Evidence |
 |---|---|---|
 | **Team** | Stage 1 proposal and shortlisting; choice of problem and theme; access to the laser, SolidWorks and KiCad; the earlier laser trial ("setting 12", recalled, not recorded); direction and approval of decisions (D-009 by team brief, D-011 by team feedback); review of the decks | Email, Stage 1 PDF, decision log |
-| **AI-assisted (Claude, on the team's laptop, at the team's request)** | Python scripts that build the CAD and schematic; firmware; calculations; E2 experiment package; FMEA; research matrix; documents; figures; deck builder | Every commit 14–19 Oct carries a `Co-Authored-By: Claude` line; lab notebook entries say "Claude, for the team" |
+| **AI-assisted (Claude, on the team's laptop, at the team's request)** | Python scripts that build the CAD and schematic; firmware; calculations; E2 experiment package; FMEA; research matrix; documents; figures; deck builder | Lab notebook entries say "Claude, for the team". (Commit messages carried a `Co-Authored-By: Claude` line until 20 Oct, when the team removed those lines from the history; authorship of every commit is the team's account.) |
 | **External (cited)** | Literature, manufacturer pages, retail prices, competition rules | `2_research/literature.csv` |
 | **Needs human confirmation** | Team roles; whether a mentor is attached; the laser machine's details (tube, lens, mA meter); film identity and thickness; the deadline | `machine_record.md`, `STAGE2_REMAINING_ACTIONS.md` |
 

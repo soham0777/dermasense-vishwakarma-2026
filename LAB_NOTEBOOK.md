@@ -133,7 +133,7 @@ Next:
 ## 2026-10-16: Claude, for the team: clean-up and deck declutter
 
 **Did:**
-- Reorganised the project into 7 numbered folders plus `FINAL_SUBMISSION/` (only the deck and its PDF) and `_private/`. History kept in git (tag `backup/pre-reorganize-a5e776f`).
+- Reorganised the project into 7 numbered folders plus `FINAL_SUBMISSION/` (only the deck and its PDF) and `_private/`. History kept in git (tag `backup/pre-reorganize-6a467f3`).
 - Removed the duplicate copy tree and the iteration-1 documents.
 - Gathered the old archive, the backups and all clutter into `Desktop/MBF vishwakarma_TO_DELETE` for the team to delete.
 - Deck: 53 % fewer words per slide, larger text, simpler figures; still 0 layout issues and correct template order.

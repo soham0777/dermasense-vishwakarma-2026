@@ -17,7 +17,7 @@ One entry per decision: what we chose, what else we considered, why, and what ev
 > **Superseded.** Stage 2 builds one sensor only: the two-zone moisture strip (D-012). Temperature and pH stay future scope.
 
 - **Alternatives:** uric acid, sweat ions or glucose, respiration, strain, gas, ECG, and the foot insole (C9).
-- **Why:** highest weighted scores, coherent use case, simplest builds. Details: the iteration-1 concept comparison (removed 16 Oct; in git tag `backup/pre-reorganize-a5e776f`).
+- **Why:** highest weighted scores, coherent use case, simplest builds. Details: the iteration-1 concept comparison (removed 16 Oct; in git tag `backup/pre-reorganize-6a467f3`).
 - **Change if:** the interviews point to prevention (switch to C9), or S1 can't separate wetness bands (ES-2 fails).
 
 ### D-003: No electrical stimulation in v1 (DECIDED, 2026-10-14)
@@ -36,7 +36,7 @@ One entry per decision: what we chose, what else we considered, why, and what ev
   - The precision analog work is done by a separate front end, so the MCU's ADC quality doesn't matter.
   - Boards are cheap and easy to buy.
 - **Change if:** the measured average current (T-EL-03) misses ES-10 on our own board. Then move to nRF52840; the firmware is structured to make that easy.
-- **Comparison:** the iteration-1 electronics architecture (removed 16 Oct; in git tag `backup/pre-reorganize-a5e776f`).
+- **Comparison:** the iteration-1 electronics architecture (removed 16 Oct; in git tag `backup/pre-reorganize-6a467f3`).
 
 ### D-005: Analog front end (REVISED, 2026-10-14)
 
@@ -65,7 +65,7 @@ One entry per decision: what we chose, what else we considered, why, and what ev
 
 ### D-008: Differentiator — edge-alert strip (REVISED 2026-10-14 → hypothesis H-APP1)
 
-- **Originally proposed:** in the iteration-1 differentiator note (removed 16 Oct; in git tag `backup/pre-reorganize-a5e776f`).
+- **Originally proposed:** in the iteration-1 differentiator note (removed 16 Oct; in git tag `backup/pre-reorganize-6a467f3`).
 - **Now:** kept only as an **application hypothesis**.
 - **Why:** the material process is unproven on our machine. No sensor claim until E1 passes (D-009).
 - **Later the same day:** the hypothesis became the designed two-zone strip (D-012). It is still unvalidated: no sensing claim until E2 and E4.
@@ -107,7 +107,7 @@ One entry per decision: what we chose, what else we considered, why, and what ev
     - targets called targets
     - the bottom strip of each slide says what is done vs next
   - **Visuals:** figures enlarged to fill the left column. The empty photo box was replaced by a panel of real files (E1 data sheet + LaserCAD config).
-- **Change if:** the organizers require the instruction slides to stay. The v1 builder is in git history (fd3a8fd).
+- **Change if:** the organizers require the instruction slides to stay. The v1 builder is in git history (01f2d65).
 
 ### D-012: Primary sensor is the two-zone strip S2 (DECIDED, 2026-10-14)
 

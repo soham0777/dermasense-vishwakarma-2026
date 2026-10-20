@@ -40,7 +40,7 @@ Speaker notes repeat details for the presenter, but nothing a judge must see is 
 
 ## Part B: what changed (filled in after the edit)
 
-**Backup before editing:** git tag `backup/pre-refine-9626ef0`. **Builder:** `build_deck.py`. **Figures:** `make_figures.py`. The template is unchanged (MD5 `c58ef4fe…`).
+**Backup before editing:** git tag `backup/pre-refine-41b2e96`. **Builder:** `build_deck.py`. **Figures:** `make_figures.py`. The template is unchanged (MD5 `c58ef4fe…`).
 
 | # | What changed | Evidence kept or restored |
 |---|---|---|

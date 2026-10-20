@@ -3,7 +3,7 @@
 This map is the editing gate: the deck is built only after this file is complete.
 
 **Starting point:**
-- Branch `dev/stage2-rebuild`, commit `3075e77`, working tree clean.
+- Branch `dev/stage2-rebuild`, commit `1e7ab17`, working tree clean.
 - Previous deck `FINAL_SUBMISSION/Vishwakarma_Stage2_Final.pptx` (19 slides, 19 Oct). It is **left untouched**, as are its scripts in `1_presentation/`.
 
 ## 1. The authoritative template
